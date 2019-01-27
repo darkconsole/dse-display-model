@@ -8,7 +8,7 @@ Event OnGameReload()
 	parent.OnGameReload()
 
 	;; check if any devices have been added lately.
-	Main.Devices.ScanDeviceFiles()
+	Main.Devices.ScanFiles()
 
 	Return
 EndEvent
@@ -42,7 +42,7 @@ Event OnPageReset(String page)
 
 	self.UnloadCustomContent()
 
-	If(Page == "$DM4_Menu_General")
+	If(Page == "$DM3_Menu_General")
 		self.ShowPageGeneral()
 	EndIf
 

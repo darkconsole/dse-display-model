@@ -1,0 +1,21 @@
+Version 100
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Display Model 3 (SE) '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' darkcee.legit@gmail.com ''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+'' b  = idle
+'' o  = idle+ao
+'' -k = hkx comes from another mod.
+'' -AVbHumanoidFootIKDisable = disable foot falls
+'' -AVIbHeadTrackSpine = keep torso locked if head tracking enabled
+'' -h = head tracking enabled
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+o -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-dollstand01-a1 poses\dollstand01-a1.hkx dse_dm_AobjDollStand01
+

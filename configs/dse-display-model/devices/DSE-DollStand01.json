@@ -1,23 +1,21 @@
 {
-	"ID": "DSE-DollStand01",
-	"Name": "Dollstand Variant 1",
-	"Actors": [
-		{
-			"Package": "0x1111|dse-display-model.esp",
-			"Pos": [ 0.0, 0.0, 0.0 ],
-			"Equips": []
-		}
-	],
-	"ObjectsIdle": [
-		{
-			"Form": "0x3333|dse-display-model.esp",
-			"Pos": [ 0.0, 0.0, 0.0 ]
-		}
-	],
-	"ObjectsUsed": [
-		{
-			"Form": "0x3333|dse-display-model.esp",
-			"Pos": [ 0.0, 0.0, 0.0 ]
-		}
-	]
+	"Device": {
+		"ID": "DSE-DollStand01",
+		"Name": "Dollstand Variant 1",
+		"Activator": "6186|dse-display-model.esp",
+		"Ghost": "6186|dse-display-model.esp",
+		"Actors": [
+			{
+				"Package": "0x1111|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": []
+			}
+		],
+		"ObjectsIdle": [
+
+		],
+		"ObjectsUsed": [
+
+		]
+	}
 }

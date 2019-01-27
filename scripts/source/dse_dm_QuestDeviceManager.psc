@@ -44,6 +44,9 @@ Function ScanFiles()
 		self.Files[Iter] = Filename
 		self.IDs[Iter] = self.GetDeviceID(Filename)
 		self.Names[Iter] = self.GetDeviceName(Filename)
+		Main.Util.PrintDebug("Loaded " + self.Files[Iter])
+		Main.Util.PrintDebug("Indexed " + self.IDs[Iter] + " " + self.Names[Iter])
+		JsonUtil.Unload(Filename,FALSE,FALSE)
 		Iter += 1
 	EndWhile
 
@@ -56,48 +59,69 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 String Function GetDeviceID(String Filename)
+{read the id property out of a device file.}
 
-	Return JsonUtil.GetPathStringValue(Filename,".ID")
+	Return JsonUtil.GetPathStringValue(Filename,".Device.ID")
 EndFunction
 
 String Function GetDeviceName(String Filename)
+{read the name property out of a device file.}
 
-	Return JsonUtil.GetPathStringValue(Filename,".Name")
+	Return JsonUtil.GetPathStringValue(Filename,".Device.Name")
+EndFunction
+
+Activator Function GetDeviceActivator(String Filename)
+{read the activator property out of a device file.}
+
+	Return JsonUtil.GetPathFormValue(Filename,".Device.Activator") As Activator
+EndFunction
+
+Form Function GetDeviceGhost(String Filename)
+{read the activator property out of a device file.}
+
+	Return JsonUtil.GetPathFormValue(Filename,".Device.Ghost")
 EndFunction
 
 Int Function GetDeviceActorCount(String Filename)
-	
-	JsonUtil.PathCount(Filename,".Actors")
+{count how many actors this can hold out of a device file.}
+
+	Return JsonUtil.PathCount(Filename,".Device.Actors")
 EndFunction
 
 Int Function GetDeviceObjectsIdleCount(String Filename)
-	
-	JsonUtil.PathCount(Filename,".ObjectsIdle")
+{count how many idle objects this uses out of a device file.}
+
+	Return JsonUtil.PathCount(Filename,".Device.ObjectsIdle")
 EndFunction
 
-Int Function GetDeviceObjectsUseCount(String Filename)
-	
-	JsonUtil.PathCount(Filename,".ObjectsUsed")
+Int Function GetDeviceObjectsUsedCount(String Filename)
+{count how many used objects this uses out of a device file.}
+
+	Return JsonUtil.PathCount(Filename,".Device.ObjectsUsed")
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-String Function GetFile(String Filename)
-{given a filename return the full filepath if it exists or none if not.}
+String Function GetFileByID(String DeviceID)
+{get the json filename from the device id name.}
 
-	String Full = self.DeviceFileDir + "/" + Filename
-	Int Iter = 0
+	String Full = self.DeviceFileDir + "/" + DeviceID + ".json"
 
-	While(Iter < self.Files.Length)
-		If(self.Files[Iter] == Filename)
-			Return Full
-		EndIf
-
-		Iter += 1
-	EndWhile
-
-	Return ""
+	Return Full
 EndFunction
 
+String Function GetFileByIndex(Int DeviceIndex)
+{get the json filename by the index in the thing.}
 
+	;; note: do not use device index as a long term reference. if a device is
+	;; added or removed from the mod and you were tracking it by its index
+	;; it may now be out of range or pointing to the wrong device. this is
+	;; mainly for instant feedback things like the menu system.
+
+	If(DeviceIndex < 0 || DeviceIndex >= self.Files.Length)
+		Return ""
+	EndIf
+
+	Return self.Files[DeviceIndex]
+EndFunction

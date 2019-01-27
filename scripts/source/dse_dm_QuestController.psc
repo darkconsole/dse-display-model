@@ -11,6 +11,22 @@ dse_dm_QuestUtil Property Util Auto
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Actor Property Player Auto
+Spell Property SpellGrabObject Auto
+Static Property MarkerGhost Auto
+Static Property MarkerActive Auto
+Keyword Property KeywordFurniture Auto
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+String Property KeyESP = "dse-display-model.esp" AutoReadOnly Hidden
+String Property DataKeyGrabObjectTarget = "DM3.GrabObject.Target" AutoReadOnly Hidden
+
+String Property EvAnimObjEquip = "AnimObjDraw" AutoReadOnly Hidden
+
+String Property NioBoneHH        = "NPC" AutoReadOnly Hidden
+String Property NioKeyCancelHH   = "DM3.CancelNioHH" AutoReadOnly Hidden
+String Property NioKeyInternalHH = "internal" AutoReadOnly Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -50,13 +66,45 @@ Int Function MenuDeviceSelect(Actor Who=None)
 	;;;;;;;;
 
 	self.Util.PrintDebug("MenuSelectPose: " + self.Devices.Names.Length + " poses loaded")
-	Result = UIExtensions.OpenMenu("UIListMenu",Who)
 
-	If(Result >= 0)
-		self.Util.PrintDebug("MenuSelectPose: " + Result + " " + self.Devices.IDs[Result] + " " + self.Devices.Names[Result] + " selected")
-	Else
+	Menu.OpenMenu()
+	Result = Menu.GetResultInt()
+
+	If(Result < 0)
 		self.Util.PrintDebug("MenuSelectPose Canceled")
+		Return -1
 	EndIf
+
+	self.Util.PrintDebug("MenuSelectPose: " + Result + " " + self.Devices.IDs[Result] + " " + self.Devices.Names[Result] + " selected")
+
+	Return Result
+EndFunction
+
+Int Function MenuDeviceIdleActivate()
+{open the actor stats menu.}
+
+	UIListMenu Menu = UIExtensions.GetMenu("UIListMenu",TRUE) as UIListMenu
+	Int NoParent = -1
+	Int Result
+
+	;;;;;;;;
+
+	Menu.AddEntryItem("[Cancel]",NoParent)
+	Menu.AddEntryItem("Move",NoParent)
+	Menu.AddEntryItem("Pick Up",NoParent)
+	Menu.AddEntryItem("Use",NoParent)
+
+	;;;;;;;;
+
+	Menu.OpenMenu()
+	Result = Menu.GetResultInt()
+
+	If(Result < 0)
+		self.Util.PrintDebug("MenuDeviceIdleActivate Canceled")
+		Return -1
+	EndIf
+
+	self.Util.PrintDebug("MenuDeviceIdleActivate Selected " + Result)
 
 	Return Result
 EndFunction

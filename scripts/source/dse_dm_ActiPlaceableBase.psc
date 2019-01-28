@@ -62,6 +62,7 @@ Function Prepare()
 	;;;;;;;;
 
 	self.PlaceObjectsIdle()
+	Main.Util.Print(self.DeviceID + " is ready.")
 	self.GotoState("Idle")
 	Return
 EndFunction
@@ -92,6 +93,11 @@ Function MoveThisThing()
 	Main.Player.AddSpell(Main.SpellGrabObject)
 
 	Return
+EndFunction
+
+Form Function GetGhostForm()
+
+	Return Main.Devices.GetDeviceGhost(self.File)
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

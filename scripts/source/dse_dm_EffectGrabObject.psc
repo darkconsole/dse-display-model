@@ -31,6 +31,11 @@ mount things to while moving them.}
 ObjectReference Property Undo Auto Hidden
 {an undo marker.}
 
+ObjectReference Property Ghost Auto Hidden
+{banana for scale.}
+
+Bool Property Running Auto Hidden
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -80,6 +85,10 @@ Event OnEffectStart(Actor Who, Actor From)
 	ObjectReference Object
 
 	self.Origin = Who
+	self.What = None
+	self.Where = None
+	self.Undo = None
+	self.Ghost = None
 	self.RegisterForControlKeys()
 	self.GimpUserControls()
 
@@ -164,7 +173,7 @@ as fast as papyrus' shitty little legs can carry it.}
 
 	Main.Util.Print("Grabbed " + RememberMe.GetDisplayName())
 
-	While(self.What != None)
+	While(self.Running && self.What != None)
 
 		;; update the position data.
 
@@ -172,21 +181,22 @@ as fast as papyrus' shitty little legs can carry it.}
 
 		;; commit the move.
 
-		if(self.Where != None)
-		self.Where.TranslateTo(                                   \
-			self.StatePos[1], self.StatePos[2], self.StatePos[3], \
-			0, 0, self.StatePos[0],                               \
-			400, 30                                               \
-		)
+		If(self.Where != None)
+			self.Where.TranslateTo(                                   \
+				self.StatePos[1], self.StatePos[2], self.StatePos[3], \
+				0, 0, self.StatePos[0],                               \
+				400, 30                                               \
+			)
 		EndIf
 
-		;;if(self.What != None)
-		;;self.What.TranslateTo(                                    \
-		;;	self.StatePos[1], self.StatePos[2], self.StatePos[3], \
-		;;	0, 0, self.StatePos[0],                               \
-		;;	400, 30                                               \
-		;;)
-		;;EndIf
+		If(self.Ghost != None)
+			self.Ghost.TranslateTo(                                   \
+				self.StatePos[1], self.StatePos[2], self.StatePos[3], \
+				0, 0, self.StatePos[0],                               \
+				400, 30                                               \
+			)
+		EndIf
+
 	EndWhile
 
 	Main.Util.Print("Dropped " + RememberMe.GetDisplayName())
@@ -294,14 +304,13 @@ EndFunction
 Function GrabEnable(ObjectReference Obj)
 {pick up the targeted object.}
 
-	;; todo - determine if we actually want to move the
-	;; object in question.
+	Form GhostForm
+
+	;;;;;;;;
 
 	;; get what we want to move.
 
 	self.What = Obj
-
-	;;;;;;;;
 
 	If(self.What == None)
 		Main.Util.PrintDebug("GrabEnable no target selected")
@@ -314,6 +323,8 @@ Function GrabEnable(ObjectReference Obj)
 		(self.Origin as Actor).RemoveSpell(Main.SpellGrabObject)
 		Return
 	EndIf
+
+	GhostForm = (self.What as dse_dm_ActiPlaceableBase).GetGhostForm()
 
 	;;;;;;;;
 
@@ -332,8 +343,13 @@ Function GrabEnable(ObjectReference Obj)
 
 	self.Where = self.What.PlaceAtMe(Main.MarkerActive,1,TRUE,FALSE)
 	self.Where.SetMotionType(self.Where.Motion_Keyframed)
+
+	self.Ghost = self.Where.PlaceAtMe(GhostForm,1,TRUE,TRUE)
+	self.Ghost.Enable(FALSE)
+	self.Ghost.SetMotionType(self.Ghost.Motion_Keyframed)
 	
 	;; kick off a new thread.
+	self.Running = TRUE
 	self.RegisterForSingleUpdate(0.1)
 
 	Return
@@ -343,28 +359,34 @@ Function GrabDisable(Bool UndoMove=FALSE)
 {drops the object currently being manhandled.}
 
 	ObjectReference RememberMe = self.What
+	self.Running = FALSE
 
-	;; reset the objects.
+	;; lock the objects down.
 
-	;;self.What.StopTranslation()
+	self.Ghost.StopTranslation()
 	self.Where.StopTranslation()
-			
-	(self.What as ObjectReference).SetMotionType(self.What.Motion_Fixed)
+
+	self.Ghost.Disable()
+	self.Ghost.Delete()
 	self.Where.SetMotionType(self.Where.Motion_Fixed)
 
-	self.What.MoveTo(self.Where)
+	;; move the original to the new spot.
 
+	If(!UndoMove)
+		self.What.SetMotionType(self.Where.Motion_Keyframed)
+		self.What.TranslateToRef(self.Where,10000,0)
+		Utility.Wait(0.25)
+		self.What.StopTranslation()
+		self.What.SetMotionType(self.Where.Motion_Fixed)
+	EndIf
 
 	;; clean up
 
-	self.What = None
 	self.Where.Disable()
 	self.Where.Delete()
 	self.Where = None
-
-	If(UndoMove)
-		RememberMe.TranslateToRef(self.Undo,1000,0)
-	EndIf
+	self.What = None
+	self.Ghost = None
 
 	self.Undo.Disable()
 	self.Undo.Delete()

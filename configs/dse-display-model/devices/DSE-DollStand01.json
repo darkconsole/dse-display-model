@@ -3,7 +3,7 @@
 		"ID": "DSE-DollStand01",
 		"Name": "Dollstand Variant 1",
 		"Activator": "6186|dse-display-model.esp",
-		"Ghost": "6186|dse-display-model.esp",
+		"Ghost": "7569|dse-display-model.esp",
 		"Actors": [
 			{
 				"Package": "0x1111|dse-display-model.esp",

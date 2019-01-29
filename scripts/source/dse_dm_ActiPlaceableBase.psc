@@ -100,6 +100,14 @@ Form Function GetGhostForm()
 	Return Main.Devices.GetDeviceGhost(self.File)
 EndFunction
 
+Bool Function IsLegit()
+{game seems to let me force any object reference i want as this subscript type
+so rather than randomly accessing properties that are empty i want to be able
+to test if this is a legit furniture first.}
+
+	Return self.HasKeyword(Main.KeywordFurniture)
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

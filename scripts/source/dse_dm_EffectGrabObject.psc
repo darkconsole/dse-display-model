@@ -18,23 +18,26 @@ dse_dm_QuestController Property Main Auto
 
 ;; the various objects we are going to act upon.
 
-ObjectReference Property Origin Auto Hidden
+Actor Property Origin Auto Hidden
 {most likely the player.}
 
-ObjectReference Property What Auto Hidden
+dse_dm_ActiPlaceableBase Property What Auto Hidden
 {the thing we want to move.}
 
 ObjectReference Property Where Auto Hidden
-{a little platform that marks the position visually and gets used to
-mount things to while moving them.}
+{marks the current movement position and provides a mountpoint for additional
+visuals during the process.}
 
 ObjectReference Property Undo Auto Hidden
-{an undo marker.}
+{marks the original location before attempting to move it.}
 
 ObjectReference Property Ghost Auto Hidden
 {banana for scale.}
 
 Bool Property Running Auto Hidden
+{short circuit setinel.}
+
+Float Property Delay Auto Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -82,17 +85,47 @@ Bool Property StateZoomOut = FALSE Auto Hidden
 Event OnEffectStart(Actor Who, Actor From)
 {when move mode is enabled.}
 
-	ObjectReference Object
+	dse_dm_ActiPlaceableBase Object
 
 	self.Origin = Who
 	self.What = None
 	self.Where = None
 	self.Undo = None
 	self.Ghost = None
+	self.Running = FALSE
+	self.Delay = 0.001
+
 	self.RegisterForControlKeys()
 	self.GimpUserControls()
 
-	Object = StorageUtil.GetFormValue(self.Origin,Main.DataKeyGrabObjectTarget) as ObjectReference
+	;; check if we forced a reference
+
+	Object = StorageUtil.GetFormValue(self.Origin,Main.DataKeyGrabObjectTarget) as dse_dm_ActiPlaceableBase
+
+	;; try and grab an object if needed.
+
+	If(Object == None)
+		Object = Game.GetCurrentCrosshairRef() As dse_dm_ActiPlaceableBase
+	EndIf
+
+	;; make sure we have an object.
+
+	If(Object == None)
+		Main.Util.Print("No object to target.")
+		self.Origin.RemoveSpell(Main.SpellGrabObject)
+		Return		
+	EndIf
+
+	;; make sure the object is legit.
+
+	If(!Object.IsLegit())
+		Main.Util.Print("Object is not a valid DM movable thing.")
+		self.Origin.RemoveSpell(Main.SpellGrabObject)
+		Return
+	EndIf
+
+	;; go go go
+
 	self.GrabEnable(Object)
 
 	Return
@@ -101,7 +134,9 @@ EndEvent
 Event OnEffectFinish(Actor Who, Actor From)
 {when move mode is disabled.}
 
-	self.UnregisterForControlKeys()
+	;; control key unregistration is automatic on spell removal.
+
+	StorageUtil.UnsetFormValue(Who,Main.DataKeyGrabObjectTarget)
 	self.RestoreUserControls()
 
 	Return
@@ -117,13 +152,13 @@ Event OnKeyDown(Int KeyCode)
 			self.GrabDisable()
 		EndIf
 	ElseIf(KeyCode == self.KeyRotLeft)
-		self.StateRot += 5
+		self.StateRot = 5
 	ElseIf(KeyCode == self.KeyRotRight)
-		self.StateRot -= 5
+		self.StateRot = -5
 	ElseIf(KeyCode == self.KeyZoomIn)
-		self.StatePush -= 5
+		self.StatePush = -5
 	ElseIf(KeyCode == self.KeyZoomOut)
-		self.StatePush += 5
+		self.StatePush = 5
 	Elseif(KeyCode == self.KeyCancel)
 		If(self.What)
 			self.GrabDisable(TRUE)
@@ -139,13 +174,13 @@ Event OnKeyUp(Int KeyCode, Float Dur)
 	If(KeyCode == self.KeyToggle)
 		;; nothing
 	ElseIf(KeyCode == self.KeyRotLeft)
-		self.StateRot -= 5
+		self.StateRot = 0
 	ElseIf(KeyCode == self.KeyRotRight)
-		self.StateRot += 5
+		self.StateRot = 0
 	ElseIf(KeyCode == self.KeyZoomIn)
-		self.StatePush += 5
+		self.StatePush = 0
 	ElseIf(KeyCode == self.KeyZoomOut)
-		self.StatePush -= 5
+		self.StatePush = 0
 	ElseIf(KeyCode == self.KeyCancel)
 		If(Dur > 1.0)
 			(self.Origin as Actor).RemoveSpell(Main.SpellGrabObject)
@@ -173,7 +208,7 @@ as fast as papyrus' shitty little legs can carry it.}
 
 	Main.Util.Print("Grabbed " + RememberMe.GetDisplayName())
 
-	While(self.Running && self.What != None)
+	While(self.Running)
 
 		;; update the position data.
 
@@ -181,20 +216,31 @@ as fast as papyrus' shitty little legs can carry it.}
 
 		;; commit the move.
 
-		If(self.Where != None)
+		If(self.Running)
 			self.Where.TranslateTo(                                   \
 				self.StatePos[1], self.StatePos[2], self.StatePos[3], \
 				0, 0, self.StatePos[0],                               \
-				400, 30                                               \
+				600, 90                                               \
 			)
 		EndIf
 
-		If(self.Ghost != None)
+		;; @todo - try setting the ghost to use where as its vehicle
+		;; instead of another position thing. may not work on static.
+		;; if not consider testing MovableStatic. if not then this is
+		;; that.
+
+		If(self.Running)
 			self.Ghost.TranslateTo(                                   \
 				self.StatePos[1], self.StatePos[2], self.StatePos[3], \
 				0, 0, self.StatePos[0],                               \
-				400, 30                                               \
+				600, 90                                               \
 			)
+		EndIf
+
+		;; give the loop a breather.
+
+		If(self.Delay != 0.0)
+			Utility.Wait(self.Delay)
 		EndIf
 
 	EndWhile
@@ -301,7 +347,7 @@ Function PositionAtDistance()
 	Return
 EndFunction
 
-Function GrabEnable(ObjectReference Obj)
+Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 {pick up the targeted object.}
 
 	Form GhostForm
@@ -347,6 +393,7 @@ Function GrabEnable(ObjectReference Obj)
 	self.Ghost = self.Where.PlaceAtMe(GhostForm,1,TRUE,TRUE)
 	self.Ghost.Enable(FALSE)
 	self.Ghost.SetMotionType(self.Ghost.Motion_Keyframed)
+	;;self.Ghost.SetVehicle(self.Where)
 	
 	;; kick off a new thread.
 	self.Running = TRUE
@@ -358,44 +405,46 @@ EndFunction
 Function GrabDisable(Bool UndoMove=FALSE)
 {drops the object currently being manhandled.}
 
-	ObjectReference RememberMe = self.What
-	self.Running = FALSE
+	If(!self.Running)
+		self.Origin.RemoveSpell(Main.SpellGrabObject)
+		Return
+	EndIf
 
 	;; lock the objects down.
 
+	self.Running = FALSE
 	self.Ghost.StopTranslation()
 	self.Where.StopTranslation()
-
-	self.Ghost.Disable()
-	self.Ghost.Delete()
-	self.Where.SetMotionType(self.Where.Motion_Fixed)
 
 	;; move the original to the new spot.
 
 	If(!UndoMove)
-		self.What.SetMotionType(self.Where.Motion_Keyframed)
+		;; doing a moveto or setposition causes objects to reload themselves
+		;; which not only reloads the 3d but resets the script states on them.
+		;; this trick will slide the object over to avoid that.
+
+		self.What.SetMotionType(self.What.Motion_Keyframed)
 		self.What.TranslateToRef(self.Where,10000,0)
+
 		Utility.Wait(0.25)
 		self.What.StopTranslation()
-		self.What.SetMotionType(self.Where.Motion_Fixed)
+		self.What.SetMotionType(self.What.Motion_Fixed)
 	EndIf
 
 	;; clean up
 
+	self.Ghost.Disable()
+	self.Ghost.Delete()
+	self.Ghost = None
+
 	self.Where.Disable()
 	self.Where.Delete()
 	self.Where = None
-	self.What = None
-	self.Ghost = None
 
 	self.Undo.Disable()
 	self.Undo.Delete()
 	self.Undo = None
 
-	If(StorageUtil.GetFormValue(self.Origin,Main.DataKeyGrabObjectTarget) != None)
-		StorageUtil.UnsetFormValue(self.Origin,Main.DataKeyGrabObjectTarget)
-		(self.Origin As Actor).RemoveSpell(Main.SpellGrabObject)
-	EndIf
-
+	self.Origin.RemoveSpell(Main.SpellGrabObject)
 	Return
 EndFunction

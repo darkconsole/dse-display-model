@@ -200,10 +200,12 @@ Function BehaviourSet(Actor Who, Package Task)
 	;; doesn't seem to work properly in the sse version at all and i kind of given
 	;; up hope it will be fixed so this is a super simple override system now.
 
-	Package OldTask = StorageUtil.GetFormValue(Who,"DM3.Actor.Override") As Package
+	Package OldTask = StorageUtil.GetFormValue(Who,Main.DataKeyActorOverride) As Package
 
 	If(OldTask != None)
 		ActorUtil.RemovePackageOverride(Who,OldTask)
+		StorageUtil.UnsetFormValue(Who,Main.DataKeyActorOverride)
+		Main.Util.PrintDebug("BehaviourSet cleared old package off " + Who.GetDisplayName())
 	EndIf
 
 	;;;;;;;;
@@ -213,13 +215,13 @@ Function BehaviourSet(Actor Who, Package Task)
 		Who.SetRestrained(TRUE)
 		Who.RegisterForUpdate(9001)
 
-		StorageUtil.SetFormValue(Who,"DM3.Actor.Override",Task)
+		StorageUtil.SetFormValue(Who,Main.DataKeyActorOverride,Task)
 		ActorUtil.AddPackageOverride(Who,Task,100)
+		Main.Util.PrintDebug("BehaviourSet applied new package on " + Who.GetDisplayName())
 	Else
 		Who.SetDontMove(FALSE)
 		Who.SetRestrained(FALSE)
-
-		StorageUtil.UnsetFormValue(Who,"DM3.Actor.Override")
+		Main.Util.PrintDebug("BehaviourSet released " + Who.GetDisplayName())
 	EndIf
 
 	Who.EvaluatePackage()

@@ -81,6 +81,7 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 	;; make the actor remember this device.
 
 	StorageUtil.SetFormValue(Who,Main.DataKeyActorDevice,Device)
+	StorageUtil.SetIntValue(Who,Main.DataKeyActorDevice,Slot)
 
 	;; give us ways to query actor with factions.
 
@@ -90,13 +91,19 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 	Return
 EndFunction
 
-Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot=-1)
+Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Slot=-1)
 
 	Int Iter = 0
+
+	If(Device == None)
+		Device = StorageUtil.GetFormValue(Who,Main.DataKeyActorDevice) As dse_dm_ActiPlaceableBase
+		Slot = StorageUtil.GetIntValue(Who,Main.DataKeyActorDevice)
+	EndIf
 
 	;; make the actor forget this device.
 
 	StorageUtil.UnsetFormValue(Who,Main.DataKeyActorDevice)
+	StorageUtil.UnsetIntValue(Who,Main.DataKeyActorDevice)
 
 	;; remove actor factions.
 
@@ -104,17 +111,22 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot=-1
 
 	;; make the device forget this actor.
 
-	Device.Actors[Slot] = None
+	;;Device.Actors[Slot] = None
 
-	;;While(Iter < Device.Actors.Length)
-	;;	If(Device.Actors[Iter] == Who)
-	;;		Device.Actors[Iter] = None
-	;;		Main.Util.PrintDebug(Who.GetDisplayName() + " unregistered from " + Device.DeviceID + " slot " + Iter)
-	;;	EndIf
-	;;	Iter += 1
-	;;EndWhile
+	While(Iter < Device.Actors.Length)
+		If(Device.Actors[Iter] == Who)
+			Device.Actors[Iter] = None
+			Main.Util.PrintDebug(Who.GetDisplayName() + " unregistered from " + Device.DeviceID + " slot " + Iter)
+		EndIf
+		Iter += 1
+	EndWhile
 
 	Return
+EndFunction
+
+dse_dm_ActiPlaceableBase Function GetActorDevice(Actor Who)
+
+	Return StorageUtil.GetFormValue(Who,Main.DataKeyActorDevice) As dse_dm_ActiPlaceableBase
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -243,8 +243,8 @@ as fast as papyrus' shitty little legs can carry it.}
 			Utility.Wait(self.Delay)
 		EndIf
 
-		self.RegisterForSingleUpdate(0.0)
-		Return
+		;;self.RegisterForSingleUpdate(0.0)
+		;;Return
 	EndWhile
 
 	;;Main.Util.Print("Dropped " + RememberMe.GetDisplayName())
@@ -372,7 +372,7 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 		Return
 	EndIf
 
-	GhostForm = (self.What as dse_dm_ActiPlaceableBase).GetGhostForm()
+	GhostForm = self.What.GetGhostForm()
 
 	;;;;;;;;
 
@@ -390,11 +390,11 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 	;; build a vehicle to move it.
 
 	self.Where = self.What.PlaceAtMe(Main.MarkerActive,1,TRUE,FALSE)
-	self.Where.SetMotionType(self.Where.Motion_Keyframed)
+	;;self.Where.SetMotionType(self.Where.Motion_Keyframed)
 
 	self.Ghost = self.Where.PlaceAtMe(GhostForm,1,TRUE,TRUE)
 	self.Ghost.Enable(FALSE)
-	self.Ghost.SetMotionType(self.Ghost.Motion_Keyframed)
+	;;self.Ghost.SetMotionType(self.Ghost.Motion_Keyframed)
 	
 	;; kick off a new thread.
 	self.Running = TRUE
@@ -429,7 +429,7 @@ Function GrabDisable(Bool UndoMove=FALSE)
 
 		Utility.Wait(0.25)
 		self.What.StopTranslation()
-		self.What.SetMotionType(self.What.Motion_Fixed)
+		;;self.What.SetMotionType(self.What.Motion_Fixed)
 	EndIf
 
 	;; clean up

@@ -25,6 +25,7 @@ String Property KeyESP = "dse-display-model.esp" AutoReadOnly Hidden
 String Property DataKeyGrabObjectTarget = "DM3.GrabObject.Target" AutoReadOnly Hidden
 String Property DataKeyActorDevice = "DM3.Actor.Device" AutoReadOnly Hidden
 String Property DataKeyDeviceList = "DM3.DeviceManager.List" AutoReadOnly Hidden
+String Property DataKeyActorOverride = "DM3.Actor.Override" AutoReadOnly Hidden
 
 String Property EvAnimObjEquip = "AnimObjDraw" AutoReadOnly Hidden
 
@@ -33,6 +34,13 @@ String Property NioKeyCancelHH    = "DM3.CancelNioHH" AutoReadOnly Hidden
 String Property NioKeyInternalHH  = "internal" AutoReadOnly Hidden
 String Property NioBoneScale      = "NPC" AutoReadOnly Hidden
 String Property NioKeyCancelScale = "DM3.CancelScale" AutoReadOnly Hidden
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+dse_dm_QuestController Function GetAPI() Global
+	Return Game.GetFormFromFile(0xd61,"dse-display-model.esp") As dse_dm_QuestController
+EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

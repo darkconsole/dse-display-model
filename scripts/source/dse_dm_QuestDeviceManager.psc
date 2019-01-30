@@ -58,6 +58,68 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+Function Register(dse_dm_ActiPlaceableBase Device)
+{add a placed device to the tracking.}
+
+	StorageUtil.FormListAdd(None,Main.DataKeyDeviceList,Device,FALSE)
+	Return
+EndFunction
+
+Function Unregister(dse_dm_ActiPlaceableBase Device)
+{remove a placed device from the tracking.}
+
+	StorageUtil.FormListRemove(None,Main.DataKeyDeviceList,Device,TRUE)
+	Return
+EndFunction
+
+Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
+
+	;; make the device remember this actor.
+
+	Device.Actors[Slot] = Who
+
+	;; make the actor remember this device.
+
+	StorageUtil.SetFormValue(Who,Main.DataKeyActorDevice,Device)
+
+	;; give us ways to query actor with factions.
+
+	Who.AddToFaction(Main.FactionActorUsingDevice)
+
+	Main.Util.PrintDebug(Who.GetDisplayName() + " registered to " + Device.DeviceID + " slot " + Slot)
+	Return
+EndFunction
+
+Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot=-1)
+
+	Int Iter = 0
+
+	;; make the actor forget this device.
+
+	StorageUtil.UnsetFormValue(Who,Main.DataKeyActorDevice)
+
+	;; remove actor factions.
+
+	Who.RemoveFromFaction(Main.FactionActorUsingDevice)
+
+	;; make the device forget this actor.
+
+	Device.Actors[Slot] = None
+
+	;;While(Iter < Device.Actors.Length)
+	;;	If(Device.Actors[Iter] == Who)
+	;;		Device.Actors[Iter] = None
+	;;		Main.Util.PrintDebug(Who.GetDisplayName() + " unregistered from " + Device.DeviceID + " slot " + Iter)
+	;;	EndIf
+	;;	Iter += 1
+	;;EndWhile
+
+	Return
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 String Function GetDeviceID(String Filename)
 {read the id property out of a device file.}
 
@@ -82,10 +144,55 @@ Form Function GetDeviceGhost(String Filename)
 	Return JsonUtil.GetPathFormValue(Filename,".Device.Ghost")
 EndFunction
 
-Int Function GetDeviceActorCount(String Filename)
+Int Function GetDeviceActorSlotCount(String Filename)
 {count how many actors this can hold out of a device file.}
 
 	Return JsonUtil.PathCount(Filename,".Device.Actors")
+EndFunction
+
+Package Function GetDeviceActorSlotPackage(String Filename, Int Slot)
+{get the package for a specific actor slot.}
+
+	String Path = ".Device.Actors[" + Slot + "].Package"
+
+	Return JsonUtil.GetPathFormValue(Filename,Path) As Package
+EndFunction
+
+Float[] Function GetDeviceActorSlotPosition(String Filename, Int Slot)
+{get the positional data for a specific actor slot.}
+
+	Float[] Output = new Float[3]
+
+	;; @todo
+
+	Output[0] = 0.0
+	Output[1] = 0.0
+	Output[2] = 0.0
+
+	Return Output
+EndFunction
+
+String Function GetDeviceActorSlotName(String Filename, Int Slot)
+{get the name of a specific actor slot.}
+
+	String Path = ".Device.Actors[" + Slot + "].Name"
+
+	Return JsonUtil.GetPathStringValue(Filename,Path)
+EndFunction
+
+String[] Function GetDeviceActorSlotNameList(String Filename)
+{get a list of all the actor slot names.}
+
+	Int Count = self.GetDeviceActorSlotCount(Filename)
+	String[] Output = Utility.CreateStringArray(Count)
+	Int Iter = 0
+
+	While(Iter < Count)
+		Output[Iter] = self.GetDeviceActorSlotName(Filename,Iter)
+		Iter += 1
+	EndWhile
+
+	Return Output
 EndFunction
 
 Int Function GetDeviceObjectsIdleCount(String Filename)

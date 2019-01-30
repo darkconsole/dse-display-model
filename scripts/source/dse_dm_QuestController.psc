@@ -11,22 +11,28 @@ dse_dm_QuestUtil Property Util Auto
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Actor Property Player Auto
+Spell Property SpellAssignNPC Auto
 Spell Property SpellGrabObject Auto
 Static Property MarkerGhost Auto
 Static Property MarkerActive Auto
 Keyword Property KeywordFurniture Auto
+Faction Property FactionActorUsingDevice Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 String Property KeyESP = "dse-display-model.esp" AutoReadOnly Hidden
 String Property DataKeyGrabObjectTarget = "DM3.GrabObject.Target" AutoReadOnly Hidden
+String Property DataKeyActorDevice = "DM3.Actor.Device" AutoReadOnly Hidden
+String Property DataKeyDeviceList = "DM3.DeviceManager.List" AutoReadOnly Hidden
 
 String Property EvAnimObjEquip = "AnimObjDraw" AutoReadOnly Hidden
 
-String Property NioBoneHH        = "NPC" AutoReadOnly Hidden
-String Property NioKeyCancelHH   = "DM3.CancelNioHH" AutoReadOnly Hidden
-String Property NioKeyInternalHH = "internal" AutoReadOnly Hidden
+String Property NioBoneHH         = "NPC" AutoReadOnly Hidden
+String Property NioKeyCancelHH    = "DM3.CancelNioHH" AutoReadOnly Hidden
+String Property NioKeyInternalHH  = "internal" AutoReadOnly Hidden
+String Property NioBoneScale      = "NPC" AutoReadOnly Hidden
+String Property NioKeyCancelScale = "DM3.CancelScale" AutoReadOnly Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -89,10 +95,11 @@ Int Function MenuDeviceIdleActivate()
 
 	;;;;;;;;
 
-	Menu.AddEntryItem("[Cancel]",NoParent)
-	Menu.AddEntryItem("Move",NoParent)
-	Menu.AddEntryItem("Pick Up",NoParent)
-	Menu.AddEntryItem("Use",NoParent)
+	Menu.AddEntryItem("[Cancel]",NoParent)   ;; 0 cancel
+	Menu.AddEntryItem("Move",NoParent)       ;; 1 move
+	Menu.AddEntryItem("Pick Up",NoParent)    ;; 2 pickup
+	Menu.AddEntryItem("Assign NPC",NoParent) ;; 3 assign
+	Menu.AddEntryItem("Use",NoParent)        ;; 4 use
 
 	;;;;;;;;
 
@@ -105,6 +112,36 @@ Int Function MenuDeviceIdleActivate()
 	EndIf
 
 	self.Util.PrintDebug("MenuDeviceIdleActivate Selected " + Result)
+
+	Return Result
+EndFunction
+
+Int Function MenuFromList(String[] Items)
+{open the actor stats menu.}
+
+	UIListMenu Menu = UIExtensions.GetMenu("UIListMenu",TRUE) as UIListMenu
+	Int NoParent = -1
+	Int Iter = 0
+	Int Result
+
+	;;;;;;;;
+
+	While(Iter < Items.Length)
+		Menu.AddEntryItem(Items[Iter],NoParent)
+		Iter += 1
+	EndWhile
+
+	;;;;;;;;
+
+	Menu.OpenMenu()
+	Result = Menu.GetResultInt()
+
+	If(Result < 0)
+		self.Util.PrintDebug("MenuFromList Canceled")
+		Return -1
+	EndIf
+
+	self.Util.PrintDebug("MenuFromList Selected " + Result)
 
 	Return Result
 EndFunction

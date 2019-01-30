@@ -204,9 +204,9 @@ Function GoGoGadget()
 {this is the hard loop that does the literal heavy lifting. it is going about
 as fast as papyrus' shitty little legs can carry it.}
 
-	ObjectReference RememberMe = self.What
+	;;ObjectReference RememberMe = self.What
 
-	Main.Util.Print("Grabbed " + RememberMe.GetDisplayName())
+	;;Main.Util.Print("Grabbed " + RememberMe.GetDisplayName())
 
 	While(self.Running)
 
@@ -243,9 +243,11 @@ as fast as papyrus' shitty little legs can carry it.}
 			Utility.Wait(self.Delay)
 		EndIf
 
+		self.RegisterForSingleUpdate(0.0)
+		Return
 	EndWhile
 
-	Main.Util.Print("Dropped " + RememberMe.GetDisplayName())
+	;;Main.Util.Print("Dropped " + RememberMe.GetDisplayName())
 
 	Return
 EndFunction
@@ -393,7 +395,6 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 	self.Ghost = self.Where.PlaceAtMe(GhostForm,1,TRUE,TRUE)
 	self.Ghost.Enable(FALSE)
 	self.Ghost.SetMotionType(self.Ghost.Motion_Keyframed)
-	;;self.Ghost.SetVehicle(self.Where)
 	
 	;; kick off a new thread.
 	self.Running = TRUE

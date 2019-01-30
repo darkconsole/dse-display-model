@@ -63,6 +63,7 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Float[] Function GetPositionData(ObjectReference What)
+{get an object's positional data.}
 
 	Float[] Output = new Float[4]
 
@@ -75,6 +76,8 @@ Float[] Function GetPositionData(ObjectReference What)
 EndFunction
 
 Float[] Function GetPositionAtDistance(ObjectReference What, Float Dist)
+{get an objects positional data if it was to be pushed away the specified
+distance from itself.}
 
 	Float[] Data = self.GetPositionData(What)
 
@@ -84,6 +87,9 @@ Float[] Function GetPositionAtDistance(ObjectReference What, Float Dist)
 	Return Data
 EndFunction
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Function HighHeelsCancel(ObjectReference Who)
 {cancel nio high heels effect if it exists.}
 
@@ -92,16 +98,16 @@ Function HighHeelsCancel(ObjectReference Who)
 	Float[] HH
 
 	If(NiOverride.HasNodeTransformPosition(Who,FALSE,IsFemale,Main.NioBoneHH,Main.NioKeyInternalHH))
-		HS = NiOverride.GetNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneHH,Main.NioKeyInternalHH)
+		;;HS = NiOverride.GetNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneHH,Main.NioKeyInternalHH)
 		HH = NiOverride.GetNodeTransformPosition(Who,FALSE,IsFemale,Main.NioBoneHH,Main.NioKeyInternalHH)
 
-		HS = 1 / HS
+		;;HS = 1 / HS
 		HH[0] = -HH[0]
 		HH[1] = -HH[1]
 		HH[2] = -HH[2]
 
 		NiOverride.AddNodeTransformPosition(Who,FALSE,IsFemale,Main.NioBoneHH,Main.NioKeyCancelHH,HH)
-		NiOverride.AddNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneHH,Main.NioKeyCancelHH,HS)
+		;;NiOverride.AddNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneHH,Main.NioKeyCancelHH,HS)
 		NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Main.NioBoneHH)
 	EndIf
 
@@ -119,6 +125,52 @@ Function HighHeelsResume(ObjectReference Who)
 	Return
 EndFunction
 
+Function ScaleCancel(ObjectReference What)
+{use nio to neutralize actor heights because im sure SetScale still leaks and
+crashes even in sse after too many uses. why would they fix anything not related
+to creationclub.}
+
+	Actor Who = What As Actor
+	Float GameScale = What.GetScale()
+	Int IsFemale = 0 
+	Float Final
+
+	;;;;;;;;
+
+	If(Who != None)
+		;; need more info if its an actor.
+		IsFemale = Who.GetLeveledActorBase().GetSex()
+		GameScale *= Who.GetLeveledActorBase().GetHeight()
+	EndIf
+
+	Final = 1 / GameScale
+
+	Main.Util.PrintDebug("Util.ScaleCancel: " + Final)
+	NiOverride.AddNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneScale,Main.NioKeyCancelScale,Final)
+	NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Main.NioBoneScale)
+
+	Return
+EndFunction
+
+Function ScaleResume(ObjectReference What)
+{allow custom scaling to resume.}
+
+	Actor Who = What As Actor
+	Int IsFemale = 0
+
+	If(Who != None)
+		IsFemale = Who.GetLeveledActorBase().GetSex()
+	EndIf
+
+	NiOverride.RemoveNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneScale,Main.NioKeyCancelScale)
+	NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Main.NioBoneScale)
+
+	Return
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Function UnequipShout(Actor Who)
 {wrapper around how much of a pain in the ass it is to unequip the voice
 slot spell.}
@@ -130,6 +182,47 @@ slot spell.}
 	If(Who.GetEquippedShout() != None)
 		Who.UnequipShout(Who.GetEquippedShout())
 	EndIf
+
+	Return
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Function BehaviourSet(Actor Who, Package Task)
+{force a specific package on an actor.}
+
+	;; actorutil for sse seems to behave differently/incorrectly compared to
+	;; how it behaved in oldrim. the priorities don't seem to really work
+	;; and stacking packages on a priority don't fallback to previous packages
+	;; anymore after removing them. before you could apply packages in 99 and 100
+	;; and when you were done with 100 pop it off and 99 would take over. this
+	;; doesn't seem to work properly in the sse version at all and i kind of given
+	;; up hope it will be fixed so this is a super simple override system now.
+
+	Package OldTask = StorageUtil.GetFormValue(Who,"DM3.Actor.Override") As Package
+
+	If(OldTask != None)
+		ActorUtil.RemovePackageOverride(Who,OldTask)
+	EndIf
+
+	;;;;;;;;
+
+	If(Task != None)
+		Who.SetDontMove(TRUE)
+		Who.SetRestrained(TRUE)
+		Who.RegisterForUpdate(9001)
+
+		StorageUtil.SetFormValue(Who,"DM3.Actor.Override",Task)
+		ActorUtil.AddPackageOverride(Who,Task,100)
+	Else
+		Who.SetDontMove(FALSE)
+		Who.SetRestrained(FALSE)
+
+		StorageUtil.UnsetFormValue(Who,"DM3.Actor.Override")
+	EndIf
+
+	Who.EvaluatePackage()
 
 	Return
 EndFunction

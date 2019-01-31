@@ -147,8 +147,8 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 			Iter += 1
 		EndWhile
 	Else
-		If(self.Actors[Iter] != None && self.Actors[Iter] != Who)
-			Main.Util.Print(self.DeviceID + " slot " + Slot + " slot is not empty.")
+		If(self.Actors[Slot] != None && self.Actors[Slot] != Who)
+			Main.Util.Print(self.DeviceID + " slot " + Slot + " is not empty.")
 			Return
 		EndIf
 	EndIf
@@ -236,7 +236,7 @@ EndFunction
 Function ReleaseActorSlot(Int Slot)
 {release the specified slot from this device.}
 
-	Float[] Pos = Main.Util.GetPositionAtDistance(self,128)
+	Float[] Pos = Main.Util.GetPositionAtDistance(self,50)
 
 	If(Slot < 0 || Slot >= self.Actors.Length)
 		Main.Util.PrintDebug(self.DeviceID + " ReleaseSlot " + Slot + " out of range.")
@@ -336,7 +336,10 @@ State Idle
 		Main.Util.PrintDebug(self.DeviceID + " Load While Idle")
 
 		While(Iter < self.Actors.Length)
-			self.UseByActor(self.Actors[Iter],Iter)
+			If(self.Actors[Iter] != None)
+				Main.Util.PrintDebug(self.DeviceID + " renew actor " + Iter + " " + self.Actors[Iter].GetDisplayName())
+				self.UseByActor(self.Actors[Iter],Iter)
+			EndIf;
 			Iter += 1
 		EndWhile
 

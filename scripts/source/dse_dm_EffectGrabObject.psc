@@ -353,6 +353,7 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 {pick up the targeted object.}
 
 	Form GhostForm
+	Int WaitIter
 
 	;;;;;;;;
 
@@ -381,22 +382,34 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 	self.StateStartZ = self.What.GetPositionZ()
 	self.StateStartE = self.Origin.GetPositionZ()
 	self.StateDist = Math.SqRt(Math.Pow((self.What.GetPositionX()-self.Origin.GetPositionX()),2)+Math.Pow((self.What.GetPositionY()-self.Origin.GetPositionY()),2))
-	;;(self.What as ObjectReference).SetMotionType(self.What.Motion_Keyframed)
 
 	;; leave an undo marker.
 
-	self.Undo = self.What.PlaceAtMe(Main.MarkerGhost,1,TRUE,FALSE)
+	self.Undo = self.What.PlaceAtMe(Main.MarkerGhost,1,TRUE,TRUE)
+
+	;; build a ghost model for visual representation
+
+	self.Ghost = self.Where.PlaceAtMe(GhostForm,1,TRUE,TRUE)
 
 	;; build a vehicle to move it.
 
-	self.Where = self.What.PlaceAtMe(Main.MarkerActive,1,TRUE,FALSE)
-	;;self.Where.SetMotionType(self.Where.Motion_Keyframed)
+	self.Where = self.What.PlaceAtMe(Main.MarkerActive,1,TRUE,TRUE)
 
-	self.Ghost = self.Where.PlaceAtMe(GhostForm,1,TRUE,TRUE)
+	;; get them enabled.
+
 	self.Ghost.Enable(FALSE)
-	;;self.Ghost.SetMotionType(self.Ghost.Motion_Keyframed)
+	self.Undo.Enable(FALSE)
+	self.Where.Enable(FALSE)
+
+	WaitIter = 0
+	While(WaitIter < 12 && (!self.Ghost.Is3dLoaded() || !self.Undo.Is3dLoaded() || !self.Where.Is3dLoaded()))
+		Main.Util.PrintDebug("GrabEnable waiting for 3D to load " + WaitIter)
+		Utility.Wait(0.25)
+		WaitIter += 1
+	EndWhile
 	
 	;; kick off a new thread.
+
 	self.Running = TRUE
 	self.RegisterForSingleUpdate(0.1)
 

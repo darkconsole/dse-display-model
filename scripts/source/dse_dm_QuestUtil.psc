@@ -221,6 +221,7 @@ Function BehaviourSet(Actor Who, Package Task)
 	Else
 		Who.SetDontMove(FALSE)
 		Who.SetRestrained(FALSE)
+		Debug.SendAnimationEvent(Who,"IdleForceDefaultState")
 		Main.Util.PrintDebug("BehaviourSet released " + Who.GetDisplayName())
 	EndIf
 

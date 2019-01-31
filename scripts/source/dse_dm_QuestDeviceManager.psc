@@ -72,6 +72,21 @@ Function Unregister(dse_dm_ActiPlaceableBase Device)
 	Return
 EndFunction
 
+Int Function GetRegisteredDeviceCount()
+{how many devices we got placed in the world.}
+
+	Return StorageUtil.FormListCount(None,Main.DataKeyDeviceList)
+EndFunction
+
+dse_dm_ActiPlaceableBase Function GetNthRegisteredDevice(Int Offset)
+{get the nth registered device.}
+
+	Return StorageUtil.FormListGet(None,Main.DataKeyDeviceList,Offset) As dse_dm_ActiPlaceableBase
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 
 	;; make the device remember this actor.

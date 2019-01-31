@@ -1,0 +1,29 @@
+{
+	"Device": {
+		"ID": "DSE-DoubleDollStand01",
+		"Name": "Double Dollstand Variant 1",
+		"Activator": "11712|dse-display-model.esp",
+		"Ghost": "11712|dse-display-model.esp",
+		"Inventory": "0x1234|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Doll On Front",
+				"Package": "11711|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": []
+			},
+			{
+				"Name": "Doll On Back",
+				"Package": "11714|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": []
+			}
+		],
+		"ObjectsIdle": [
+
+		],
+		"ObjectsUsed": [
+
+		]
+	}
+}

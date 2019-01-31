@@ -17,5 +17,7 @@ Version 100
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-o -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-dollstand01-a1 poses\dse-dollstand01-a1.hkx dse_dm_AobjDollStand01
+b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-dollstand01-a1 poses\dse-dollstand01-a1.hkx
+b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-doubledollstand01-a1 poses\dse-doubledollstand01-a1.hkx
+b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-doubledollstand01-a2 poses\dse-doubledollstand01-a2.hkx
 

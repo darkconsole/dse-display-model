@@ -1,0 +1,4 @@
+export the animation to xml tagfile.
+use 1-build.bat.
+use 2-install.bat or copy from hkx to mod.
+configure fnis.

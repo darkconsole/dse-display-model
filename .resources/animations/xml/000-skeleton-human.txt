@@ -1,0 +1,242 @@
+NPC Root [Root]
+x_NPC LookNode [Look]
+x_NPC Translate [Pos ]
+x_NPC Rotate [Rot ]
+NPC COM [COM ]
+NPC Pelvis [Pelv]
+NPC L Thigh [LThg]
+NPC L Calf [LClf]
+NPC L Foot [Lft ]
+NPC R Thigh [RThg]
+NPC R Calf [RClf]
+NPC R Foot [Rft ]
+SkirtRBone01
+SkirtRBone02
+SkirtRBone03
+SkirtLBone01
+SkirtLBone02
+SkirtLBone03
+SkirtBBone01
+SkirtBBone02
+SkirtBBone03
+SkirtFBone01
+SkirtFBone02
+SkirtFBone03
+NPC Spine [Spn0]
+NPC Spine1 [Spn1]
+NPC Spine2 [Spn2]
+NPC L Clavicle [LClv]
+NPC L UpperArm [LUar]
+NPC L Forearm [LLar]
+NPC R Clavicle [RClv]
+NPC R UpperArm [RUar]
+NPC R Forearm [RLar]
+AnimObjectA
+AnimObjectB
+NPC Neck [Neck]
+NPC Head [Head]
+NPCEyeBone
+NPC L Hand [LHnd]
+NPC R Hand [RHnd]
+AnimObjectL
+AnimObjectR
+SHIELD
+WEAPON
+NPC L Pauldron
+NPC R Pauldron
+MagicEffectsNode
+NPC L MagicNode [LMag]
+NPC R MagicNode [RMag]
+NPC Head MagicNode [Hmag]
+NPC L Toe0 [LToe]
+NPC R Toe0 [RToe]
+NPC L ForearmTwist1 [LLt1]
+NPC L ForearmTwist2 [LLt2]
+NPC L UpperarmTwist1 [LUt1]
+NPC L UpperarmTwist2 [LUt2]
+NPC R ForearmTwist1 [RLt1]
+NPC R ForearmTwist2 [RLt2]
+NPC R UpperarmTwist1 [RUt1]
+NPC R UpperarmTwist2 [RUt2]
+QUIVER
+WeaponAxe
+WeaponBack
+WeaponBow
+WeaponDagger
+WeaponMace
+WeaponSword
+NPC L Finger00 [LF00]
+NPC L Finger01 [LF01]
+NPC L Finger02 [LF02]
+NPC L Finger10 [LF10]
+NPC L Finger11 [LF11]
+NPC L Finger12 [LF12]
+NPC L Finger20 [LF20]
+NPC L Finger21 [LF21]
+NPC L Finger22 [LF22]
+NPC L Finger30 [LF30]
+NPC L Finger31 [LF31]
+NPC L Finger32 [LF32]
+NPC L Finger40 [LF40]
+NPC L Finger41 [LF41]
+NPC L Finger42 [LF42]
+NPC R Finger00 [RF00]
+NPC R Finger01 [RF01]
+NPC R Finger02 [RF02]
+NPC R Finger10 [RF10]
+NPC R Finger11 [RF11]
+NPC R Finger12 [RF12]
+NPC R Finger20 [RF20]
+NPC R Finger21 [RF21]
+NPC R Finger22 [RF22]
+NPC R Finger30 [RF30]
+NPC R Finger31 [RF31]
+NPC R Finger32 [RF32]
+NPC R Finger40 [RF40]
+NPC R Finger41 [RF41]
+NPC R Finger42 [RF42]
+Camera3rd [Cam3]
+Camera Control
+NPC L PreBreast
+NPC L Breast
+NPC R PreBreast
+NPC R Breast
+NPC L PreButt
+NPC R PreButt
+NPC L Butt
+NPC R Butt
+NPC L Breast01
+NPC R Breast01
+NPC Hair01
+NPC BHair01
+NPC BHair02
+NPC BHair03
+NPC BHair04
+NPC BHair05
+NPC BHair06
+NPC BHair07
+NPC BHair08
+NPC BHair09
+NPC BHair10
+NPC BHair11
+NPC BHair12
+NPC BHair13
+NPC BHair14
+NPC BHair15
+NPC BHair16
+NPC BLHair01
+NPC BLHair02
+NPC BLHair03
+NPC BLHair04
+NPC BLHair05
+NPC BLHair06
+NPC BLHair07
+NPC BLHair08
+NPC BLHair09
+NPC BLHair10
+NPC BLHair11
+NPC BLHair12
+NPC BLHair13
+NPC BLHair14
+NPC BLHair15
+NPC BLHair16
+NPC BRHair01
+NPC BRHair02
+NPC BRHair03
+NPC BRHair04
+NPC BRHair05
+NPC BRHair06
+NPC BRHair07
+NPC BRHair08
+NPC BRHair09
+NPC BRHair10
+NPC BRHair11
+NPC BRHair12
+NPC BRHair13
+NPC BRHair14
+NPC BRHair15
+NPC BRHair16
+NPC L Hair01
+NPC L Hair02
+NPC L Hair03
+NPC L Hair04
+NPC L Hair05
+NPC L Hair06
+NPC L Hair07
+NPC L Hair08
+NPC L Hair09
+NPC R Hair01
+NPC R Hair02
+NPC R Hair03
+NPC R Hair04
+NPC R Hair05
+NPC R Hair06
+NPC R Hair07
+NPC R Hair08
+NPC R Hair09
+NPC L Cloak01
+NPC L Cloak02
+NPC L Cloak03
+NPC L Cloak04
+NPC L Cloak05
+NPC L Cloak06
+NPC L Cloak07
+NPC L Cloak08
+NPC L Cloak09
+NPC L Cloak10
+NPC L Cloak11
+NPC L Cloak12
+NPC R Cloak01
+NPC R Cloak02
+NPC R Cloak03
+NPC R Cloak04
+NPC R Cloak05
+NPC R Cloak06
+NPC R Cloak07
+NPC R Cloak08
+NPC R Cloak09
+NPC R Cloak10
+NPC R Cloak11
+NPC R Cloak12
+NPC L Item01
+NPC L Item02
+NPC L Item03
+NPC R Item01
+NPC R Item02
+NPC R Item03
+NPC L Pussy01
+NPC L Pussy02
+NPC R Pussy01
+NPC R Pussy02
+LeftWing1
+LeftWing2
+LeftWing3
+LeftWing4
+LeftWing5
+RightWing1
+RightWing2
+RightWing3
+RightWing4
+RightWing5
+NPC Wing 01 L
+NPC Wing 02 L
+NPC Wing 03 L
+NPC Wing 04 L
+NPC Wing 05 L
+NPC Wing 06 L
+NPC Wing 07 L
+NPC Wing 08 L
+NPC Wing 09 L
+NPC Wing 10 L
+NPC Wing 11 L
+NPC Wing 01 R
+NPC Wing 02 R
+NPC Wing 03 R
+NPC Wing 04 R
+NPC Wing 05 R
+NPC Wing 06 R
+NPC Wing 07 R
+NPC Wing 08 R
+NPC Wing 09 R
+NPC Wing 10 R
+NPC Wing 11 R

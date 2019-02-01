@@ -39,6 +39,7 @@ EndEvent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function Prepare()
+{handle setting everything up when furniture is placed.}
 
 	Int ActorCount
 	Int ObjectsIdleCount
@@ -61,7 +62,6 @@ Function Prepare()
 
 	;;;;;;;;
 
-	self.PlaceObjectsIdle()
 	Main.Devices.Register(self)
 	self.GotoState("Idle")
 
@@ -98,6 +98,19 @@ Function Move()
 	Return
 EndFunction
 
+Function PickUp()
+{return the furniture to your inventory.}
+
+	Form DeviceItem = Main.Devices.GetDeviceInventoryItem(self.File)
+
+	Main.Player.AddItem(DeviceItem,1)
+	Main.Devices.Unregister(self)
+	self.Disable()
+	self.Delete()
+	
+	Return
+EndFunction
+
 Form Function GetGhostForm()
 {get the ghost object for use during move mode}
 
@@ -116,13 +129,14 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function ActivateByPlayer()
+{when the player clicks on this device.}
 
 	Int PlayersChoice = Main.MenuDeviceIdleActivate()
 
 	If(PlayersChoice == 1)
 		self.Move()
 	ElseIf(PlayersChoice == 2)
-		;;self.PickUp()
+		self.PickUp()
 	ElseIf(PlayersChoice == 3)
 		self.AssignNPC()
 	ElseIf(PlayersChoice == 4)
@@ -133,6 +147,7 @@ Function ActivateByPlayer()
 EndFunction
 
 Function ActivateByActor(Actor Who, Int Slot=-1)
+{when an npc clicks on this device.}
 
 	Int Iter = 0
 
@@ -168,6 +183,7 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 EndFunction
 
 Function UseByActor(Actor Who, Int Slot)
+{force an actor to use this device and slot.}
 
 	Package Task
 
@@ -187,13 +203,6 @@ Function UseByActor(Actor Who, Int Slot)
 		Return
 	EndIf
 
-	;; assuming direct control
-	
-	Main.Devices.RegisterActor(Who,self,Slot)
-	Main.Util.BehaviourSet(Who,Task)
-	Main.Util.HighHeelsCancel(Who)
-	Main.Util.ScaleCancel(Who)
-
 	;; the infamous slomoroto anti-collision hack.
 
 	Who.SplineTranslateTo(         \
@@ -205,6 +214,13 @@ Function UseByActor(Actor Who, Int Slot)
 		(self.GetAngleZ() + 0.01), \
 		1.0,10000,0.000001         \
 	)
+
+	;; assuming direct control
+
+	Main.Devices.RegisterActor(Who,self,Slot)	
+	Main.Util.HighHeelsCancel(Who)
+	Main.Util.ScaleCancel(Who)
+	Main.Util.BehaviourSet(Who,Task)
 
 	Who.MoveTo(self)
 
@@ -262,6 +278,7 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function AssignNPC()
+{begin the npc selection process.}
 
 	String[] Names
 	Int Selected

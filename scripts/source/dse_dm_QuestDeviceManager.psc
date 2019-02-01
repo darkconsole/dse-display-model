@@ -165,6 +165,12 @@ Activator Function GetDeviceActivator(String Filename)
 	Return JsonUtil.GetPathFormValue(Filename,".Device.Activator") As Activator
 EndFunction
 
+Form Function GetDeviceInventoryItem(String Filename)
+{read the activator property out of a device file.}
+
+	Return JsonUtil.GetPathFormValue(Filename,".Device.Inventory")
+EndFunction
+
 Form Function GetDeviceGhost(String Filename)
 {read the activator property out of a device file.}
 

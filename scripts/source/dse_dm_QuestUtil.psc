@@ -171,6 +171,15 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+Function CloseAllMenus()
+{stolen from AddItemMenu2. i had no idea. brilliant.}
+
+	Game.DisablePlayerControls()
+	Game.EnablePlayerControls()
+
+	Return
+EndFunction
+
 Function UnequipShout(Actor Who)
 {wrapper around how much of a pain in the ass it is to unequip the voice
 slot spell.}

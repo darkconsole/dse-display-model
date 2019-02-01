@@ -4,7 +4,7 @@
 		"Name": "Dollstand Variant 1",
 		"Activator": "6186|dse-display-model.esp",
 		"Ghost": "7569|dse-display-model.esp",
-		"Inventory": "0x1234|dse-display-model.esp",
+		"Inventory": "11719|dse-display-model.esp",
 		"Actors": [
 			{
 				"Name": "Doll On Display",

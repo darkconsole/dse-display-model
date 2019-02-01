@@ -363,17 +363,23 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 
 	If(self.What == None)
 		Main.Util.PrintDebug("GrabEnable no target selected")
-		(self.Origin as Actor).RemoveSpell(Main.SpellGrabObject)
+		self.Origin.RemoveSpell(Main.SpellGrabObject)
 		Return
 	EndIf
 
 	If(!self.What.HasKeyword(Main.KeywordFurniture))
 		Main.Util.PrintDebug("GrabEnable target was not DM Furniture")
-		(self.Origin as Actor).RemoveSpell(Main.SpellGrabObject)
+		self.Origin.RemoveSpell(Main.SpellGrabObject)
 		Return
 	EndIf
 
 	GhostForm = self.What.GetGhostForm()
+
+	If(GhostForm == None)
+		Main.Util.PrintDebug("GrabEnable unable to find ghost form")
+		self.Origin.RemoveSpell(Main.SpellGrabObject)
+		Return
+	EndIf
 
 	;;;;;;;;
 
@@ -389,7 +395,7 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 
 	;; build a ghost model for visual representation
 
-	self.Ghost = self.Where.PlaceAtMe(GhostForm,1,TRUE,TRUE)
+	self.Ghost = self.What.PlaceAtMe(GhostForm,1,TRUE,TRUE)
 
 	;; build a vehicle to move it.
 
@@ -401,12 +407,12 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 	self.Undo.Enable(FALSE)
 	self.Where.Enable(FALSE)
 
-	WaitIter = 0
-	While(WaitIter < 12 && (!self.Ghost.Is3dLoaded() || !self.Undo.Is3dLoaded() || !self.Where.Is3dLoaded()))
-		Main.Util.PrintDebug("GrabEnable waiting for 3D to load " + WaitIter)
-		Utility.Wait(0.25)
-		WaitIter += 1
-	EndWhile
+;;	WaitIter = 0
+;;	While(WaitIter < 12 && (!self.Ghost.Is3dLoaded() || !self.Undo.Is3dLoaded() || !self.Where.Is3dLoaded()))
+;;		Main.Util.PrintDebug("GrabEnable waiting for 3D to load " + WaitIter)
+;;		Utility.Wait(0.25)
+;;		WaitIter += 1
+;;	EndWhile
 	
 	;; kick off a new thread.
 

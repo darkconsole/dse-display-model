@@ -26,7 +26,7 @@ Event OnEquipped(Actor Who)
 
 	;; figure out where it needs to be.
 
-	Where = Main.Util.GetPositionAtDistance(Who,160)
+	Where = Main.Util.GetPositionAtDistance(Who,128)
 
 	;; place a point in the world.
 

@@ -1,0 +1,23 @@
+{
+	"Device": {
+		"ID": "DSE-PonyRope02",
+		"Name": "Rope Pony Variant 2",
+		"Activator": "13102|dse-display-model.esp",
+		"Ghost": "13102|dse-display-model.esp",
+		"Inventory": "60976|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Riding The Pony",
+				"Package": "13101|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": []
+			}
+		],
+		"ObjectsIdle": [
+
+		],
+		"ObjectsUsed": [
+
+		]
+	}
+}

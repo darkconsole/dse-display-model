@@ -23,7 +23,9 @@ b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-dollstand01-a1 poses\dse
 b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-doubledollstand01-a1 poses\dse-doubledollstand01-a1.hkx
 b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-doubledollstand01-a2 poses\dse-doubledollstand01-a2.hkx
 
+
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rope and Wooden Pony '''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope01-a1 poses\dse-ponyrope01-a1.hkx
+b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope02-a1 poses\dse-ponyrope02-a1.hkx

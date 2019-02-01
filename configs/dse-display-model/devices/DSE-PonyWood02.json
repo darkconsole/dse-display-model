@@ -1,0 +1,23 @@
+{
+	"Device": {
+		"ID": "DSE-PonyWood02",
+		"Name": "Wooden Pony Variant 2",
+		"Activator": "13103|dse-display-model.esp",
+		"Ghost": "13103|dse-display-model.esp",
+		"Inventory": "13105|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Riding The Pony",
+				"Package": "13101|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": []
+			}
+		],
+		"ObjectsIdle": [
+
+		],
+		"ObjectsUsed": [
+
+		]
+	}
+}

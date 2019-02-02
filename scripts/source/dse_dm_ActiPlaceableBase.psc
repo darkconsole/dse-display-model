@@ -64,6 +64,7 @@ Function Prepare()
 
 	Main.Devices.Register(self)
 	self.GotoState("Idle")
+	self.RegisterForSingleUpdate(30)
 
 	Main.Util.Print(self.DeviceID + " is ready.")
 	Return
@@ -89,6 +90,40 @@ Function PlaceObjectsUsed()
 	Return
 EndFunction
 
+Form Function GetGhostForm()
+{get the ghost object for use during move mode}
+
+	Return Main.Devices.GetDeviceGhost(self.File)
+EndFunction
+
+Bool Function IsLegit()
+{game seems to let me force any object reference i want as this subscript type
+so rather than randomly accessing properties that are empty i want to be able
+to test if this is a legit furniture first.}
+
+	Return self.HasKeyword(Main.KeywordFurniture)
+EndFunction
+
+Int Function GetMountedActorCount()
+{get how many actors we have mounted.}
+
+	Int Output = 0
+	Int Iter = 0
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] != None)
+			Output += 1
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return Output
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Function Move()
 {kick in the grab object system on this thing.}
 
@@ -110,23 +145,6 @@ Function PickUp()
 	
 	Return
 EndFunction
-
-Form Function GetGhostForm()
-{get the ghost object for use during move mode}
-
-	Return Main.Devices.GetDeviceGhost(self.File)
-EndFunction
-
-Bool Function IsLegit()
-{game seems to let me force any object reference i want as this subscript type
-so rather than randomly accessing properties that are empty i want to be able
-to test if this is a legit furniture first.}
-
-	Return self.HasKeyword(Main.KeywordFurniture)
-EndFunction
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function ActivateByPlayer()
 {when the player clicks on this device.}
@@ -186,6 +204,8 @@ Function UseByActor(Actor Who, Int Slot)
 {force an actor to use this device and slot.}
 
 	Package Task
+	String SlotName
+	String DeviceName
 
 	;; make sure its empty (unless its the same actor to allow reapply)
 
@@ -197,6 +217,8 @@ Function UseByActor(Actor Who, Int Slot)
 	;; make sure we know what to do.
 
 	Task = Main.Devices.GetDeviceActorSlotPackage(self.File,Slot)
+	SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
+	DeviceName = Main.Devices.GetDeviceName(self.File)
 
 	If(Task == None)
 		Main.Util.PrintDebug("UseByActor no package found for " + self.DeviceID + " " + Slot)
@@ -221,9 +243,9 @@ Function UseByActor(Actor Who, Int Slot)
 	Main.Util.HighHeelsCancel(Who)
 	Main.Util.ScaleCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
-
 	Who.MoveTo(self)
 
+	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
 EndFunction
 
@@ -270,6 +292,84 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
+
+	Return
+EndFunction
+
+Function Refresh()
+{update any actors on this device to force them to be doing what we want them
+to be doing.}
+
+	Int Iter
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] != None)
+			Main.Util.PrintDebug(self.DeviceID + " refresh actor " + Iter + " " + self.Actors[Iter].GetDisplayName())
+			self.UseByActor(self.Actors[Iter],Iter)
+		EndIf;
+		Iter += 1
+	EndWhile
+
+	Return
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Function HandlePeriodicUpdates()
+
+	Int ActorCount = self.GetMountedActorCount()
+
+	;;;;;;;;
+
+	If(ActorCount == 0)
+		Return 
+	EndIf
+
+	;;;;;;;;
+
+	self.UpdateArousals()
+	self.Moan()
+
+	Return
+EndFunction
+
+Function Moan()
+{do a moaning sound effect from one of the actors on the device.}
+
+	Int Iter = 0
+	Int Slot = -1
+
+	;; choose a random slot to do the moan. will try up to 16
+	;; times until it accidentally picks a slot tha thas an
+	;; actor in it.
+
+	While(Iter < 16)
+		Slot = Utility.RandomInt(0,(self.Actors.Length - 1))
+
+		If(self.Actors[Slot] != None)
+			;; @todo moan
+			Return
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function UpdateArousals()
+{update arousal on actors.}
+
+	Int Iter = 0
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] != None)
+			;; @todo update sexlab arousal
+		EndIf
+
+		Iter += 1
+	EndWhile
 
 	Return
 EndFunction
@@ -348,17 +448,8 @@ State Idle
 	Event OnLoad()
 		{handle the device being re-loaded.}
 		
-		Int Iter
-
 		Main.Util.PrintDebug(self.DeviceID + " Load While Idle")
-
-		While(Iter < self.Actors.Length)
-			If(self.Actors[Iter] != None)
-				Main.Util.PrintDebug(self.DeviceID + " renew actor " + Iter + " " + self.Actors[Iter].GetDisplayName())
-				self.UseByActor(self.Actors[Iter],Iter)
-			EndIf;
-			Iter += 1
-		EndWhile
+		self.Refresh()
 
 		Return
 	EndEvent
@@ -371,6 +462,12 @@ State Idle
 			self.ActivateByActor(What as Actor)
 		Endif
 
+		Return
+	EndEvent
+
+	Event OnUpdate()
+		self.HandlePeriodicUpdates()
+		self.RegisterForSingleUpdate(30)
 		Return
 	EndEvent
 

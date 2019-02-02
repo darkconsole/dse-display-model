@@ -449,6 +449,8 @@ Function GrabDisable(Bool UndoMove=FALSE)
 		Utility.Wait(0.25)
 		self.What.StopTranslation()
 		;;self.What.SetMotionType(self.What.Motion_Fixed)
+
+		self.What.Refresh()
 	EndIf
 
 	;; clean up

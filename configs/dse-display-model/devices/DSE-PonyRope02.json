@@ -3,7 +3,7 @@
 		"ID": "DSE-PonyRope02",
 		"Activator": "13102|dse-display-model.esp",
 		"Ghost": "13102|dse-display-model.esp",
-		"Inventory": "60976|dse-display-model.esp",
+		"Inventory": "13104|dse-display-model.esp",
 		"Actors": [
 			{
 				"Name": "Riding The Pony",

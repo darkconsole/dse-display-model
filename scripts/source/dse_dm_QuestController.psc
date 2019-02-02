@@ -7,10 +7,14 @@ dse_dm_QuestConfig Property Config Auto
 dse_dm_QuestDeviceManager Property Devices Auto
 dse_dm_QuestUtil Property Util Auto
 
+SexLabFramework Property SexLab Auto Hidden
+slaFrameworkScr Property Aroused Auto Hidden
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Actor Property Player Auto
+Spell Property SpellActorMoan Auto
 Spell Property SpellAssignNPC Auto
 Spell Property SpellGrabObject Auto
 Static Property MarkerGhost Auto
@@ -40,6 +44,187 @@ String Property NioKeyCancelScale = "DM3.CancelScale" AutoReadOnly Hidden
 
 dse_dm_QuestController Function GetAPI() Global
 	Return Game.GetFormFromFile(0xd61,"dse-display-model.esp") As dse_dm_QuestController
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Bool Function CheckForDeps(Bool Popup)
+{make sure we have everything we need installed.}
+
+	Bool Output = TRUE
+
+	If(!self.CheckForDeps_SKSE(Popup))
+		Output = FALSE
+	EndIf
+
+	If(!self.CheckForDeps_SkyUI(Popup))
+		Output = FALSE
+	EndIf
+
+	If(!self.CheckForDeps_SexLab(Popup))
+		Output = FALSE
+	EndIf
+
+	If(!self.CheckForDeps_SexLabAroused(Popup))
+		Output = FALSE
+	EndIf
+
+	If(!self.CheckForDeps_PapyrusUtil(Popup))
+		Output = FALSE
+	EndIf
+
+	If(!self.CheckForDeps_RaceMenu(Popup))
+		Output = FALSE
+	EndIf
+
+	If(!self.CheckForDeps_UIExtensions(Popup))
+		Output = FALSE
+	EndIf
+
+	Return Output
+EndFunction
+
+Bool Function CheckForDeps_SKSE(Bool Popup)
+{make sure skse is new enough.}
+
+	If(SKSE.GetScriptVersionRelease() < 56)
+		If(Popup)
+			self.Util.PopupError("You need to update your SKSE to 2.0.7 or newer.")
+		EndIf
+
+		Return FALSE
+	EndIf
+
+	Return TRUE
+EndFunction
+
+Bool Function CheckForDeps_SkyUI(Bool Popup)
+{make sure we have ui extensions installed and up to date.}
+
+	If(!Game.IsPluginInstalled("SkyUI_SE.esp"))
+		If(Popup)
+			self.Util.PopupError("SkyUI SE 5.2 or newer must be installed.")
+		EndIf
+		Return FALSE
+	EndIf
+
+	Return TRUE
+EndFunction
+
+Bool Function CheckForDeps_SexLab(Bool Popup)
+{make sure we have sexlab installed and minimum version.}
+
+	self.SexLab = Util.GetFormFrom("SexLab.esm",0xd62) As SexLabFramework
+
+	;; check we even have sexlab.
+
+	If(self.SexLab == NONE)
+		If(Popup)
+			self.Util.PopupError("SexLab SE 1.63 Beta 2 or newer must be installed.")
+		EndIf
+
+		Return FALSE
+	EndIf
+
+	;; check that the version of sexlab is good enough.
+
+	If(self.SexLab.GetVersion() < 16202)
+		If(Popup)
+			self.Util.PopupError("Your SexLab needs to be updated. Install 1.63 SE Beta 2 or newer.")
+		EndIf
+
+		self.SexLab = NONE
+		Return FALSE
+	EndIf
+
+	Return TRUE
+EndFunction
+
+Bool Function CheckForDeps_SexLabAroused(Bool Popup)
+{make sure we have sexlab aroused installed.}
+
+	;; aroused is not required for functioning so it is a soft fail.
+
+	self.Aroused = Util.GetFormFrom("SexLabAroused.esm",0x4290f) as slaFrameworkScr
+
+	;; check we even have sexlab.
+
+	If(self.Aroused == NONE)
+		Return TRUE
+	EndIf
+
+	;; check that the version of sexlab is good enough.
+
+	If(self.Aroused.GetVersion() < 20140124)
+		If(Popup)
+			self.Util.PopupError("Your SexLab Aroused needs to be updated. Install V27b newer.")
+		EndIf
+
+		self.Aroused = NONE
+		Return TRUE
+	EndIf
+
+	Return TRUE
+EndFunction
+
+Bool Function CheckForDeps_PapyrusUtil(Bool Popup)
+{make sure papyrus util is new enough. mostly to detect if someone overwrote
+the one that comes in sexlab with an old version.}
+
+	If(PapyrusUtil.GetScriptVersion() < 34)
+		If(Popup)
+			self.Util.PopupError("Your PapyrusUtil is out of date. It is likely some other mod overwrote the version that came in SexLab.")
+			Return FALSE
+		EndIf
+	EndIf
+
+	Return TRUE
+EndFunction
+
+Bool Function CheckForDeps_RaceMenu(Bool Popup)
+{make sure we have racemenu installed and up to date.}
+
+	Bool Output = TRUE
+
+	;; hard fail if no racemenu.
+
+	If(!Game.IsPluginInstalled("RaceMenu.esp"))
+		If(Popup)
+			self.Util.PopupError("RaceMenu SE 0.2.4 or newer must be installed.")
+		EndIf
+		Output = FALSE
+	EndIf
+
+	If(NiOverride.GetScriptVersion() < 6)
+		If(Popup)
+			self.Util.PopupError("NiOverride is out of date. Install Racemenu SE 0.2.4 newer and make sure nothing has overwritten it with older versions.")
+		EndIf
+		Output = FALSE
+	EndIf
+
+	;; soft fail if no morph sliders.
+	
+	If(!Game.IsPluginInstalled("RaceMenuMorphsCBBE.esp") && !Game.IsPluginInstalled("RaceMenuMorphsTBD.esp") && !Game.IsPluginInstalled("RaceMenuMorphsUUNP.esp"))
+		If(Popup)
+			self.Util.PopupError("You have no BodyMorphs installed. Currently the only known ones are CBBE and TBD. You will not see any body scaling until you fix this.")
+		EndIf
+	EndIf
+
+	Return Output
+EndFunction
+
+Bool Function CheckForDeps_UIExtensions(Bool Popup)
+{make sure we have ui extensions installed and up to date.}
+
+	If(!Game.IsPluginInstalled("UIExtensions.esp"))
+		If(Popup)
+			self.Util.PopupError("UI Extensions 1.2.0+ must be installed.")
+		EndIf
+		Return FALSE
+	EndIf
+
+	Return TRUE
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

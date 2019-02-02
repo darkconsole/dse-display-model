@@ -7,6 +7,9 @@ Event OnGameReload()
 
 	parent.OnGameReload()
 
+	;; dependency check
+	Main.CheckForDeps(TRUE)
+
 	;; check if any devices have been added lately.
 	Main.Devices.ScanFiles()
 

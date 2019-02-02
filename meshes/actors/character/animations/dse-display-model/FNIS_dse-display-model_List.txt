@@ -29,3 +29,4 @@ b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-doubledollstand01-a2 pos
 
 b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope01-a1 poses\dse-ponyrope01-a1.hkx
 b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope02-a1 poses\dse-ponyrope02-a1.hkx
+b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope03-a1 poses\dse-ponyrope03-a1.hkx

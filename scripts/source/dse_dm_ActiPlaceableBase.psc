@@ -90,11 +90,8 @@ Function PlaceObjectsUsed()
 	Return
 EndFunction
 
-Form Function GetGhostForm()
-{get the ghost object for use during move mode}
-
-	Return Main.Devices.GetDeviceGhost(self.File)
-EndFunction
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Bool Function IsLegit()
 {game seems to let me force any object reference i want as this subscript type
@@ -102,6 +99,12 @@ so rather than randomly accessing properties that are empty i want to be able
 to test if this is a legit furniture first.}
 
 	Return self.HasKeyword(Main.KeywordFurniture)
+EndFunction
+
+Form Function GetGhostForm()
+{get the ghost object for use during move mode}
+
+	Return Main.Devices.GetDeviceGhost(self.File)
 EndFunction
 
 Int Function GetMountedActorCount()
@@ -348,7 +351,7 @@ Function Moan()
 		Slot = Utility.RandomInt(0,(self.Actors.Length - 1))
 
 		If(self.Actors[Slot] != None)
-			;; @todo moan
+			Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
 			Return
 		EndIf
 
@@ -365,7 +368,7 @@ Function UpdateArousals()
 
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] != None)
-			;; @todo update sexlab arousal
+			Main.Util.ActorArousalUpdate(self.Actors[Iter],TRUE)
 		EndIf
 
 		Iter += 1

@@ -90,6 +90,100 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+Float Function ActorArousalGetTick(Actor Who)
+{determine how much the actor arousal should be modified per script tick.}
+
+	Float Tick = 1.0 
+
+	If(Main.Aroused == None)
+		Return 0.0
+	EndIf
+
+	Tick *= Main.Config.GetFloat(".ArousedTickFactor")
+
+	If(!Main.Aroused.IsActorExhibitionist(Who))
+		Tick *= -1.0
+	EndIf
+
+	Return Tick
+EndFunction
+
+Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
+{update an actors arousal.}
+
+	Float Tick = self.ActorArousalGetTick(Who)
+	Float TimeRate = 0.0
+
+	If(!Lower)
+		Tick *= -1;
+	EndIf
+
+	If(Main.Aroused && Main.Config.GetBool(".ArousedTickExposure"))
+		;; exposure goes up or down based on exhibitionist status.
+		Main.Aroused.UpdateActorExposure(Who,(Tick as Int),"Arousal Mod By DM3")
+	EndIf
+
+	If(Main.Aroused && Main.Config.GetBool(".ArousedTickTimeRate"))
+		;; time rate however always goes down.
+		TimeRate = ((Math.Abs(Tick) / 4) * -1) 
+		StorageUtil.AdjustFloatValue(Who,"SLAroused.TimeRate",TimeRate)
+		If(StorageUtil.GetFloatValue(Who,"SLAroused.TimeRate") < 0)
+			StorageUtil.SetFloatValue(Who,"SLAroused.TimeRate",0.0)
+		EndIf
+	EndIf
+
+	Return
+EndFunction
+
+sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
+{play an expression on the actor face.}
+
+	sslBaseExpression E
+
+	If(!Who.Is3dLoaded())
+		Return None
+	EndIf
+
+	If(Enable)
+		If(Utility.RandomInt(0,1) == 1)
+			E = Main.SexLab.GetExpressionByName("Shy")
+			self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Shy")
+		Else
+			E = Main.SexLab.GetExpressionByName("Pained")
+			self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Pained")
+		EndIf
+
+		E.Apply(Who,50,Who.GetLeveledActorBase().GetSex())
+		Return E
+	Else
+		sslBaseExpression.ClearMFG(Who)
+	EndIf
+
+	Return None
+EndFunction
+
+Function ImmersiveSoundMoan(Actor Who, Bool Hard=FALSE)
+{play a moaning sound from the actor.}
+
+	sslBaseVoice Voice
+
+	If(!Who.Is3dLoaded())
+		Return
+	EndIf
+
+	Voice = Main.SexLab.PickVoice(Who)
+
+	If(Hard)
+		Voice.GetSound(100).Play(Who)
+		self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Hard")
+	Else
+		Voice.GetSound(30).Play(Who)
+		self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Soft")
+	EndIf
+
+	Return
+EndFunction
+
 Function HighHeelsCancel(ObjectReference Who)
 {cancel nio high heels effect if it exists.}
 

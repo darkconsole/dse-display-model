@@ -1,3 +1,9 @@
 {
-	"DropDeviceDistance": 128.0
+	"ArousedTickExposure": true,
+	"ArousedTickTimeRate": true,
+	"ArousedTickFactor": 1.0,
+	"DeviceActorExpression": true,
+	"DeviceActorMoan": true,
+	"DeviceActorAroused": true,
+	"DeviceDropDistance": 128.0
 }

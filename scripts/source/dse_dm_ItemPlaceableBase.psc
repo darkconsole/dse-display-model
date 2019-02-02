@@ -26,7 +26,7 @@ Event OnEquipped(Actor Who)
 
 	;; figure out where it needs to be.
 
-	Where = Main.Util.GetPositionAtDistance(Who,Main.Config.GetFloat(".DropDeviceDistance"))
+	Where = Main.Util.GetPositionAtDistance(Who,Main.Config.GetFloat(".DeviceDropDistance"))
 
 	;; place a point in the world.
 

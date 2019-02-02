@@ -1,7 +1,6 @@
 {
 	"Device": {
 		"ID": "DSE-PonyRope03",
-		"Name": "Rope Pony Variant 3",
 		"Activator": "13108|dse-display-model.esp",
 		"Ghost": "13108|dse-display-model.esp",
 		"Inventory": "13110|dse-display-model.esp",

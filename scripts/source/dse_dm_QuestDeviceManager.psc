@@ -156,7 +156,13 @@ EndFunction
 String Function GetDeviceName(String Filename)
 {read the name property out of a device file.}
 
-	Return JsonUtil.GetPathStringValue(Filename,".Device.Name")
+	Form Object = self.GetDeviceInventoryitem(Filename)
+
+	If(!Object)
+		Return ""
+	EndIf
+
+	Return Object.GetName()
 EndFunction
 
 Activator Function GetDeviceActivator(String Filename)

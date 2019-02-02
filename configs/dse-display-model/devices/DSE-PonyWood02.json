@@ -1,7 +1,6 @@
 {
 	"Device": {
 		"ID": "DSE-PonyWood02",
-		"Name": "Wooden Pony Variant 2",
 		"Activator": "13103|dse-display-model.esp",
 		"Ghost": "13103|dse-display-model.esp",
 		"Inventory": "13105|dse-display-model.esp",

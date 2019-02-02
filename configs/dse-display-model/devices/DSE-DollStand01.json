@@ -1,7 +1,6 @@
 {
 	"Device": {
 		"ID": "DSE-DollStand01",
-		"Name": "Dollstand Variant 1",
 		"Activator": "6186|dse-display-model.esp",
 		"Ghost": "7569|dse-display-model.esp",
 		"Inventory": "11719|dse-display-model.esp",

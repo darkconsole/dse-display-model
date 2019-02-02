@@ -148,22 +148,22 @@ Bool Function CheckForDeps_SexLabAroused(Bool Popup)
 
 	self.Aroused = Util.GetFormFrom("SexLabAroused.esm",0x4290f) as slaFrameworkScr
 
-	;; check we even have sexlab.
+	;; check we even have aroused.
 
 	If(self.Aroused == NONE)
 		Return TRUE
 	EndIf
 
-	;; check that the version of sexlab is good enough.
+	;; check that the version of aroused is good enough.
 
-	If(self.Aroused.GetVersion() < 20140124)
-		If(Popup)
-			self.Util.PopupError("Your SexLab Aroused needs to be updated. Install V27b newer.")
-		EndIf
-
-		self.Aroused = NONE
-		Return TRUE
-	EndIf
+	;;If(self.Aroused.GetVersion() < 20140124)
+	;;	If(Popup)
+	;;		self.Util.PopupError("Your SexLab Aroused needs to be updated. Install V27b newer.")
+	;;	EndIf
+	;;
+	;;	self.Aroused = NONE
+	;;	Return TRUE
+	;;EndIf
 
 	Return TRUE
 EndFunction

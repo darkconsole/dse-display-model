@@ -48,7 +48,7 @@ Event OnEffectStart(Actor Who, Actor Caster)
 
 	;; figure out where it needs to be.
 
-	Where = Main.Util.GetPositionAtDistance(Who,150)
+	Where = Main.Util.GetPositionAtDistance(Who,Main.Config.GetFloat(".DropDeviceDistance"))
 
 	;; place a point in the world.
 

@@ -15,8 +15,6 @@ String Property DeviceID="" Auto
 ;; informational properties.
 
 String Property File Auto Hidden
-Form[] Property ObjectsIdle Auto Hidden
-Form[] Property ObjectsUsed Auto Hidden
 
 ;; active tracking properties.
 
@@ -42,23 +40,15 @@ Function Prepare()
 {handle setting everything up when furniture is placed.}
 
 	Int ActorCount
-	Int ObjectsIdleCount
-	Int ObjectsUsedCount
 
 	;;;;;;;;
 
 	self.File = Main.Devices.GetFileByID(self.DeviceID)
 	ActorCount = Main.Devices.GetDeviceActorSlotCount(self.File)
-	ObjectsIdleCount = Main.Devices.GetDeviceObjectsIdleCount(self.File)
-	ObjectsUsedCount = Main.Devices.GetDeviceObjectsUsedCount(self.File)
 
 	self.Actors = PapyrusUtil.ActorArray(ActorCount)
-	self.ObjectsIdle = Utility.CreateFormArray(ObjectsIdleCount)
-	self.ObjectsUsed = Utility.CreateFormArray(ObjectsUsedCount)
 
 	Main.Util.PrintDebug(self.DeviceID + " Prepare " + ActorCount + " actor slots")
-	Main.Util.PrintDebug(self.DeviceID + " Prepare " + ObjectsIdleCount + " objects when idle")
-	Main.Util.PrintDebug(self.DeviceID + " Prepare " + ObjectsUsedCount + " objects when used")
 
 	;;;;;;;;
 
@@ -67,26 +57,6 @@ Function Prepare()
 	self.RegisterForSingleUpdate(30)
 
 	Main.Util.Print(self.DeviceID + " is ready.")
-	Return
-EndFunction
-
-Function PlaceObjectsIdle()
-{place objects in the scene when the furniture is idle.}
-
-	If(self.ObjectsIdle.Length == 0)
-		Return
-	EndIf
-
-	Return
-EndFunction
-
-Function PlaceObjectsUsed()
-{place objects in the scene when the furniture is in use.}
-
-	If(self.ObjectsUsed.Length == 0)
-		Return
-	EndIf
-
 	Return
 EndFunction
 
@@ -198,12 +168,12 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 
 	;; slot the actor.
 
-	self.UseByActor(Who,Slot)
+	self.MountActor(Who,Slot)
 
 	Return
 EndFunction
 
-Function UseByActor(Actor Who, Int Slot)
+Function MountActor(Actor Who, Int Slot)
 {force an actor to use this device and slot.}
 
 	Package Task
@@ -224,7 +194,7 @@ Function UseByActor(Actor Who, Int Slot)
 	DeviceName = Main.Devices.GetDeviceName(self.File)
 
 	If(Task == None)
-		Main.Util.PrintDebug("UseByActor no package found for " + self.DeviceID + " " + Slot)
+		Main.Util.PrintDebug("MountActor no package found for " + self.DeviceID + " " + Slot)
 		Return
 	EndIf
 
@@ -247,6 +217,7 @@ Function UseByActor(Actor Who, Int Slot)
 	Main.Util.ScaleCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
 	Who.MoveTo(self)
+	self.SpawnActorObjects(Who,Slot)
 
 	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
@@ -291,6 +262,7 @@ Function ReleaseActorSlot(Int Slot)
 
 	;; reset their behaviour.
 
+	self.ClearActorObjects(self.Actors[Slot],Slot)
 	Main.Util.BehaviourSet(self.Actors[Slot],None)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
@@ -308,8 +280,95 @@ to be doing.}
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] != None)
 			Main.Util.PrintDebug(self.DeviceID + " refresh actor " + Iter + " " + self.Actors[Iter].GetDisplayName())
-			self.UseByActor(self.Actors[Iter],Iter)
+			self.MountActor(self.Actors[Iter],Iter)
 		EndIf;
+		Iter += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function ClearActorObjects(Actor Who, Int Slot=-1)
+{clean up objects placed by this actor when it was mounted.}
+
+	String DeviceKey
+	Int ItemCount
+	Int Iter
+	ObjectReference Item
+
+	;;;;;;;;
+
+	If(Slot == -1)
+		Main.Devices.GetActorSlot(Who)
+	EndIf
+
+	If(self.Actors[Slot] != Who)
+		Main.Util.PrintDebug("ClearActorObjects " + Who.GetDisplayName() + " is not " + self.DeviceID + " " + Slot)
+		Return
+	EndIf
+
+	;;;;;;;;
+
+	DeviceKey = "DM3.DeviceObjects." + self.DeviceID 
+	ItemCount = StorageUtil.FormListCount(Who,DeviceKey)
+
+	Main.Util.PrintDebug("ClearActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " objects")
+
+	Iter = 0
+	While(Iter < ItemCount)
+		Item = StorageUtil.FormListGet(Who,DeviceKey,Iter) As ObjectReference
+
+		If(Item != None)
+			Item.Disable()
+			Item.Delete()
+			Main.Util.PrintDebug("ClearActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter)
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	StorageUtil.FormListClear(Who,DeviceKey)
+
+	Return
+EndFunction
+
+Function SpawnActorObjects(Actor Who, Int Slot)
+{spawn objects for this actor when mounted.}
+
+	String DeviceKey
+	Int ItemCount
+	Int Iter
+	Form ItemForm
+	Form MarkerForm
+	Float[] ItemPos
+	ObjectReference Item
+	ObjectReference Marker
+
+	self.ClearActorObjects(Who,Slot)
+
+	DeviceKey = "DM3.DeviceObjects." + self.DeviceID
+	ItemCount = Main.Devices.GetDeviceActorSlotObjectCount(self.File,Slot)
+	MarkerForm = Main.Util.GetFormFrom("Skyrim.esm",0x3B)
+	Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
+
+	Iter = 0
+	While(Iter < ItemCount)
+		ItemForm = Main.Devices.GetDeviceActorSlotObjectForm(self.File,Slot,Iter)
+		ItemPos = Main.Devices.GetDeviceActorSlotObjectPosition(self.File,Slot,Iter)
+
+		If(ItemForm != None)
+			Marker = self.PlaceAtMe(MarkerForm,1,TRUE,FALSE)
+			Marker.MoveTo(self,ItemPos[0],ItemPos[1],ItemPos[2],TRUE)
+
+			Item = Marker.PlaceAtMe(ItemForm,1,TRUE,TRUE)
+			Item.Enable(FALSE)
+			Marker.Disable()
+			Marker.Delete()
+
+			StorageUtil.FormListAdd(Who,DeviceKey,Item)
+			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " (" + ItemPos[0] + "," + ItemPos[1] + "," + ItemPos[2] + ")")
+		EndIf
+
 		Iter += 1
 	EndWhile
 

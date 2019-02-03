@@ -58,6 +58,8 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; device meta
+
 Function Register(dse_dm_ActiPlaceableBase Device)
 {add a placed device to the tracking.}
 
@@ -86,6 +88,8 @@ EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; actor slot meta
 
 Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 
@@ -144,8 +148,15 @@ dse_dm_ActiPlaceableBase Function GetActorDevice(Actor Who)
 	Return StorageUtil.GetFormValue(Who,Main.DataKeyActorDevice) As dse_dm_ActiPlaceableBase
 EndFunction
 
+Int Function GetActorSlot(Actor Who)
+
+	Return StorageUtil.GetIntValue(Who,Main.DataKeyActorDevice)
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; device properties
 
 String Function GetDeviceID(String Filename)
 {read the id property out of a device file.}
@@ -182,6 +193,11 @@ Form Function GetDeviceGhost(String Filename)
 
 	Return JsonUtil.GetPathFormValue(Filename,".Device.Ghost")
 EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; actor slots
 
 Int Function GetDeviceActorSlotCount(String Filename)
 {count how many actors this can hold out of a device file.}
@@ -234,16 +250,37 @@ String[] Function GetDeviceActorSlotNameList(String Filename)
 	Return Output
 EndFunction
 
-Int Function GetDeviceObjectsIdleCount(String Filename)
-{count how many idle objects this uses out of a device file.}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	Return JsonUtil.PathCount(Filename,".Device.ObjectsIdle")
+;; actor slot objects
+
+Int Function GetDeviceActorSlotObjectCount(String Filename, Int Slot)
+{get the package for a specific actor slot.}
+
+	String Path = ".Device.Actors[" + Slot + "].Objects"
+
+	Return PapyrusUtil.ClampInt(JsonUtil.PathCount(Filename,Path),0,9001)
 EndFunction
 
-Int Function GetDeviceObjectsUsedCount(String Filename)
-{count how many used objects this uses out of a device file.}
+Form Function GetDeviceActorSlotObjectForm(String Filename, Int Slot, Int ItemSlot)
+{get the package for a specific actor slot.}
 
-	Return JsonUtil.PathCount(Filename,".Device.ObjectsUsed")
+	String Path = ".Device.Actors[" + Slot + "].Objects[" + ItemSlot + "].Form"
+
+	Return JsonUtil.GetPathFormValue(Filename,Path)
+EndFunction
+
+Float[] Function GetDeviceActorSlotObjectPosition(String Filename, Int Slot, Int ItemSlot)
+{get the positional data for a specific actor slot.}
+
+	Float[] Output = new Float[3]
+
+	Output[0] = JsonUtil.GetPathFloatValue(Filename,".Device.Actors[" + Slot + "].Objects[" + ItemSlot + "].Pos[0]")
+	Output[1] = JsonUtil.GetPathFloatValue(Filename,".Device.Actors[" + Slot + "].Objects[" + ItemSlot + "].Pos[1]")
+	Output[2] = JsonUtil.GetPathFloatValue(Filename,".Device.Actors[" + Slot + "].Objects[" + ItemSlot + "].Pos[2]")
+
+	Return Output
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

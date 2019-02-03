@@ -9,13 +9,15 @@
 				"Name": "Doll On Front",
 				"Package": "11711|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
-				"Equips": []
+				"Equips": [],
+				"Objects": []
 			},
 			{
 				"Name": "Doll On Back",
 				"Package": "11714|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
-				"Equips": []
+				"Equips": [],
+				"Objects": []
 			}
 		],
 		"ObjectsIdle": [

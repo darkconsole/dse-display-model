@@ -30,3 +30,8 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a2 
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope01-a1 poses\dse-ponyrope01-a1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope02-a1 poses\dse-ponyrope02-a1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope03-a1 poses\dse-ponyrope03-a1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Alokzaam '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam01-a1 poses\dse-alokzaam01-a1.hkx

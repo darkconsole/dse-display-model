@@ -474,7 +474,7 @@ Function Moan()
 	While(Iter < 16)
 		Slot = Utility.RandomInt(0,(self.Actors.Length - 1))
 
-		If(self.Actors[Slot] != None)
+		If(self.Actors[Slot] != None && self.Actors[Slot].Is3dLoaded())
 			Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
 			Return
 		EndIf
@@ -601,9 +601,5 @@ State Idle
 		self.RegisterForSingleUpdate(30)
 		Return
 	EndEvent
-
-EndState
-
-State Used
 
 EndState

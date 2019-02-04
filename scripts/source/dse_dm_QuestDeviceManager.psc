@@ -235,6 +235,18 @@ String Function GetDeviceActorSlotName(String Filename, Int Slot)
 	Return JsonUtil.GetPathStringValue(Filename,Path)
 EndFunction
 
+Bool Function GetDeviceActorSlotHeadTracking(String Filename, Int Slot)
+{get if this is allowed to have head tracking.}
+
+	String Path = ".Device.Actors[" + Slot + "].HeadTracking"
+
+	If(!JsonUtil.IsPathBool(Filename,Path))
+		Return TRUE
+	EndIf
+
+	Return JsonUtil.GetPathBoolValue(Filename,Path)
+EndFunction
+
 String[] Function GetDeviceActorSlotNameList(String Filename)
 {get a list of all the actor slot names.}
 

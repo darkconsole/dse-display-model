@@ -180,6 +180,8 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	String SlotName
 	String DeviceName
 	Bool AlreadyThere = FALSE
+	Bool ConfigHeadTracking = FALSE
+	Bool ToggleHeadTracking = FALSE
 
 	;; make sure its empty (unless its the same actor to allow reapply)
 
@@ -203,9 +205,14 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		Return
 	EndIf
 
-	;; the infamous slomoroto anti-collision hack.
+	;; disable headtracking.
 
 	Who.SetHeadTracking(FALSE)
+	ConfigHeadTracking = Main.Config.GetBool(".DeviceActorHeadTracking")
+	ToggleHeadTracking = Who.IsInFaction(Main.FactionActorToggleHeadTracking)
+
+	;; the infamous slomoroto anti-collision hack.
+
 	Who.SplineTranslateTo(         \
 		self.GetPositionX(),       \
 		self.GetPositionY(),       \
@@ -218,7 +225,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	;; assuming direct control
 
-
 	Main.Devices.RegisterActor(Who,self,Slot)	
 	Main.Util.HighHeelsCancel(Who)
 	Main.Util.ScaleCancel(Who)
@@ -227,6 +233,12 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	If(!AlreadyThere || ForceObjects)
 		self.SpawnActorObjects(Who,Slot)
+	EndIf
+
+	If((ConfigHeadTracking && !ToggleHeadTracking) || (!ConfigHeadTracking && ToggleHeadTracking))
+		If(Main.Devices.GetDeviceActorSlotHeadTracking(self.File,Slot))
+			Who.SetHeadTracking(TRUE)
+		EndIf
 	EndIf
 
 	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
@@ -352,21 +364,21 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	Form ItemForm
 	Form MarkerForm
 	Float[] ItemPos
-	Bool UseLightFace
-	Bool UseLightTorso
 	ObjectReference Item
 	ObjectReference Marker
+	Bool ConfigLightFace
+	Bool ToggleLightFace
 
 	;; we use the place-at-marker system to avoid some lag with the object fade-in
 	;; when used with MoveTo and such. just place it in the final spot and be done.
 
 	self.ClearActorObjects(Who,Slot)
 
-	UseLightFace = Main.Config.GetBool(".DeviceActorLightFace")
-	UseLightTorso = Main.Config.GetBool(".DeviceActorLightTorso")
 	DeviceKey = "DM3.DeviceObjects." + self.DeviceID
 	ItemCount = Main.Devices.GetDeviceActorSlotObjectCount(self.File,Slot)
 	MarkerForm = Main.Util.GetFormFrom("Skyrim.esm",0x3B)
+	ConfigLightFace = Main.Config.GetBool(".DeviceActorLightFace")
+	ToggleLightFace = Who.IsInFaction(Main.FactionActorToggleLightFace)
 	Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
 
 	Iter = 0
@@ -390,7 +402,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 		Iter += 1
 	EndWhile
 
-	If((UseLightFace && !Who.IsInFaction(Main.FactionActorNoLightFace)) || (!UseLightFace && Who.IsInFaction(Main.FactionActorNoLightFace)))
+	If((ConfigLightFace && !ToggleLightFace) || (!ConfigLightFace && ToggleLightFace))
 		Utility.Wait(2.0)
 		Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " adding face light")
 
@@ -486,13 +498,17 @@ Function AssignNPC()
 
 	;;;;;;;;
 
-	Main.Util.Print("Select a position on the device...")
-	Names = Main.Devices.GetDeviceActorSlotNameList(self.File)
-	Selected = Main.MenuFromList(Names)
+	If(Main.Devices.GetDeviceActorSlotCount(self.File) == 1)
+		Selected = 0
+	Else
+		Main.Util.Print("Select a position on the device...")
+		Names = Main.Devices.GetDeviceActorSlotNameList(self.File)
+		Selected = Main.MenuFromList(Names)
 
-	If(Selected < 0)
-		Main.Util.PrintDebug("AssignNPC no pose selected")
-		Return
+		If(Selected < 0)
+			Main.Util.PrintDebug("AssignNPC no pose selected")
+			Return
+		EndIf
 	EndIf
 
 	If(Selected >= self.Actors.Length)

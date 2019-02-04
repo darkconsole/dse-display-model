@@ -22,7 +22,8 @@ Static Property MarkerGhost Auto
 Static Property MarkerActive Auto
 Keyword Property KeywordFurniture Auto
 Faction Property FactionActorUsingDevice Auto
-Faction Property FactionActorNoLightFace Auto
+Faction Property FactionActorToggleLightFace Auto
+Faction Property FactionActorToggleHeadTracking Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

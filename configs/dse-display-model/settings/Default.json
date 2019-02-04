@@ -6,7 +6,6 @@
 	"DeviceActorExpression": true,
 	"DeviceActorHeadTracking": true,
 	"DeviceActorLightFace": false,
-	"DeviceActorLightTorso": false,
 	"DeviceActorMoan": true,
 	"DeviceDropDistance": 128.0
 }

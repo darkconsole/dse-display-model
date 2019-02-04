@@ -152,6 +152,18 @@ Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
 	Return
 EndFunction
 
+Function ActorToggleFaction(Actor Who, Faction What)
+{add the actor to a faction if not in it, remove them from it if they are.}
+
+	If(Who.IsInFaction(What))
+		Who.RemoveFromFaction(What)
+	Else
+		Who.AddToFaction(What)
+	EndIf
+
+	Return
+EndFunction
+
 sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
 {play an expression on the actor face.}
 

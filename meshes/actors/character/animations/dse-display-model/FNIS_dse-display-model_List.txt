@@ -19,19 +19,26 @@ Version 100
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-dollstand01-a1 poses\dse-dollstand01-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a1 poses\dse-doubledollstand01-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a2 poses\dse-doubledollstand01-a2.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-dollstand01-a1 poses\DSE-Dollstand01-a1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Double Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a1 poses\DSE-DoubleDollstand01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a2 poses\DSE-DoubleDollstand01-a2.hkx
 
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rope and Wooden Pony '''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope01-a1 poses\dse-ponyrope01-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope02-a1 poses\dse-ponyrope02-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope03-a1 poses\dse-ponyrope03-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope01-a1 poses\DSE-PonyRope01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope02-a1 poses\DSE-PonyRope02-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope03-a1 poses\DSE-PonyRope03-a1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Alokzaam '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam01-a1 poses\dse-alokzaam01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam01-a1 poses\DSE-Alokzaam01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam02-a1 poses\DSE-Alokzaam02-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam03-a1 poses\DSE-Alokzaam03-a1.hkx
+

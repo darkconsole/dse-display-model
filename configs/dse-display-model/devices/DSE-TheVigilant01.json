@@ -1,0 +1,18 @@
+{
+	"Device": {
+		"ID": "DSE-TheVigilant01",
+		"Activator": "21415|dse-display-model.esp",
+		"Ghost": "21415|dse-display-model.esp",
+		"Inventory": "21420|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Mounted Slave",
+				"HeadTracking": true,
+				"Package": "21410|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": [],
+				"Objects": []
+			}
+		]
+	}
+}

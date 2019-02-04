@@ -1,0 +1,18 @@
+{
+	"Device": {
+		"ID": "DSE-AlessiasPerch01",
+		"Activator": "21411|dse-display-model.esp",
+		"Ghost": "21411|dse-display-model.esp",
+		"Inventory": "21416|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Mounted Slave",
+				"HeadTracking": true,
+				"Package": "21406|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": [],
+				"Objects": []
+			}
+		]
+	}
+}

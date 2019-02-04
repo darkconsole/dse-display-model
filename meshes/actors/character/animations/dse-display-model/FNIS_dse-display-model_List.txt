@@ -19,26 +19,50 @@ Version 100
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-dollstand01-a1 poses\DSE-Dollstand01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Dollstand01-A1 poses\DSE-Dollstand01-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Double Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a1 poses\DSE-DoubleDollstand01-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a2 poses\DSE-DoubleDollstand01-a2.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-DoubleDollstand01-A1 poses\DSE-DoubleDollstand01-A1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-DoubleDollstand01-A2 poses\DSE-DoubleDollstand01-A2.hkx
 
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rope and Wooden Pony '''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope01-a1 poses\DSE-PonyRope01-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope02-a1 poses\DSE-PonyRope02-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope03-a1 poses\DSE-PonyRope03-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope01-A1 poses\DSE-PonyRope01-A1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope02-A1 poses\DSE-PonyRope02-A1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope03-A1 poses\DSE-PonyRope03-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Alokzaam '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam01-a1 poses\DSE-Alokzaam01-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam02-a1 poses\DSE-Alokzaam02-a1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-alokzaam03-a1 poses\DSE-Alokzaam03-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam01-A1 poses\DSE-Alokzaam01-A1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam02-A1 poses\DSE-Alokzaam02-A1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam03-A1 poses\DSE-Alokzaam03-A1.hkx
 
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' St Alessia's Perch '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-AlessiasPerch01-A1 poses\DSE-AlessiasPerch01-A1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Bovahdin '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Bovahdin01-A1 poses\DSE-Bovahdin01-A1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Chapel Of Dibella ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ChapelDibella01-A1 poses\DSE-ChapelDibella01-A1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Seat Of Almalexia ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-SeatAlmalexia01-A1 poses\DSE-SeatAlmalexia01-A1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Vigiant Of Stendarr ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheVigilant01-A1 poses\DSE-TheVigilant01-A1.hkx

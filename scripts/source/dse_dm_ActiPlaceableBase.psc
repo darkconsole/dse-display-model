@@ -110,6 +110,20 @@ Function PickUp()
 {return the furniture to your inventory.}
 
 	Form DeviceItem = Main.Devices.GetDeviceInventoryItem(self.File)
+	Int Slot
+
+	;; kick off any actors currently on it.
+
+	Slot = 0
+	While(Slot < self.Actors.Length)
+		If(self.Actors[Slot] != None)
+			self.ReleaseActorSlot(Slot)
+		EndIf
+
+		Slot += 1
+	EndWhile
+
+	;; and pick up the device.
 
 	Main.Player.AddItem(DeviceItem,1)
 	Main.Devices.Unregister(self)
@@ -288,8 +302,8 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.BehaviourSet(self.Actors[Slot],None)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
-	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 	self.Actors[Slot].SetHeadTracking(TRUE)
+	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 
 	Return
 EndFunction

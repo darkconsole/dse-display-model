@@ -194,7 +194,7 @@ Event OnKeyUp(Int KeyCode, Float Dur)
 	ElseIf(KeyCode == self.KeyZoomOut)
 		self.StatePush = 0
 	ElseIf(KeyCode == self.KeyShift)
-		self.StateShift = TRUE
+		self.StateShift = FALSE
 	ElseIf(KeyCode == self.KeyCancel)
 		If(Dur > 1.0)
 			(self.Origin as Actor).RemoveSpell(Main.SpellGrabObject)
@@ -306,7 +306,7 @@ Function RegisterForControlKeys()
 	self.KeyZoomIn = Input.GetMappedKey("Shout")
 	self.KeyZoomOut = Input.GetMappedKey("Sprint")
 	self.KeyCancel = Input.GetMappedKey("Sneak")
-	self.KeyShift = Input.GetMappedKey("Jump")
+	self.KeyShift = Input.GetMappedKey("Tween Menu")
 
 	self.RegisterForKey(self.KeyToggle)
 	self.RegisterForKey(self.KeyRotLeft)

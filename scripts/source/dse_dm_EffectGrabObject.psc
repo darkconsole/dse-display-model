@@ -50,6 +50,7 @@ Int Property KeyRotRight = 0 Auto Hidden
 Int Property KeyZoomIn = 0 Auto Hidden
 Int Property KeyZoomOut = 0 Auto Hidden
 Int Property KeyCancel = 0 Auto Hidden
+Int Property KeyShift = 0 Auto Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -78,6 +79,7 @@ Bool Property StateRotLeft = FALSE Auto Hidden
 Bool Property StateRotRight = FALSE Auto Hidden
 Bool Property StateZoomIn = FALSE Auto Hidden
 Bool Property StateZoomOut = FALSE Auto Hidden
+Bool Property StateShift = FALSE Auto Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -152,13 +154,23 @@ Event OnKeyDown(Int KeyCode)
 			self.GrabDisable()
 		EndIf
 	ElseIf(KeyCode == self.KeyRotLeft)
-		self.StateRot = 5
+		If(self.StateShift)
+			self.StateRot = 5
+		Else
+			self.StateRot = 1
+		EndIf
 	ElseIf(KeyCode == self.KeyRotRight)
-		self.StateRot = -5
+		If(self.StateShift)
+			self.StateRot = -5
+		Else
+			self.StateRot = -1
+		EndIf
 	ElseIf(KeyCode == self.KeyZoomIn)
 		self.StatePush = -5
 	ElseIf(KeyCode == self.KeyZoomOut)
 		self.StatePush = 5
+	ElseIf(KeyCode == self.KeyShift)
+		self.StateShift = TRUE
 	Elseif(KeyCode == self.KeyCancel)
 		If(self.What)
 			self.GrabDisable(TRUE)
@@ -181,6 +193,8 @@ Event OnKeyUp(Int KeyCode, Float Dur)
 		self.StatePush = 0
 	ElseIf(KeyCode == self.KeyZoomOut)
 		self.StatePush = 0
+	ElseIf(KeyCode == self.KeyShift)
+		self.StateShift = TRUE
 	ElseIf(KeyCode == self.KeyCancel)
 		If(Dur > 1.0)
 			(self.Origin as Actor).RemoveSpell(Main.SpellGrabObject)
@@ -292,6 +306,7 @@ Function RegisterForControlKeys()
 	self.KeyZoomIn = Input.GetMappedKey("Shout")
 	self.KeyZoomOut = Input.GetMappedKey("Sprint")
 	self.KeyCancel = Input.GetMappedKey("Sneak")
+	self.KeyShift = Input.GetMappedKey("Jump")
 
 	self.RegisterForKey(self.KeyToggle)
 	self.RegisterForKey(self.KeyRotLeft)
@@ -299,6 +314,7 @@ Function RegisterForControlKeys()
 	self.RegisterForKey(self.KeyZoomIn)
 	self.RegisterForKey(self.KeyZoomOut)
 	self.RegisterForKey(self.KeyCancel)
+	self.RegisterForKey(self.KeyShift)
 
 	Return
 EndFunction
@@ -314,6 +330,7 @@ Function UnregisterForControlKeys()
 	self.UnregisterForKey(self.KeyZoomIn)
 	self.UnregisterForKey(self.KeyZoomOut)
 	self.UnregisterForKey(self.KeyCancel)
+	self.UnregisterForKey(self.KeyShift)
 
 	Return
 EndFunction

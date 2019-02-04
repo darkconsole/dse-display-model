@@ -407,13 +407,6 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 	self.Undo.Enable(FALSE)
 	self.Where.Enable(FALSE)
 
-;;	WaitIter = 0
-;;	While(WaitIter < 12 && (!self.Ghost.Is3dLoaded() || !self.Undo.Is3dLoaded() || !self.Where.Is3dLoaded()))
-;;		Main.Util.PrintDebug("GrabEnable waiting for 3D to load " + WaitIter)
-;;		Utility.Wait(0.25)
-;;		WaitIter += 1
-;;	EndWhile
-	
 	;; kick off a new thread.
 
 	self.Running = TRUE
@@ -438,6 +431,14 @@ Function GrabDisable(Bool UndoMove=FALSE)
 
 	;; move the original to the new spot.
 
+	self.Ghost.Disable()
+	self.Ghost.Delete()
+	self.Ghost = None
+
+	self.Undo.Disable()
+	self.Undo.Delete()
+	self.Undo = None
+
 	If(!UndoMove)
 		;; doing a moveto or setposition causes objects to reload themselves
 		;; which not only reloads the 3d but resets the script states on them.
@@ -450,22 +451,14 @@ Function GrabDisable(Bool UndoMove=FALSE)
 		self.What.StopTranslation()
 		;;self.What.SetMotionType(self.What.Motion_Fixed)
 
-		self.What.Refresh()
+		self.What.Refresh(TRUE)
 	EndIf
 
 	;; clean up
 
-	self.Ghost.Disable()
-	self.Ghost.Delete()
-	self.Ghost = None
-
 	self.Where.Disable()
 	self.Where.Delete()
 	self.Where = None
-
-	self.Undo.Disable()
-	self.Undo.Delete()
-	self.Undo = None
 
 	self.Origin.RemoveSpell(Main.SpellGrabObject)
 	Return

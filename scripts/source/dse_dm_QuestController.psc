@@ -14,6 +14,7 @@ slaFrameworkScr Property Aroused Auto Hidden
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Actor Property Player Auto
+Light Property LightFace Auto
 Spell Property SpellActorMoan Auto
 Spell Property SpellAssignNPC Auto
 Spell Property SpellGrabObject Auto
@@ -21,6 +22,7 @@ Static Property MarkerGhost Auto
 Static Property MarkerActive Auto
 Keyword Property KeywordFurniture Auto
 Faction Property FactionActorUsingDevice Auto
+Faction Property FactionActorNoLightFace Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

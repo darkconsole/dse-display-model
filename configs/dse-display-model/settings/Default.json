@@ -4,6 +4,8 @@
 	"ArousedTickFactor": 1.0,
 	"DeviceActorAroused": true,
 	"DeviceActorExpression": true,
+	"DeviceActorLightFace": false,
+	"DeviceActorLightTorso": false,
 	"DeviceActorMoan": true,
 	"DeviceDropDistance": 128.0
 }

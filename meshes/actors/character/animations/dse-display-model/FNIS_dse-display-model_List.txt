@@ -19,14 +19,14 @@ Version 100
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-dollstand01-a1 poses\dse-dollstand01-a1.hkx
-b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-doubledollstand01-a1 poses\dse-doubledollstand01-a1.hkx
-b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-doubledollstand01-a2 poses\dse-doubledollstand01-a2.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-dollstand01-a1 poses\dse-dollstand01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a1 poses\dse-doubledollstand01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-doubledollstand01-a2 poses\dse-doubledollstand01-a2.hkx
 
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rope and Wooden Pony '''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope01-a1 poses\dse-ponyrope01-a1.hkx
-b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope02-a1 poses\dse-ponyrope02-a1.hkx
-b -h,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-ponyrope03-a1 poses\dse-ponyrope03-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope01-a1 poses\dse-ponyrope01-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope02-a1 poses\dse-ponyrope02-a1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ponyrope03-a1 poses\dse-ponyrope03-a1.hkx

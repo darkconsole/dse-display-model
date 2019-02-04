@@ -87,6 +87,23 @@ distance from itself.}
 	Return Data
 EndFunction
 
+Float[] Function GetPositionAtDistance3D(ObjectReference What, Float Dist)
+{get an objects positional data if it was to be pushed away the specified
+distance from itself.}
+
+	Float[] Data = self.GetPositionData(What)
+
+	;x = x + offset_x * cos_ry * cos_rz - offset_x * sin_rx * sin_ry * sin_rz - offset_y * cos_rx * sin_rz + offset_z * sin_ry * cos_rz + offset_z * sin_rx * cos_ry * sin_rz;
+	;y = y + offset_x * cos_ry * sin_rz + offset_x * sin_rx * sin_ry * cos_rz + offset_y * cos_rx * cos_rz + offset_z * sin_ry * sin_rz - offset_z * sin_rx * cos_ry * cos_rz;
+	;z = z - (offset_x * cos_rx * sin_ry) + (offset_y * sin_rx) + (offset_z * cos_rx * cos_ry);
+
+	Data[1] = Data[1] + (Math.Sin(Data[0]) * Dist)
+	Data[2] = Data[2] + (Math.Cos(Data[0]) * Dist)
+	Data[3] = Data[3] - ( (Dist * Math.Cos(What.GetAngleX()) * Math.Cos(What.GetAngleY())) * Math.Sin(What.GetAngleX())) 
+
+	Return Data
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

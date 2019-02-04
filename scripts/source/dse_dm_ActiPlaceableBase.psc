@@ -173,18 +173,23 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 	Return
 EndFunction
 
-Function MountActor(Actor Who, Int Slot)
+Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 {force an actor to use this device and slot.}
 
 	Package Task
 	String SlotName
 	String DeviceName
+	Bool AlreadyThere = FALSE
 
 	;; make sure its empty (unless its the same actor to allow reapply)
 
 	If(self.Actors[Slot] != None && self.Actors[Slot] != Who)
 		Main.Util.Print(self.DeviceID + " slot " + Slot + " slot is not empty.")
 		Return
+	EndIf
+
+	If(self.Actors[Slot] == Who)
+		AlreadyThere = TRUE
 	EndIf
 
 	;; make sure we know what to do.
@@ -200,6 +205,7 @@ Function MountActor(Actor Who, Int Slot)
 
 	;; the infamous slomoroto anti-collision hack.
 
+	Who.SetHeadTracking(FALSE)
 	Who.SplineTranslateTo(         \
 		self.GetPositionX(),       \
 		self.GetPositionY(),       \
@@ -212,12 +218,16 @@ Function MountActor(Actor Who, Int Slot)
 
 	;; assuming direct control
 
+
 	Main.Devices.RegisterActor(Who,self,Slot)	
 	Main.Util.HighHeelsCancel(Who)
 	Main.Util.ScaleCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
 	Who.MoveTo(self)
-	self.SpawnActorObjects(Who,Slot)
+
+	If(!AlreadyThere || ForceObjects)
+		self.SpawnActorObjects(Who,Slot)
+	EndIf
 
 	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
@@ -267,11 +277,12 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
+	self.Actors[Slot].SetHeadTracking(TRUE)
 
 	Return
 EndFunction
 
-Function Refresh()
+Function Refresh(Bool ForceObjects=FALSE)
 {update any actors on this device to force them to be doing what we want them
 to be doing.}
 
@@ -280,7 +291,7 @@ to be doing.}
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] != None)
 			Main.Util.PrintDebug(self.DeviceID + " refresh actor " + Iter + " " + self.Actors[Iter].GetDisplayName())
-			self.MountActor(self.Actors[Iter],Iter)
+			self.MountActor(self.Actors[Iter],Iter,ForceObjects)
 		EndIf;
 		Iter += 1
 	EndWhile
@@ -341,11 +352,18 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	Form ItemForm
 	Form MarkerForm
 	Float[] ItemPos
+	Bool UseLightFace
+	Bool UseLightTorso
 	ObjectReference Item
 	ObjectReference Marker
 
+	;; we use the place-at-marker system to avoid some lag with the object fade-in
+	;; when used with MoveTo and such. just place it in the final spot and be done.
+
 	self.ClearActorObjects(Who,Slot)
 
+	UseLightFace = Main.Config.GetBool(".DeviceActorLightFace")
+	UseLightTorso = Main.Config.GetBool(".DeviceActorLightTorso")
 	DeviceKey = "DM3.DeviceObjects." + self.DeviceID
 	ItemCount = Main.Devices.GetDeviceActorSlotObjectCount(self.File,Slot)
 	MarkerForm = Main.Util.GetFormFrom("Skyrim.esm",0x3B)
@@ -371,6 +389,27 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 
 		Iter += 1
 	EndWhile
+
+	If((UseLightFace && !Who.IsInFaction(Main.FactionActorNoLightFace)) || (!UseLightFace && Who.IsInFaction(Main.FactionActorNoLightFace)))
+		Utility.Wait(2.0)
+		Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " adding face light")
+
+		;; place a marker and align it to a node on the skeleton.
+		Marker = self.PlaceAtMe(MarkerForm,1,TRUE,FALSE)
+		Marker.MoveToNode(Who,"CME Neck [Neck]")
+
+		;; move the marker away from the actor a bit in the direction its aligned.
+		ItemPos = Main.Util.GetPositionAtDistance3D(Marker,40)
+		Marker.SetPosition(ItemPos[1],ItemPos[2],ItemPos[3])
+
+		;; place the lamp on the marker and clean up.
+		Item = Marker.PlaceAtMe(Main.LightFace,1,TRUE,TRUE)
+		Item.Enable(FALSE)
+		Marker.Disable()
+		Marker.Delete()
+
+		StorageUtil.FormListAdd(Who,DeviceKey,Item)
+	EndIf
 
 	Return
 EndFunction

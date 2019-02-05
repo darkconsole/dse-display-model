@@ -293,6 +293,20 @@ Function ScaleResume(ObjectReference What)
 	Return
 EndFunction
 
+Function ScaleToActor(ObjectReference What, Actor Who)
+{scale an object to the actor's size.}
+
+	What.SetScale(Who.GetScale())
+	Return
+EndFunction
+
+Function ScaleToNormal(ObjectReference What)
+{scale an object back to normal size.}
+
+	What.SetScale(1.0)
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

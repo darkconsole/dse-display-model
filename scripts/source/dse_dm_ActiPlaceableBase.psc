@@ -196,6 +196,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Bool AlreadyThere = FALSE
 	Bool ConfigHeadTracking = FALSE
 	Bool ToggleHeadTracking = FALSE
+	Bool ScaleToActor = FALSE
 	dse_dm_ActiPlaceableBase OldDevice
 
 	;; make sure its empty (unless its the same actor to allow reapply)
@@ -232,6 +233,15 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Who.SetHeadTracking(FALSE)
 	ConfigHeadTracking = Main.Config.GetBool(".DeviceActorHeadTracking")
 	ToggleHeadTracking = Who.IsInFaction(Main.FactionActorToggleHeadTracking)
+	ScaleToActor = Main.Config.GetBool(".DeviceScaleToActor")
+
+	;; determine if we should scale the device.
+
+	If(self.Actors.Length == 1 && ScaleToActor)
+		Main.Util.ScaleToActor(self,Who)
+	Else
+		Main.Util.ScaleCancel(Who)
+	EndIf
 
 	;; the infamous slomoroto anti-collision hack.
 
@@ -249,7 +259,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	Main.Devices.RegisterActor(Who,self,Slot)	
 	Main.Util.HighHeelsCancel(Who)
-	Main.Util.ScaleCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
 	Who.MoveTo(self)
 
@@ -310,6 +319,15 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.BehaviourSet(self.Actors[Slot],None)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
+
+	;; determine if we should restore this device size.
+
+	If(self.Actors.Length == 1 && self.GetScale() != 1.0)
+		Main.Util.ScaleToNormal(self)
+	EndIf
+
+	;; let the actor be normal again.
+
 	self.Actors[Slot].SetHeadTracking(TRUE)
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 
@@ -390,6 +408,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	ObjectReference Marker
 	Bool ConfigLightFace
 	Bool ToggleLightFace
+	Bool ScaleToActor
 
 	;; we use the place-at-marker system to avoid some lag with the object fade-in
 	;; when used with MoveTo and such. just place it in the final spot and be done.
@@ -401,28 +420,48 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	MarkerForm = Main.Util.GetFormFrom("Skyrim.esm",0x3B)
 	ConfigLightFace = Main.Config.GetBool(".DeviceActorLightFace")
 	ToggleLightFace = Who.IsInFaction(Main.FactionActorToggleLightFace)
+	ScaleToActor = Main.Config.GetBool(".DeviceScaleToActor")
 	Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
+
+	;;;;;;;;
 
 	Iter = 0
 	While(Iter < ItemCount)
+
+		;; figure out what item we want and where it should be.
+
 		ItemForm = Main.Devices.GetDeviceActorSlotObjectForm(self.File,Slot,Iter)
 		ItemPos = Main.Devices.GetDeviceActorSlotObjectPosition(self.File,Slot,Iter)
 
 		If(ItemForm != None)
+
+			;; place a marker down as a spawn point and move it to the location.
 			Marker = self.PlaceAtMe(MarkerForm,1,TRUE,FALSE)
 			Marker.MoveTo(self,ItemPos[0],ItemPos[1],ItemPos[2],TRUE)
 
+			;; spawn the item on the location.
 			Item = Marker.PlaceAtMe(ItemForm,1,TRUE,TRUE)
 			Item.Enable(FALSE)
+
+			;; clean up the placement marker.
 			Marker.Disable()
 			Marker.Delete()
 
+			;; determine if we should scale the object.
+			If(self.Actors.Length == 1 && ScaleToActor)
+				Main.Util.ScaleToActor(Item,Who)
+			EndIf
+
+			;; make note of the object that belongs to this actor.
 			StorageUtil.FormListAdd(Who,DeviceKey,Item)
 			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " (" + ItemPos[0] + "," + ItemPos[1] + "," + ItemPos[2] + ")")
+
 		EndIf
 
 		Iter += 1
 	EndWhile
+
+	;;;;;;;;
 
 	If((ConfigLightFace && !ToggleLightFace) || (!ConfigLightFace && ToggleLightFace))
 		Utility.Wait(2.0)

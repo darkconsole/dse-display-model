@@ -1,0 +1,18 @@
+{
+	"Device": {
+		"ID": "DSE-Alokzaam04",
+		"Activator": "22803|dse-display-model.esp",
+		"Ghost": "22803|dse-display-model.esp",
+		"Inventory": "22804|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Mounted Slave",
+				"HeadTracking": false,
+				"Package": "22802|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": [],
+				"Objects": []
+			}
+		]
+	}
+}

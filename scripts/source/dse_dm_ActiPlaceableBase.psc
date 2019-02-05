@@ -248,7 +248,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		Return
 	EndIf
 
-	;; handle attempting to slot actors already used.
+	;; handle attempting to slot actors already used by other devices.
 
 	OldDevice = Main.Devices.GetActorDevice(Who)
 	If(OldDevice != None && OldDevice != self)

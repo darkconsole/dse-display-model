@@ -41,6 +41,7 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope03-A1 poses\D
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam01-A1 poses\DSE-Alokzaam01-A1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam02-A1 poses\DSE-Alokzaam02-A1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam03-A1 poses\DSE-Alokzaam03-A1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam04-A1 poses\DSE-Alokzaam04-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' St Alessia's Perch '''''''''''''''''''''''''''''''''''''''''''''''''''''''''

@@ -255,6 +255,7 @@ to creationclub.}
 
 	Actor Who = What As Actor
 	Float GameScale = What.GetScale()
+	String Node = Main.NioBoneScale
 	Int IsFemale = 0 
 	Float Final
 
@@ -263,14 +264,14 @@ to creationclub.}
 	If(Who != None)
 		;; need more info if its an actor.
 		IsFemale = Who.GetLeveledActorBase().GetSex()
-		GameScale *= Who.GetLeveledActorBase().GetHeight()
+		;;GameScale *= Who.GetLeveledActorBase().GetHeight()
 	EndIf
 
 	Final = 1 / GameScale
 
-	Main.Util.PrintDebug("Util.ScaleCancel: " + Final)
-	NiOverride.AddNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneScale,Main.NioKeyCancelScale,Final)
-	NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Main.NioBoneScale)
+	Main.Util.PrintDebug("Util.ScaleCancel " + Who.GetDisplayName() + " (" + What.GetScale() + ", " + Who.GetLeveledActorBase().GetHeight() + ") = " + Final)
+	NiOverride.AddNodeTransformScale(Who,FALSE,IsFemale,Node,Main.NioKeyCancelScale,Final)
+	NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Node)
 
 	Return
 EndFunction
@@ -279,14 +280,15 @@ Function ScaleResume(ObjectReference What)
 {allow custom scaling to resume.}
 
 	Actor Who = What As Actor
+	String Node = Main.NioBoneScale
 	Int IsFemale = 0
 
 	If(Who != None)
 		IsFemale = Who.GetLeveledActorBase().GetSex()
 	EndIf
 
-	NiOverride.RemoveNodeTransformScale(Who,FALSE,IsFemale,Main.NioBoneScale,Main.NioKeyCancelScale)
-	NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Main.NioBoneScale)
+	NiOverride.RemoveNodeTransformScale(Who,FALSE,IsFemale,Node,Main.NioKeyCancelScale)
+	NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Node)
 
 	Return
 EndFunction

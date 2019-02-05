@@ -196,6 +196,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Bool AlreadyThere = FALSE
 	Bool ConfigHeadTracking = FALSE
 	Bool ToggleHeadTracking = FALSE
+	dse_dm_ActiPlaceableBase OldDevice
 
 	;; make sure its empty (unless its the same actor to allow reapply)
 
@@ -206,6 +207,13 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	If(self.Actors[Slot] == Who)
 		AlreadyThere = TRUE
+	EndIf
+
+	;; handle attempting to slot actors already used.
+
+	OldDevice = Main.Devices.GetActorDevice(Who)
+	If(OldDevice != self)
+		OldDevice.ReleaseActor(Who)
 	EndIf
 
 	;; make sure we know what to do.

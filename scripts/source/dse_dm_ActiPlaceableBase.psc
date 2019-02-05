@@ -43,18 +43,27 @@ Function Prepare()
 
 	;;;;;;;;
 
+	;; get our key for accessing the json about this device.
+
 	self.File = Main.Devices.GetFileByID(self.DeviceID)
+
+	;; prepare an array for storing actors mounted to this device.
+
 	ActorCount = Main.Devices.GetDeviceActorSlotCount(self.File)
-
 	self.Actors = PapyrusUtil.ActorArray(ActorCount)
-
-	Main.Util.PrintDebug(self.DeviceID + " Prepare " + ActorCount + " actor slots")
 
 	;;;;;;;;
 
+	;; register this device as placed in the world.
+
 	Main.Devices.Register(self)
+
+	;; change its state to idle and kick off the update loop for it.
+
 	self.GotoState("Idle")
 	self.RegisterForSingleUpdate(30)
+
+	;;;;;;;;
 
 	Main.Util.Print(self.DeviceID + " is ready.")
 	Return
@@ -74,6 +83,8 @@ EndFunction
 Form Function GetGhostForm()
 {get the ghost object for use during move mode}
 
+	;; used by the positioning system. to genericify the api over there.
+
 	Return Main.Devices.GetDeviceGhost(self.File)
 EndFunction
 
@@ -92,6 +103,41 @@ Int Function GetMountedActorCount()
 	EndWhile
 
 	Return Output
+EndFunction
+
+Int Function GetNextSlot(Actor Who=None)
+{get the next empty slot on the device. if an actor is provided then it will
+also return the slot that actor is in if they are already.}
+
+	Int Iter = 0
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] == None)
+			Return Iter
+		EndIf
+
+		If(Who != None && self.Actors[Iter] == Who)
+			Return Iter
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return -1
+Endfunction
+
+Bool Function IsEmptySlot(Int Slot, Actor Who=None)
+{check if this slot is empty or occupied by the same actor.}
+
+	If(self.Actors[Slot] == None)
+		Return TRUE
+	EndIf
+
+	If(Who != None && self.Actors[Slot] == Who)
+		Return TRUE
+	EndIf
+
+	Return FALSE
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -154,20 +200,13 @@ EndFunction
 Function ActivateByActor(Actor Who, Int Slot=-1)
 {when an npc clicks on this device.}
 
-	Int Iter = 0
-
 	;; find out if we have any free slots. allow for an actor to reactivate
 	;; a slot they are already in tho.
 
 	If(Slot == -1)
-		While(Iter < self.Actors.Length)
-			If(self.Actors[Iter] == None || self.Actors[Iter] == Who)
-				Slot = Iter
-			EndIf
-			Iter += 1
-		EndWhile
+		Slot = self.GetNextSlot(Who)
 	Else
-		If(self.Actors[Slot] != None && self.Actors[Slot] != Who)
+		If(!self.IsEmptySlot(Slot,Who))
 			Main.Util.Print(self.DeviceID + " slot " + Slot + " is not empty.")
 			Return
 		EndIf
@@ -187,63 +226,74 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 	Return
 EndFunction
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 {force an actor to use this device and slot.}
 
 	Package Task
-	String SlotName
-	String DeviceName
 	Bool AlreadyThere = FALSE
 	Bool ConfigHeadTracking = FALSE
 	Bool ToggleHeadTracking = FALSE
 	Bool ScaleToActor = FALSE
 	dse_dm_ActiPlaceableBase OldDevice
+	String DeviceName = Main.Devices.GetDeviceName(self.File)
+	String SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
 
 	;; make sure its empty (unless its the same actor to allow reapply)
 
-	If(self.Actors[Slot] != None && self.Actors[Slot] != Who)
-		Main.Util.Print(self.DeviceID + " slot " + Slot + " slot is not empty.")
+	If(!self.IsEmptySlot(Slot,Who))
+		Main.Util.Print(self.DeviceID + " " + Slot + " " + SlotName + " is not empty.")
 		Return
-	EndIf
-
-	If(self.Actors[Slot] == Who)
-		AlreadyThere = TRUE
 	EndIf
 
 	;; handle attempting to slot actors already used.
 
 	OldDevice = Main.Devices.GetActorDevice(Who)
-	If(OldDevice != self)
+	If(OldDevice != None && OldDevice != self)
 		OldDevice.ReleaseActor(Who)
 	EndIf
 
 	;; make sure we know what to do.
 
 	Task = Main.Devices.GetDeviceActorSlotPackage(self.File,Slot)
-	SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
-	DeviceName = Main.Devices.GetDeviceName(self.File)
-
 	If(Task == None)
 		Main.Util.PrintDebug("MountActor no package found for " + self.DeviceID + " " + Slot)
 		Return
 	EndIf
 
-	;; disable headtracking.
+	;; disable headtracking on the actor by default early on just to give
+	;; processing this rest of this script time for the head to start turning
+	;; back to neutral. we mainly care to waste time later on when spawning the
+	;; face light if it is enabled.
 
 	Who.SetHeadTracking(FALSE)
+
+	;; determine a bunch of other things we want to know before proceeding.
+
+	AlreadyThere = (self.Actors[Slot] == Who)
+	ScaleToActor = Main.Config.GetBool(".DeviceScaleToActor")
 	ConfigHeadTracking = Main.Config.GetBool(".DeviceActorHeadTracking")
 	ToggleHeadTracking = Who.IsInFaction(Main.FactionActorToggleHeadTracking)
-	ScaleToActor = Main.Config.GetBool(".DeviceScaleToActor")
 
-	;; determine if we should scale the device.
+	;; determine if we should scale the device to the actor or the actor to
+	;; the device. single actor devices can be scaled to them. multi actor
+	;; devices must have the actors equalized so they line up with eachother.
 
 	If(self.Actors.Length == 1 && ScaleToActor)
+		;; scale device to actor.
 		Main.Util.ScaleToActor(self,Who)
 	Else
+		;; scale actor to device.
 		Main.Util.ScaleCancel(Who)
 	EndIf
 
-	;; the infamous slomoroto anti-collision hack.
+	;; the infamous slomoroto anti-collision hack. this will put the actor
+	;; above the device in a state where they have no collision for a long
+	;; time, longer than anyone will likely ever be in the same room with a
+	;; device by like a long long time (the 0.000001 rotation speed). this
+	;; is the same trick sexlab uses during scenes.
 
 	Who.SplineTranslateTo(         \
 		self.GetPositionX(),       \
@@ -262,15 +312,26 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Main.Util.BehaviourSet(Who,Task)
 	Who.MoveTo(self)
 
+	;; if the actor was already on this device and in this slot then we can
+	;; skip spawning its objects as they should already be there.
+
 	If(!AlreadyThere || ForceObjects)
 		self.SpawnActorObjects(Who,Slot)
 	EndIf
+
+	;; determine if we should turn headtracking back on. if globally
+	;; headtracking is disabled then if they are in the faction they will
+	;; get it enabled. if it is enabled globally then it will be disabled.
+	;; however, devices are able to have a final say if headtracking should be
+	;; enabled.
 
 	If((ConfigHeadTracking && !ToggleHeadTracking) || (!ConfigHeadTracking && ToggleHeadTracking))
 		If(Main.Devices.GetDeviceActorSlotHeadTracking(self.File,Slot))
 			Who.SetHeadTracking(TRUE)
 		EndIf
 	EndIf
+
+	;;;;;;;;
 
 	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
@@ -281,6 +342,10 @@ Function ReleaseActor(Actor Who)
 
 	Int Iter = 0
 	Bool Found = FALSE
+
+	;; search this device for this actor. if found, release it. we allow this
+	;; to search the entire device just in case something weird happened as a
+	;; way to passively clean up any fuckups.
 
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] == Who)
@@ -320,19 +385,23 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 
-	;; determine if we should restore this device size.
+	;; determine if we should restore this device size because single actor
+	;; devices are allowed to scale to the actor if the option is enabled.
 
 	If(self.Actors.Length == 1 && self.GetScale() != 1.0)
 		Main.Util.ScaleToNormal(self)
 	EndIf
 
-	;; let the actor be normal again.
+	;; let the actor behave normal again.
 
 	self.Actors[Slot].SetHeadTracking(TRUE)
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 
 	Return
 EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function Refresh(Bool ForceObjects=FALSE)
 {update any actors on this device to force them to be doing what we want them
@@ -361,8 +430,15 @@ Function ClearActorObjects(Actor Who, Int Slot=-1)
 
 	;;;;;;;;
 
+	;; if no slot was specified ask the actor what slot they were in.
+
 	If(Slot == -1)
-		Main.Devices.GetActorSlot(Who)
+		Slot = Main.Devices.GetActorSlot(Who)
+	EndIf
+
+	If(Slot == -1)
+		Main.Util.PrintDebug("ClearActorObjects no slot to clean was specified.")
+		Return
 	EndIf
 
 	If(self.Actors[Slot] != Who)
@@ -372,10 +448,13 @@ Function ClearActorObjects(Actor Who, Int Slot=-1)
 
 	;;;;;;;;
 
+	;; find the devices we want to delete.
+
 	DeviceKey = "DM3.DeviceObjects." + self.DeviceID 
 	ItemCount = StorageUtil.FormListCount(Who,DeviceKey)
-
 	Main.Util.PrintDebug("ClearActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " objects")
+
+	;; and delete them.
 
 	Iter = 0
 	While(Iter < ItemCount)
@@ -389,6 +468,8 @@ Function ClearActorObjects(Actor Who, Int Slot=-1)
 
 		Iter += 1
 	EndWhile
+
+	;; then forget about them.
 
 	StorageUtil.FormListClear(Who,DeviceKey)
 
@@ -413,7 +494,11 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	;; we use the place-at-marker system to avoid some lag with the object fade-in
 	;; when used with MoveTo and such. just place it in the final spot and be done.
 
+	;; before spawning new devices clear out any old ones.
+
 	self.ClearActorObjects(Who,Slot)
+
+	;;;;;;;;
 
 	DeviceKey = "DM3.DeviceObjects." + self.DeviceID
 	ItemCount = Main.Devices.GetDeviceActorSlotObjectCount(self.File,Slot)
@@ -424,6 +509,8 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
 
 	;;;;;;;;
+
+	;; place all the devices.
 
 	Iter = 0
 	While(Iter < ItemCount)
@@ -461,7 +548,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 		Iter += 1
 	EndWhile
 
-	;;;;;;;;
+	;; place a facelight if it is enabled globally or for this actor.
 
 	If((ConfigLightFace && !ToggleLightFace) || (!ConfigLightFace && ToggleLightFace))
 		Utility.Wait(2.0)
@@ -491,10 +578,11 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function HandlePeriodicUpdates()
+{handle things this device needs to do on the timer.}
 
 	Int ActorCount = self.GetMountedActorCount()
 
-	;;;;;;;;
+	;; no actors nothing to do good bye.
 
 	If(ActorCount == 0)
 		Return 
@@ -514,14 +602,19 @@ Function Moan()
 	Int Iter = 0
 	Int Slot = -1
 
-	;; choose a random slot to do the moan. will try up to 16
-	;; times until it accidentally picks a slot tha thas an
-	;; actor in it.
+	;; choose a random slot to do the moan. will try up to 16 times until it
+	;; accidentally picks a slot that has an actor in it. there is technically
+	;; a chance it wont end up moaning at all but its super slim you'd think
+	;; given most devices will only have one slot lol.
+
+	If(!self.Is3dLoaded())
+		Return
+	EndIf
 
 	While(Iter < 16)
 		Slot = Utility.RandomInt(0,(self.Actors.Length - 1))
 
-		If(self.Actors[Slot] != None && self.Actors[Slot].Is3dLoaded())
+		If(self.Actors[Slot] != None)
 			Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
 			Return
 		EndIf
@@ -533,7 +626,7 @@ Function Moan()
 EndFunction
 
 Function UpdateArousals()
-{update arousal on actors.}
+{update arousal on all actors on this device.}
 
 	Int Iter = 0
 
@@ -557,7 +650,8 @@ Function AssignNPC()
 	String[] Names
 	Int Selected
 
-	;;;;;;;;
+	;; if this device only has one slot then auto select that slot as the slot
+	;; to use. else pop up the menu that will list them for selection.
 
 	If(Main.Devices.GetDeviceActorSlotCount(self.File) == 1)
 		Selected = 0
@@ -582,10 +676,12 @@ Function AssignNPC()
 		Return
 	EndIf
 
-	;;;;;;;;
+	;; throw some data out that the assignment spell will then read out.
 
 	StorageUtil.SetFormValue(Main.Player,"DM3.AssignNPC.Device",self)
 	StorageUtil.SetIntValue(Main.Player,"DM3.AssignNPC.Slot",Selected)
+
+	;; and begin the assignment spell.
 
 	Main.Util.Print("Select an NPC to assign...")
 	Main.Player.AddSpell(Main.SpellAssignNPC)
@@ -595,6 +691,11 @@ EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; when this device is first placed on the ground it is in this Initial state
+;; automatically. this state will handle the first-time load by catching the
+;; OnLoad event. it then uses then OnUpdate timer to trigger setting the device
+;; up in a new thread.
 
 Auto State Initial
 
@@ -620,6 +721,13 @@ Auto State Initial
 	EndEvent
 
 EndState
+
+;; once the initialization has been complete the device will be shifted into
+;; this Idle state. this still will catch the OnLoad events to handle refreshing
+;; the device since initialization has already been done. this state will also
+;; handle catching this device being interacted with as well as maintain the
+;; periodic loop that will be used to update whatever data we want on actors
+;; on this device.
 
 State Idle
 

@@ -140,6 +140,30 @@ Bool Function IsEmptySlot(Int Slot, Actor Who=None)
 	Return FALSE
 EndFunction
 
+Float Function GetScaleOverride()
+
+	Return StorageUtil.GetFloatValue(self,Main.DataKeyDeviceScale,1.0)
+EndFunction
+
+Function SetScaleOverride(Float Scale)
+
+	If(Scale != 1.0)
+		StorageUtil.SetFloatValue(self,Main.DataKeyDeviceScale,Scale)
+	Else
+		StorageUtil.UnsetFloatValue(self,Main.DataKeyDeviceScale)
+	EndIf
+
+	Return
+EndFunction
+
+Function ScaleToActor(ObjectReference What, Actor Who)
+
+	Float Scale = self.GetScaleOverride() * Who.GetScale()
+	Main.Util.ScaleOverride(What,Scale)
+
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -183,6 +207,7 @@ Function ActivateByPlayer()
 {when the player clicks on this device.}
 
 	Int PlayersChoice = Main.MenuDeviceIdleActivate()
+	Int Value
 
 	If(PlayersChoice == 1)
 		self.Move()
@@ -192,6 +217,15 @@ Function ActivateByPlayer()
 		self.AssignNPC()
 	ElseIf(PlayersChoice == 4)
 		;;self.UseByPlayer()
+	ElseIf(PlayersChoice == 5)
+		Value = self.ShowScaleMenu()
+		If(Value > 0)
+			self.SetScaleOverride((Value as Float) / 10.0)
+			Main.Util.ScaleOverride(self,self.GetScaleOverride())
+			self.Disable()
+			self.Enable(FALSE)
+			self.ActivateByPlayer()
+		EndIf
 	EndIf
 
 	Return
@@ -283,10 +317,11 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	If(self.Actors.Length == 1 && ScaleToActor)
 		;; scale device to actor.
-		Main.Util.ScaleToActor(self,Who)
+		self.ScaleToActor(self,Who)
 	Else
 		;; scale actor to device.
 		Main.Util.ScaleCancel(Who)
+		Main.Util.ScaleOverride(Who,self.GetScaleOverride())
 	EndIf
 
 	;; the infamous slomoroto anti-collision hack. this will put the actor
@@ -384,12 +419,13 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.BehaviourSet(self.Actors[Slot],None)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
+	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
 
 	;; determine if we should restore this device size because single actor
 	;; devices are allowed to scale to the actor if the option is enabled.
 
-	If(self.Actors.Length == 1 && self.GetScale() != 1.0)
-		Main.Util.ScaleToNormal(self)
+	If(self.Actors.Length == 1 && self.GetScale() != self.GetScaleOverride())
+		Main.Util.ScaleOverride(self,self.GetScaleOverride())
 	EndIf
 
 	;; let the actor behave normal again.
@@ -536,7 +572,9 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 
 			;; determine if we should scale the object.
 			If(self.Actors.Length == 1 && ScaleToActor)
-				Main.Util.ScaleToActor(Item,Who)
+				self.ScaleToActor(Item,Who)
+			Else
+				Main.Util.ScaleOverride(Item,self.GetScaleOverride())
 			EndIf
 
 			;; make note of the object that belongs to this actor.
@@ -687,6 +725,25 @@ Function AssignNPC()
 	Main.Player.AddSpell(Main.SpellAssignNPC)
 
 	Return
+EndFunction
+
+Int Function ShowScaleMenu()
+
+	String[] Items = new String[21]
+	Int Value
+	Int Iter
+
+	Items[0] = "[Cancel]"
+
+	Iter = 1
+	While(Iter < 21)
+		Items[Iter] = (Iter * 10) + "%"
+		Iter += 1
+	EndWhile
+
+	Value = Main.MenuFromList(Items)
+
+	Return Value
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

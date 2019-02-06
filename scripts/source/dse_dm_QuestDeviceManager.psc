@@ -70,6 +70,7 @@ EndFunction
 Function Unregister(dse_dm_ActiPlaceableBase Device)
 {remove a placed device from the tracking.}
 
+	StorageUtil.UnsetFloatValue(Device,Main.DataKeyDeviceScale)
 	StorageUtil.FormListRemove(None,Main.DataKeyDeviceList,Device,TRUE)
 	Return
 EndFunction

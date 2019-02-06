@@ -33,6 +33,7 @@ String Property DataKeyGrabObjectTarget = "DM3.GrabObject.Target" AutoReadOnly H
 String Property DataKeyActorDevice = "DM3.Actor.Device" AutoReadOnly Hidden
 String Property DataKeyDeviceList = "DM3.DeviceManager.List" AutoReadOnly Hidden
 String Property DataKeyActorOverride = "DM3.Actor.Override" AutoReadOnly Hidden
+String Property DataKeyDeviceScale = "DM3.Device.Scale" AutoReadOnly Hidden
 
 String Property EvAnimObjEquip = "AnimObjDraw" AutoReadOnly Hidden
 
@@ -41,6 +42,7 @@ String Property NioKeyCancelHH    = "DM3.CancelNioHH" AutoReadOnly Hidden
 String Property NioKeyInternalHH  = "internal" AutoReadOnly Hidden
 String Property NioBoneScale      = "NPC" AutoReadOnly Hidden
 String Property NioKeyCancelScale = "DM3.CancelScale" AutoReadOnly Hidden
+String Property NioKeyOverrideScale = "DM3.OverrideScale" AutoReadOnly Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -291,11 +293,13 @@ Int Function MenuDeviceIdleActivate()
 
 	;;;;;;;;
 
-	Menu.AddEntryItem("[Cancel]",NoParent)   ;; 0 cancel
-	Menu.AddEntryItem("Move",NoParent)       ;; 1 move
-	Menu.AddEntryItem("Pick Up",NoParent)    ;; 2 pickup
-	Menu.AddEntryItem("Assign NPC",NoParent) ;; 3 assign
-	Menu.AddEntryItem("Use",NoParent)        ;; 4 use
+	Menu.AddEntryItem("[Cancel]",NoParent)    ;; 0 cancel
+	Menu.AddEntryItem("Move",NoParent)        ;; 1 move
+	Menu.AddEntryItem("Pick Up",NoParent)     ;; 2 pickup
+	Menu.AddEntryItem("Assign NPC",NoParent)  ;; 3 assign
+	Menu.AddEntryItem("Use",NoParent)         ;; 4 use
+	Menu.AddEntryItem("Scale Device",NoParent)    ;; 5 scale up
+
 
 	;;;;;;;;
 

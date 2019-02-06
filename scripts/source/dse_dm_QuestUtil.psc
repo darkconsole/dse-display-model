@@ -248,6 +248,28 @@ Function HighHeelsResume(ObjectReference Who)
 	Return
 EndFunction
 
+Function ScaleOverride(ObjectReference What, Float Scale)
+
+	Actor Who = What As Actor
+	Int IsFemale = 0
+
+	If(Who != None)
+		IsFemale = Who.GetLeveledActorBase().GetSex()
+		If(Scale != 1.0)
+			NiOverride.AddNodeTransformScale(Who,FALSE,IsFemale,"NPC",Main.NioKeyOverrideScale,Scale)
+		Else
+			NiOverride.RemoveNodeTransformScale(Who,FALSE,IsFemale,"NPC",Main.NioKeyOverrideScale)
+		EndIf
+		self.PrintDebug("ScaleOverride NiOverride " + Who.GetDisplayName() + " " + Scale)
+		NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,"NPC")
+	Else
+		self.PrintDebug("ScaleOverride SetScale " + What.GetName() + " " + Scale)
+		What.SetScale(Scale)
+	EndIf
+
+	Return
+EndFunction
+
 Function ScaleCancel(ObjectReference What)
 {use nio to neutralize actor heights because im sure SetScale still leaks and
 crashes even in sse after too many uses. why would they fix anything not related
@@ -256,7 +278,7 @@ to creationclub.}
 	Actor Who = What As Actor
 	Float GameScale = What.GetScale()
 	String Node = Main.NioBoneScale
-	Int IsFemale = 0 
+	Int IsFemale = 0
 	Float Final
 
 	;;;;;;;;

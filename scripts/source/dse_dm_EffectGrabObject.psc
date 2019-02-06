@@ -424,6 +424,10 @@ Function GrabEnable(dse_dm_ActiPlaceableBase Obj)
 	self.Undo.Enable(FALSE)
 	self.Where.Enable(FALSE)
 
+	Main.Util.ScaleOverride(self.Ghost,self.What.GetScaleOverride())
+	Main.Util.ScaleOverride(self.Undo,self.What.GetScaleOverride())
+	Main.Util.ScaleOverride(self.Where,self.What.GetScaleOverride())
+
 	;; kick off a new thread.
 
 	self.Running = TRUE

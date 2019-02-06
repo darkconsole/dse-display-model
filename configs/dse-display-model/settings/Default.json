@@ -8,5 +8,5 @@
 	"DeviceActorLightFace": false,
 	"DeviceActorMoan": true,
 	"DeviceDropDistance": 128.0,
-	"DeviceScaleToActor": true
+	"DeviceScaleToActor": false
 }

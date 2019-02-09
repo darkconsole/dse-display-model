@@ -236,14 +236,6 @@ as fast as papyrus' shitty little legs can carry it.}
 				0, 0, self.StatePos[0],                               \
 				600, 90                                               \
 			)
-		EndIf
-
-		;; @todo - try setting the ghost to use where as its vehicle
-		;; instead of another position thing. may not work on static.
-		;; if not consider testing MovableStatic. if not then this is
-		;; that.
-
-		If(self.Running)
 			self.Ghost.TranslateTo(                                   \
 				self.StatePos[1], self.StatePos[2], self.StatePos[3], \
 				0, 0, self.StatePos[0],                               \

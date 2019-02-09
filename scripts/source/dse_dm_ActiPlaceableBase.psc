@@ -141,25 +141,19 @@ Bool Function IsEmptySlot(Int Slot, Actor Who=None)
 EndFunction
 
 Float Function GetScaleOverride()
+{get the size this device has been set to.}
 
 	Return StorageUtil.GetFloatValue(self,Main.DataKeyDeviceScale,1.0)
 EndFunction
 
 Function SetScaleOverride(Float Scale)
+{set this device to be at a different size.}
 
 	If(Scale != 1.0)
 		StorageUtil.SetFloatValue(self,Main.DataKeyDeviceScale,Scale)
 	Else
 		StorageUtil.UnsetFloatValue(self,Main.DataKeyDeviceScale)
 	EndIf
-
-	Return
-EndFunction
-
-Function ScaleToActor(ObjectReference What, Actor Who)
-
-	Float Scale = self.GetScaleOverride() * Who.GetScale()
-	Main.Util.ScaleOverride(What,Scale)
 
 	Return
 EndFunction
@@ -270,7 +264,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Bool AlreadyThere = FALSE
 	Bool ConfigHeadTracking = FALSE
 	Bool ToggleHeadTracking = FALSE
-	Bool ScaleToActor = FALSE
 	dse_dm_ActiPlaceableBase OldDevice
 	String DeviceName = Main.Devices.GetDeviceName(self.File)
 	String SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
@@ -307,22 +300,15 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; determine a bunch of other things we want to know before proceeding.
 
 	AlreadyThere = (self.Actors[Slot] == Who)
-	ScaleToActor = Main.Config.GetBool(".DeviceScaleToActor")
 	ConfigHeadTracking = Main.Config.GetBool(".DeviceActorHeadTracking")
 	ToggleHeadTracking = Who.IsInFaction(Main.FactionActorToggleHeadTracking)
 
-	;; determine if we should scale the device to the actor or the actor to
-	;; the device. single actor devices can be scaled to them. multi actor
-	;; devices must have the actors equalized so they line up with eachother.
 
-	If(self.Actors.Length == 1 && ScaleToActor)
-		;; scale device to actor.
-		self.ScaleToActor(self,Who)
-	Else
-		;; scale actor to device.
-		Main.Util.ScaleCancel(Who)
-		Main.Util.ScaleOverride(Who,self.GetScaleOverride())
-	EndIf
+	;; scale actor to device.
+
+	Main.Util.ScaleCancel(Who)
+	Main.Util.ScaleOverride(Who,self.GetScaleOverride())
+
 
 	;; the infamous slomoroto anti-collision hack. this will put the actor
 	;; above the device in a state where they have no collision for a long
@@ -421,13 +407,6 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
 
-	;; determine if we should restore this device size because single actor
-	;; devices are allowed to scale to the actor if the option is enabled.
-
-	If(self.Actors.Length == 1 && self.GetScale() != self.GetScaleOverride())
-		Main.Util.ScaleOverride(self,self.GetScaleOverride())
-	EndIf
-
 	;; let the actor behave normal again.
 
 	self.Actors[Slot].SetHeadTracking(TRUE)
@@ -525,7 +504,6 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	ObjectReference Marker
 	Bool ConfigLightFace
 	Bool ToggleLightFace
-	Bool ScaleToActor
 
 	;; we use the place-at-marker system to avoid some lag with the object fade-in
 	;; when used with MoveTo and such. just place it in the final spot and be done.
@@ -541,7 +519,6 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	MarkerForm = Main.Util.GetFormFrom("Skyrim.esm",0x3B)
 	ConfigLightFace = Main.Config.GetBool(".DeviceActorLightFace")
 	ToggleLightFace = Who.IsInFaction(Main.FactionActorToggleLightFace)
-	ScaleToActor = Main.Config.GetBool(".DeviceScaleToActor")
 	Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
 
 	;;;;;;;;
@@ -571,11 +548,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			Marker.Delete()
 
 			;; determine if we should scale the object.
-			If(self.Actors.Length == 1 && ScaleToActor)
-				self.ScaleToActor(Item,Who)
-			Else
-				Main.Util.ScaleOverride(Item,self.GetScaleOverride())
-			EndIf
+			Main.Util.ScaleOverride(Item,self.GetScaleOverride())
 
 			;; make note of the object that belongs to this actor.
 			StorageUtil.FormListAdd(Who,DeviceKey,Item)
@@ -728,6 +701,7 @@ Function AssignNPC()
 EndFunction
 
 Int Function ShowScaleMenu()
+{pop up the menu listing of scales to set the device to.}
 
 	String[] Items = new String[21]
 	Int Value

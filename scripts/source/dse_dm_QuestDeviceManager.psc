@@ -93,6 +93,7 @@ EndFunction
 ;; actor slot meta
 
 Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
+{register an actor to a device and flag it so it can be tracked.}
 
 	;; make the device remember this actor.
 
@@ -112,6 +113,7 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 EndFunction
 
 Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Slot=-1)
+{unregister an actor from a device and clean it up.}
 
 	Int Iter = 0
 
@@ -145,11 +147,13 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Sl
 EndFunction
 
 dse_dm_ActiPlaceableBase Function GetActorDevice(Actor Who)
+{fetch the device this actor has been registered to.}
 
 	Return StorageUtil.GetFormValue(Who,Main.DataKeyActorDevice) As dse_dm_ActiPlaceableBase
 EndFunction
 
 Int Function GetActorSlot(Actor Who)
+{fetch the slot on a device this actor has been registered to.}
 
 	Return StorageUtil.GetIntValue(Who,Main.DataKeyActorDevice)
 EndFunction

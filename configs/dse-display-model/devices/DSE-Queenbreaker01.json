@@ -1,0 +1,24 @@
+{
+	"Device": {
+		"ID": "DSE-Queenbreaker01",
+		"Activator": "24185|dse-display-model.esp",
+		"Ghost": "24185|dse-display-model.esp",
+		"Inventory": "24186|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "The Queen",
+				"Package": "24184|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"HeadTracking": false,
+				"Equips": [],
+				"Objects": []
+			}
+		],
+		"ObjectsIdle": [
+
+		],
+		"ObjectsUsed": [
+
+		]
+	}
+}

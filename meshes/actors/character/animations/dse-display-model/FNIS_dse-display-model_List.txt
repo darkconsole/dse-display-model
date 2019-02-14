@@ -67,3 +67,10 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-SeatAlmalexia01-A1 po
 '' Vigiant Of Stendarr ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheVigilant01-A1 poses\DSE-TheVigilant01-A1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Queenbreaker ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A1 poses\DSE-Queenbreaker01-A1.hkx
+
+

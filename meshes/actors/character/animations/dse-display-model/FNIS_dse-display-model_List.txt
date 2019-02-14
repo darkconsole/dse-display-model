@@ -72,5 +72,6 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheVigilant01-A1 pose
 '' Queenbreaker ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A1 poses\DSE-Queenbreaker01-A1.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01A-A1 poses\DSE-Queenbreaker01A-A1.hkx
 
 

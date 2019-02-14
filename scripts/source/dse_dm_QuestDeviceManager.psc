@@ -199,6 +199,18 @@ Form Function GetDeviceGhost(String Filename)
 	Return JsonUtil.GetPathFormValue(Filename,".Device.Ghost")
 EndFunction
 
+Float Function GetDeviceUpdateFreqIdle(String Filename)
+{read the activator property out of a device file.}
+
+	Return JsonUtil.GetPathFloatValue(Filename,".Device.UpdateFreqIdle",30.0)
+EndFunction
+
+Float Function GetDeviceUpdateFreqUsed(String Filename)
+{read the activator property out of a device file.}
+
+	Return JsonUtil.GetPathFloatValue(Filename,".Device.UpdateFreqUsed",30.0)
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

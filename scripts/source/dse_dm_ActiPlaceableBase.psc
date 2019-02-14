@@ -15,6 +15,9 @@ String Property DeviceID="" Auto
 ;; informational properties.
 
 String Property File Auto Hidden
+Float Property TimeAroused Auto Hidden
+Float Property UpdateFreqIdle = 30.0 Auto Hidden
+Float Property UpdateFreqUsed = 30.0 Auto Hidden
 
 ;; active tracking properties.
 
@@ -52,6 +55,10 @@ Function Prepare()
 	ActorCount = Main.Devices.GetDeviceActorSlotCount(self.File)
 	self.Actors = PapyrusUtil.ActorArray(ActorCount)
 
+	self.TimeAroused = Utility.GetCurrentRealTime()
+	self.UpdateFreqIdle = Main.Devices.GetDeviceUpdateFreqIdle(self.File)
+	self.UpdateFreqUsed = Main.Devices.GetDeviceUpdateFreqUsed(self.File)
+
 	;;;;;;;;
 
 	;; register this device as placed in the world.
@@ -61,7 +68,6 @@ Function Prepare()
 	;; change its state to idle and kick off the update loop for it.
 
 	self.GotoState("Idle")
-	self.RegisterForSingleUpdate(30)
 
 	;;;;;;;;
 
@@ -78,6 +84,22 @@ so rather than randomly accessing properties that are empty i want to be able
 to test if this is a legit furniture first.}
 
 	Return self.HasKeyword(Main.KeywordFurniture)
+EndFunction
+
+Bool Function IsUsed()
+{check if this device is being used.}
+
+	Int Iter = self.Actors.Length
+
+	While(Iter > 0)
+		Iter -= 1
+
+		If(self.Actors[Iter] != None)
+			Return TRUE
+		EndIf
+	EndWhile
+
+	Return FALSE
 EndFunction
 
 Form Function GetGhostForm()
@@ -354,6 +376,8 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	;;;;;;;;
 
+	self.RegisterForSingleUpdate(self.UpdateFreqUsed)
+
 	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
 EndFunction
@@ -554,6 +578,9 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			StorageUtil.FormListAdd(Who,DeviceKey,Item)
 			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " (" + ItemPos[0] + "," + ItemPos[1] + "," + ItemPos[2] + ")")
 
+		Else
+			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
+
 		EndIf
 
 		Iter += 1
@@ -592,6 +619,7 @@ Function HandlePeriodicUpdates()
 {handle things this device needs to do on the timer.}
 
 	Int ActorCount = self.GetMountedActorCount()
+	Float Now = Utility.GetCurrentRealTime()
 
 	;; no actors nothing to do good bye.
 
@@ -601,7 +629,11 @@ Function HandlePeriodicUpdates()
 
 	;;;;;;;;
 
-	self.UpdateArousals()
+	If((Now - self.TimeAroused) > 30)
+		self.UpdateArousals()
+		self.TimeAroused = Now
+	EndIf
+
 	self.Moan()
 
 	Return
@@ -766,6 +798,7 @@ State Idle
 		{handle the device being re-loaded.}
 		
 		Main.Util.PrintDebug(self.DeviceID + " Load While Idle")
+		self.TimeAroused = Utility.GetCurrentRealTime()
 		self.Refresh()
 
 		Return
@@ -783,8 +816,16 @@ State Idle
 	EndEvent
 
 	Event OnUpdate()
-		self.HandlePeriodicUpdates()
-		self.RegisterForSingleUpdate(30)
+
+		Float UpdateFreq = self.UpdateFreqIdle
+
+		If(self.IsUsed())
+			UpdateFreq = self.UpdateFreqUsed
+
+			self.HandlePeriodicUpdates()
+			self.RegisterForSingleUpdate(UpdateFreq)
+		EndIf
+
 		Return
 	EndEvent
 

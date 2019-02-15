@@ -237,7 +237,7 @@ Function ActivateByPlayer()
 	ElseIf(PlayersChoice == 5)
 		Value = self.ShowScaleMenu()
 		If(Value > 0)
-			self.SetScaleOverride((Value as Float) / 10.0)
+			self.SetScaleOverride((Value as Float) / 20.0)
 			Main.Util.ScaleOverride(self,self.GetScaleOverride())
 			self.Disable()
 			self.Enable(FALSE)
@@ -769,15 +769,15 @@ EndFunction
 Int Function ShowScaleMenu()
 {pop up the menu listing of scales to set the device to.}
 
-	String[] Items = new String[21]
+	String[] Items = new String[41]
 	Int Value
 	Int Iter
 
-	Items[0] = "[Cancel]"
+	Items[0] = "[Current: " + Main.Util.FloatToString((self.GetScaleOverride() * 100.0)) + "%]"
 
 	Iter = 1
-	While(Iter < 21)
-		Items[Iter] = (Iter * 10) + "%"
+	While(Iter < 41)
+		Items[Iter] = (Iter * 5) + "%"
 		Iter += 1
 	EndWhile
 

@@ -224,6 +224,7 @@ Function ActivateByPlayer()
 
 	Int PlayersChoice = Main.MenuDeviceIdleActivate()
 	Int Value
+	Int Iter
 
 	If(PlayersChoice == 1)
 		self.Move()
@@ -240,7 +241,7 @@ Function ActivateByPlayer()
 			Main.Util.ScaleOverride(self,self.GetScaleOverride())
 			self.Disable()
 			self.Enable(FALSE)
-			self.ActivateByPlayer()
+			self.ScaleActorObjects()
 		EndIf
 	EndIf
 
@@ -608,6 +609,39 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 
 		StorageUtil.FormListAdd(Who,DeviceKey,Item)
 	EndIf
+
+	Return
+EndFunction
+
+Function ScaleActorObjects()
+{resize all the actor objects.}
+
+	Float ScaleTo = self.GetScaleOverride()
+	String DeviceKey = "DM3.DeviceObjects." + self.DeviceID
+	Int ObjectCount
+	ObjectReference Object
+	Int Ater
+	Int Oter
+
+	Ater = 0
+	While(Ater < self.Actors.Length)
+		If(self.Actors[Ater] != None)
+			ObjectCount = StorageUtil.FormListCount(self.Actors[Ater],DeviceKey)
+
+			Oter = 0
+			While(Oter < ObjectCount)
+				Object = StorageUtil.FormListGet(self.Actors[Ater],DeviceKey,Oter) As ObjectReference
+
+				If(Object != None)
+					Main.Util.ScaleOverride(Object,ScaleTo)
+				EndIf
+
+				Oter += 1
+			EndWhile
+		EndIf
+
+		Ater += 1
+	EndWhile
 
 	Return
 EndFunction

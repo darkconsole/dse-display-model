@@ -354,6 +354,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Main.Devices.RegisterActor(Who,self,Slot)	
 	Main.Util.HighHeelsCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
+	Main.Util.ImmersiveExpression(Who,FALSE)
 	Who.MoveTo(self)
 
 	;; if the actor was already on this device and in this slot then we can
@@ -362,6 +363,8 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	If(!AlreadyThere || ForceObjects)
 		self.SpawnActorObjects(Who,Slot)
 	EndIf
+
+	self.EquipActorEquips(Who,Slot)
 
 	;; determine if we should turn headtracking back on. if globally
 	;; headtracking is disabled then if they are in the faction they will
@@ -424,17 +427,19 @@ Function ReleaseActorSlot(Int Slot)
 	self.Actors[Slot].SetPosition(Pos[1],Pos[2],Pos[3])
 	self.Actors[Slot].StopTranslation()
 
-	;; reset their behaviour.
+	;; clean up slot objects.
 
 	self.ClearActorObjects(self.Actors[Slot],Slot)
+	self.RemoveActorEquips(self.Actors[Slot],Slot)
+
+	;; let the actor behave normal again.
+
 	Main.Util.BehaviourSet(self.Actors[Slot],None)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
-
-	;; let the actor behave normal again.
-
 	self.Actors[Slot].SetHeadTracking(TRUE)
+	Main.Util.ImmersiveExpression(self.Actors[Slot],FALSE)
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 
 	Return
@@ -642,6 +647,105 @@ Function ScaleActorObjects()
 
 		Ater += 1
 	EndWhile
+
+	Return
+EndFunction
+
+Function EquipActorEquips(Actor Who, Int Slot)
+{spawn objects for this actor when mounted.}
+
+	String DeviceKey
+	Int ItemCount
+	Int Iter
+	Form ItemForm
+
+	;; we use the place-at-marker system to avoid some lag with the object fade-in
+	;; when used with MoveTo and such. just place it in the final spot and be done.
+
+	;; before spawning new devices clear out any old ones.
+
+	self.ClearActorObjects(Who,Slot)
+
+	;;;;;;;;
+
+	DeviceKey = "DM3.DeviceEquips." + self.DeviceID
+	ItemCount = Main.Devices.GetDeviceActorSlotEquipCount(self.File,Slot)
+	Main.Util.PrintDebug("EquipActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " equips")
+
+	;;;;;;;;
+
+	;; place all the devices.
+
+	Iter = 0
+	While(Iter < ItemCount)
+
+		ItemForm = Main.Devices.GetDeviceActorSlotEquipForm(self.File,Slot,Iter)
+
+		If(ItemForm != None)
+			Who.EquipItem(ItemForm,TRUE,TRUE)
+			StorageUtil.FormListAdd(Who,DeviceKey,ItemForm)
+			Main.Util.PrintDebug("EquipActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter )
+		Else
+			Main.Util.PrintDebug("EquipActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function RemoveActorEquips(Actor Who, Int Slot=-1)
+{clean up objects placed by this actor when it was mounted.}
+
+	String DeviceKey
+	Int ItemCount
+	Int Iter
+	Form Item
+
+	;;;;;;;;
+
+	;; if no slot was specified ask the actor what slot they were in.
+
+	If(Slot == -1)
+		Slot = Main.Devices.GetActorSlot(Who)
+	EndIf
+
+	If(Slot == -1)
+		Main.Util.PrintDebug("RemoveActorEquips no slot to clean was specified.")
+		Return
+	EndIf
+
+	If(self.Actors[Slot] != Who)
+		Main.Util.PrintDebug("RemoveActorEquips " + Who.GetDisplayName() + " is not " + self.DeviceID + " " + Slot)
+		Return
+	EndIf
+
+	;;;;;;;;
+
+	;; find the devices we want to delete.
+
+	DeviceKey = "DM3.DeviceEquips." + self.DeviceID 
+	ItemCount = StorageUtil.FormListCount(Who,DeviceKey)
+	Main.Util.PrintDebug("RemoveActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " equips")
+
+	;; and delete them.
+
+	Iter = 0
+	While(Iter < ItemCount)
+		Item = StorageUtil.FormListGet(Who,DeviceKey,Iter)
+
+		If(Item != None)
+			Who.RemoveItem(Item,99,TRUE)
+			Main.Util.PrintDebug("RemoveActorEquipos " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter)
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	;; then forget about them.
+
+	StorageUtil.FormListClear(Who,DeviceKey)
 
 	Return
 EndFunction

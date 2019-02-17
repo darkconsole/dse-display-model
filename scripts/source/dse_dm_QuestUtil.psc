@@ -218,24 +218,33 @@ sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
 {play an expression on the actor face.}
 
 	sslBaseExpression E
+	String MouthShape = StorageUtil.GetStringValue(Who,Main.DataKeyActorMouth,"normal")
 
 	If(!Who.Is3dLoaded())
 		Return None
 	EndIf
 
 	If(Enable)
-		If(Utility.RandomInt(0,1) == 1)
-			E = Main.SexLab.GetExpressionByName("Shy")
-			self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Shy")
-		Else
-			E = Main.SexLab.GetExpressionByName("Pained")
-			self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Pained")
-		EndIf
+		;; only do expressions if this pose doesn't want the face
+		;; to be doing something.
+		If(MouthShape == "normal")
+			If(Utility.RandomInt(0,1) == 1)
+				E = Main.SexLab.GetExpressionByName("Shy")
+				self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Shy")
+			Else
+				E = Main.SexLab.GetExpressionByName("Pained")
+				self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Pained")
+			EndIf
 
-		E.Apply(Who,50,Who.GetLeveledActorBase().GetSex())
-		Return E
+			E.Apply(Who,50,Who.GetLeveledActorBase().GetSex())
+			Return E
+		EndIf
 	Else
 		sslBaseExpression.ClearMFG(Who)
+
+		If(MouthShape == "open")
+			sslBaseExpression.OpenMouth(Who)
+		EndIf
 	EndIf
 
 	Return None

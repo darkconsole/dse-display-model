@@ -103,6 +103,7 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 
 	StorageUtil.SetFormValue(Who,Main.DataKeyActorDevice,Device)
 	StorageUtil.SetIntValue(Who,Main.DataKeyActorDevice,Slot)
+	StorageUtil.SetStringValue(Who,Main.DataKeyActorMouth,self.GetDeviceActorSlotMouth(Device.File,Slot))
 
 	;; give us ways to query actor with factions.
 
@@ -126,6 +127,7 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Sl
 
 	StorageUtil.UnsetFormValue(Who,Main.DataKeyActorDevice)
 	StorageUtil.UnsetIntValue(Who,Main.DataKeyActorDevice)
+	StorageUtil.UnsetStringValue(Who,Main.DataKeyActorMouth)
 
 	;; remove actor factions.
 
@@ -172,7 +174,7 @@ EndFunction
 String Function GetDeviceName(String Filename)
 {read the name property out of a device file.}
 
-	Form Object = self.GetDeviceInventoryitem(Filename)
+	Form Object = self.GetDeviceActivator(Filename)
 
 	If(!Object)
 		Return ""
@@ -279,10 +281,34 @@ String[] Function GetDeviceActorSlotNameList(String Filename)
 	Return Output
 EndFunction
 
+String Function GetDeviceActorSlotMouth(String Filename, Int Slot)
+{get the position we want the mouth for this actor.}
+
+	String Path = ".Device.Actors[" + Slot + "].Mouth"
+
+	Return JsonUtil.GetPathStringValue(Filename,Path,"normal")
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; actor slot objects
+
+Int Function GetDeviceActorSlotEquipCount(String Filename, Int Slot)
+{get the package for a specific actor slot.}
+
+	String Path = ".Device.Actors[" + Slot + "].Equips"
+
+	Return PapyrusUtil.ClampInt(JsonUtil.PathCount(Filename,Path),0,9001)
+EndFunction
+
+Form Function GetDeviceActorSlotEquipForm(String Filename, Int Slot, Int ItemSlot)
+{get the package for a specific actor slot.}
+
+	String Path = ".Device.Actors[" + Slot + "].Equips[" + ItemSlot + "].Form"
+
+	Return JsonUtil.GetPathFormValue(Filename,Path)
+EndFunction
 
 Int Function GetDeviceActorSlotObjectCount(String Filename, Int Slot)
 {get the package for a specific actor slot.}

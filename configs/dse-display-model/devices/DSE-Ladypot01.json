@@ -1,0 +1,19 @@
+{
+	"Device": {
+		"ID": "DSE-Ladypot01",
+		"Activator": "25583|dse-display-model.esp",
+		"Ghost": "25584|dse-display-model.esp",
+		"Inventory": "25582|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Lady In The Pot",
+				"Package": "25581|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": [
+					{ "Form": "25579|dse-display-model.esp" }
+				],
+				"Objects": []
+			}
+		]
+	}
+}

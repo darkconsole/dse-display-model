@@ -12,6 +12,14 @@
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"Equips": [],
 				"Objects": []
+			},
+			{
+				"Name": "Laying Right Side",
+				"HeadTracking": true,
+				"Package": "25590|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": [],
+				"Objects": []
 			}
 		]
 	}

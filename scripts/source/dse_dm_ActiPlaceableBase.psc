@@ -332,7 +332,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Main.Util.ScaleCancel(Who)
 	Main.Util.ScaleOverride(Who,self.GetScaleOverride())
 
-
 	;; the infamous slomoroto anti-collision hack. this will put the actor
 	;; above the device in a state where they have no collision for a long
 	;; time, longer than anyone will likely ever be in the same room with a
@@ -658,13 +657,6 @@ Function EquipActorEquips(Actor Who, Int Slot)
 	Int ItemCount
 	Int Iter
 	Form ItemForm
-
-	;; we use the place-at-marker system to avoid some lag with the object fade-in
-	;; when used with MoveTo and such. just place it in the final spot and be done.
-
-	;; before spawning new devices clear out any old ones.
-
-	self.ClearActorObjects(Who,Slot)
 
 	;;;;;;;;
 

@@ -1,0 +1,18 @@
+{
+	"Device": {
+		"ID": "DSE-Cage01",
+		"Activator": "25588|dse-display-model.esp",
+		"Ghost": "25588|dse-display-model.esp",
+		"Inventory": "25587|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "All Fours",
+				"HeadTracking": true,
+				"Package": "25586|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Equips": [],
+				"Objects": []
+			}
+		]
+	}
+}

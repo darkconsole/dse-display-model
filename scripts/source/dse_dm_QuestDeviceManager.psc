@@ -55,6 +55,15 @@ Function ScanFiles()
 	Return
 EndFunction
 
+Function ReloadFile(String Filename)
+{force a refresh of the json config without saving any changes.}
+
+	JsonUtil.Unload(Filename,FALSE,FALSE)
+	JsonUtil.Load(Filename)
+
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -75,6 +75,32 @@ Function Prepare()
 	Return
 EndFunction
 
+Function Reload()
+
+	Int Slot
+
+	;; kick all the actors off.
+
+	Slot = 0
+	While(Slot < self.Actors.Length)
+		If(self.Actors[Slot] != None)
+			self.ReleaseActorSlot(Slot)
+		EndIf
+
+		Slot += 1
+	EndWhile
+	
+	;; unregister ourself.
+
+	Main.Devices.Register(self)
+
+	self.Disable()
+	self.GotoState("Initial")
+	self.Enable(FALSE)
+
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -243,6 +269,8 @@ Function ActivateByPlayer()
 			self.Enable(FALSE)
 			self.ScaleActorObjects()
 		EndIf
+	ElseIf(PlayersChoice == 6)
+		self.Reload()
 	EndIf
 
 	Return

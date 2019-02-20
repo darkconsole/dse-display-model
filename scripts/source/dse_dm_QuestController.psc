@@ -295,12 +295,13 @@ Int Function MenuDeviceIdleActivate()
 
 	;;;;;;;;
 
-	Menu.AddEntryItem("[Cancel]",NoParent)    ;; 0 cancel
-	Menu.AddEntryItem("Move",NoParent)        ;; 1 move
-	Menu.AddEntryItem("Pick Up",NoParent)     ;; 2 pickup
-	Menu.AddEntryItem("Assign NPC",NoParent)  ;; 3 assign
-	Menu.AddEntryItem("Use",NoParent)         ;; 4 use
-	Menu.AddEntryItem("Scale Device",NoParent)    ;; 5 scale up
+	Menu.AddEntryItem("[Cancel]",NoParent)      ;; 0 cancel
+	Menu.AddEntryItem("Move",NoParent)          ;; 1 move
+	Menu.AddEntryItem("Pick Up",NoParent)       ;; 2 pickup
+	Menu.AddEntryItem("Assign NPC",NoParent)    ;; 3 assign
+	Menu.AddEntryItem("Use",NoParent)           ;; 4 use
+	Menu.AddEntryItem("Scale Device",NoParent)  ;; 5 scale up
+	Menu.AddEntryItem("Reload Device",NoParent) ;; 6 reload device
 
 
 	;;;;;;;;

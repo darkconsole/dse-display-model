@@ -10,14 +10,16 @@
 				"HeadTracking": true,
 				"Package": "25586|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
 				"Equips": [],
 				"Objects": []
 			},
 			{
 				"Name": "Laying Right Side",
-				"HeadTracking": true,
+				"HeadTracking": false,
 				"Package": "25590|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
 				"Equips": [],
 				"Objects": []
 			}

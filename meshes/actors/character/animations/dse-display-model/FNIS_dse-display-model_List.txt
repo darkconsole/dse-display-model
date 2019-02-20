@@ -81,3 +81,5 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker02A-A1 po
 
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A1 poses\DSE-Cage01-A1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A2 poses\DSE-Cage01-A2.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A3 poses\DSE-Cage01-A3.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A4 poses\DSE-Cage01-A4.hkx

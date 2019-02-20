@@ -34,6 +34,7 @@ String Property DataKeyActorDevice = "DM3.Actor.Device" AutoReadOnly Hidden
 String Property DataKeyDeviceList = "DM3.DeviceManager.List" AutoReadOnly Hidden
 String Property DataKeyActorOverride = "DM3.Actor.Override" AutoReadOnly Hidden
 String Property DataKeyActorMouth = "DM3.Actor.Mouth" AutoReadOnly Hidden
+String Property DataKeyActorMoan = "DM3.Actor.Moan" AutoReadOnly Hidden
 String Property DataKeyDeviceScale = "DM3.Device.Scale" AutoReadOnly Hidden
 
 String Property EvAnimObjEquip = "AnimObjDraw" AutoReadOnly Hidden

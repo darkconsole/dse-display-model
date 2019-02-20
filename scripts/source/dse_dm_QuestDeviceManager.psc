@@ -104,6 +104,7 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 	StorageUtil.SetFormValue(Who,Main.DataKeyActorDevice,Device)
 	StorageUtil.SetIntValue(Who,Main.DataKeyActorDevice,Slot)
 	StorageUtil.SetStringValue(Who,Main.DataKeyActorMouth,self.GetDeviceActorSlotMouth(Device.File,Slot))
+	StorageUtil.SetIntValue(Who,Main.DataKeyActorMoan,self.GetDeviceActorSlotMoan(Device.File,Slot) As Int)
 
 	;; give us ways to query actor with factions.
 
@@ -258,6 +259,18 @@ Bool Function GetDeviceActorSlotHeadTracking(String Filename, Int Slot)
 {get if this is allowed to have head tracking.}
 
 	String Path = ".Device.Actors[" + Slot + "].HeadTracking"
+
+	If(!JsonUtil.IsPathBool(Filename,Path))
+		Return TRUE
+	EndIf
+
+	Return JsonUtil.GetPathBoolValue(Filename,Path)
+EndFunction
+
+Bool Function GetDeviceActorSlotMoan(String Filename, Int Slot)
+{get if this is allowed to have head tracking.}
+
+	String Path = ".Device.Actors[" + Slot + "].Moan"
 
 	If(!JsonUtil.IsPathBool(Filename,Path))
 		Return TRUE

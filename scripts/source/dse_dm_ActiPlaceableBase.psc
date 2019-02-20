@@ -788,8 +788,10 @@ Function Moan()
 		Slot = Utility.RandomInt(0,(self.Actors.Length - 1))
 
 		If(self.Actors[Slot] != None)
-			Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
-			Return
+			If(StorageUtil.GetIntValue(self.Actors[Slot],Main.DataKeyActorMoan,1) == 1)
+				Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
+				Return
+			EndIf
 		EndIf
 
 		Iter += 1

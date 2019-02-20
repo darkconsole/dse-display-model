@@ -218,33 +218,24 @@ sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
 {play an expression on the actor face.}
 
 	sslBaseExpression E
-	String MouthShape = StorageUtil.GetStringValue(Who,Main.DataKeyActorMouth,"normal")
 
 	If(!Who.Is3dLoaded())
 		Return None
 	EndIf
 
 	If(Enable)
-		;; only do expressions if this pose doesn't want the face
-		;; to be doing something.
-		If(MouthShape == "normal")
-			If(Utility.RandomInt(0,1) == 1)
-				E = Main.SexLab.GetExpressionByName("Shy")
-				self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Shy")
-			Else
-				E = Main.SexLab.GetExpressionByName("Pained")
-				self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Pained")
-			EndIf
-
-			E.Apply(Who,50,Who.GetLeveledActorBase().GetSex())
-			Return E
+		If(Utility.RandomInt(0,1) == 1)
+			E = Main.SexLab.GetExpressionByName("Shy")
+			;;self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Shy")
+		Else
+			E = Main.SexLab.GetExpressionByName("Pained")
+			;;self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Pained")
 		EndIf
+
+		E.Apply(Who,50,Who.GetLeveledActorBase().GetSex())
+		Return E
 	Else
 		sslBaseExpression.ClearMFG(Who)
-
-		If(MouthShape == "open")
-			sslBaseExpression.OpenMouth(Who)
-		EndIf
 	EndIf
 
 	Return None
@@ -263,10 +254,10 @@ Function ImmersiveSoundMoan(Actor Who, Bool Hard=FALSE)
 
 	If(Hard)
 		Voice.GetSound(100).Play(Who)
-		self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Hard")
+		;;self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Hard")
 	Else
 		Voice.GetSound(30).Play(Who)
-		self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Soft")
+		;;self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Soft")
 	EndIf
 
 	Return
@@ -319,10 +310,10 @@ Function ScaleOverride(ObjectReference What, Float Scale)
 		Else
 			NiOverride.RemoveNodeTransformScale(Who,FALSE,IsFemale,"NPC",Main.NioKeyOverrideScale)
 		EndIf
-		self.PrintDebug("ScaleOverride NiOverride " + Who.GetDisplayName() + " " + Scale)
+		;;self.PrintDebug("ScaleOverride NiOverride " + Who.GetDisplayName() + " " + Scale)
 		NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,"NPC")
 	Else
-		self.PrintDebug("ScaleOverride SetScale " + What.GetName() + " " + Scale)
+		;;self.PrintDebug("ScaleOverride SetScale " + What.GetName() + " " + Scale)
 		What.SetScale(Scale)
 	EndIf
 
@@ -350,7 +341,7 @@ to creationclub.}
 
 	Final = 1 / GameScale
 
-	Main.Util.PrintDebug("Util.ScaleCancel " + Who.GetDisplayName() + " (" + What.GetScale() + ", " + Who.GetLeveledActorBase().GetHeight() + ") = " + Final)
+	;;Main.Util.PrintDebug("Util.ScaleCancel " + Who.GetDisplayName() + " (" + What.GetScale() + ", " + Who.GetLeveledActorBase().GetHeight() + ") = " + Final)
 	NiOverride.AddNodeTransformScale(Who,FALSE,IsFemale,Node,Main.NioKeyCancelScale,Final)
 	NiOverride.UpdateNodeTransform(Who,FALSE,IsFemale,Node)
 
@@ -448,6 +439,7 @@ Function BehaviourSet(Actor Who, Package Task)
 		ActorUtil.AddPackageOverride(Who,Task,100)
 		Main.Util.PrintDebug("BehaviourSet applied new package on " + Who.GetDisplayName())
 	Else
+		Who.SetHeadTracking(TRUE)
 		Who.SetDontMove(FALSE)
 		Who.SetRestrained(FALSE)
 		Debug.SendAnimationEvent(Who,"IdleForceDefaultState")

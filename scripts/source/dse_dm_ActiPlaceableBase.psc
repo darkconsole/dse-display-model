@@ -326,7 +326,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	ConfigHeadTracking = Main.Config.GetBool(".DeviceActorHeadTracking")
 	ToggleHeadTracking = Who.IsInFaction(Main.FactionActorToggleHeadTracking)
 
-
 	;; scale actor to device.
 
 	Main.Util.ScaleCancel(Who)
@@ -359,9 +358,9 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; if the actor was already on this device and in this slot then we can
 	;; skip spawning its objects as they should already be there.
 
-	If(!AlreadyThere || ForceObjects)
+	;;If(!AlreadyThere || ForceObjects)
 		self.SpawnActorObjects(Who,Slot)
-	EndIf
+	;;EndIf
 
 	self.EquipActorEquips(Who,Slot)
 
@@ -437,7 +436,6 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
-	self.Actors[Slot].SetHeadTracking(TRUE)
 	Main.Util.ImmersiveExpression(self.Actors[Slot],FALSE)
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 
@@ -954,7 +952,7 @@ State Idle
 		If(self.IsUsed())
 			UpdateFreq = self.UpdateFreqUsed
 
-			self.HandlePeriodicUpdates()
+			self.HandlePeriodicUpdates()			
 			self.RegisterForSingleUpdate(UpdateFreq)
 		EndIf
 

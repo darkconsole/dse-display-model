@@ -89,3 +89,5 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A7 poses\DSE-C
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A8 poses\DSE-Cage01-A8.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A9 poses\DSE-Cage01-A9.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A10 poses\DSE-Cage01-A10.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A11 poses\DSE-Cage01-A11.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A12 poses\DSE-Cage01-A12.hkx

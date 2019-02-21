@@ -4,6 +4,8 @@
 		"Activator": "25588|dse-display-model.esp",
 		"Ghost": "25588|dse-display-model.esp",
 		"Inventory": "25587|dse-display-model.esp",
+		"RandomOnLoad": true,
+		"ActorCount": 1,
 		"Actors": [
 			{
 				"Name": "All Fours",
@@ -36,6 +38,60 @@
 				"Name": "On Back Feet On Door",
 				"HeadTracking": false,
 				"Package": "25594|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Spread On Bars Facing Left",
+				"HeadTracking": false,
+				"Package": "25596|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Spread On Bars Facing Right",
+				"HeadTracking": false,
+				"Package": "25598|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Leaning Against Door",
+				"HeadTracking": false,
+				"Package": "25601|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Leaning Against Back",
+				"HeadTracking": false,
+				"Package": "25602|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "On Belly Pointing Forward",
+				"HeadTracking": true,
+				"Package": "25604|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "On Belly Pointing Backwards",
+				"HeadTracking": true,
+				"Package": "25606|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"Moan": false,
 				"Equips": [],

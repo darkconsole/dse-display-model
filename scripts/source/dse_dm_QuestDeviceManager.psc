@@ -145,8 +145,6 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Sl
 
 	;; make the device forget this actor.
 
-	;;Device.Actors[Slot] = None
-
 	While(Iter < Device.Actors.Length)
 		If(Device.Actors[Iter] == Who)
 			Device.Actors[Iter] = None
@@ -227,6 +225,13 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; actor slots
+
+Int Function GetDeviceActorCount(String Filename)
+{check if there is an override on how many actors this can hold. this is if some
+of the actor slots are actually being used for alternate animations.}
+
+	Return JsonUtil.PathCount(Filename,".Device.ActorCount")
+EndFunction
 
 Int Function GetDeviceActorSlotCount(String Filename)
 {count how many actors this can hold out of a device file.}

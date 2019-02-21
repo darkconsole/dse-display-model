@@ -42,7 +42,7 @@ EndEvent
 Function Prepare()
 {handle setting everything up when furniture is placed.}
 
-	Int ActorCount
+	Int ActorSlotCount
 
 	;;;;;;;;
 
@@ -52,8 +52,8 @@ Function Prepare()
 
 	;; prepare an array for storing actors mounted to this device.
 
-	ActorCount = Main.Devices.GetDeviceActorSlotCount(self.File)
-	self.Actors = PapyrusUtil.ActorArray(ActorCount)
+	ActorSlotCount = Main.Devices.GetDeviceActorSlotCount(self.File)
+	self.Actors = PapyrusUtil.ActorArray(ActorSlotCount)
 
 	self.TimeAroused = Utility.GetCurrentRealTime()
 	self.UpdateFreqIdle = Main.Devices.GetDeviceUpdateFreqIdle(self.File)
@@ -312,9 +312,10 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 {force an actor to use this device and slot.}
 
 	Package Task
-	Bool AlreadyThere = FALSE
 	Bool ConfigHeadTracking = FALSE
 	Bool ToggleHeadTracking = FALSE
+	Bool SameDeviceSameSlot = FALSE
+	Bool SameDeviceDiffSlot = FALSE
 	dse_dm_ActiPlaceableBase OldDevice
 	String DeviceName = Main.Devices.GetDeviceName(self.File)
 	String SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
@@ -329,16 +330,34 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; handle attempting to slot actors already used by other devices.
 
 	OldDevice = Main.Devices.GetActorDevice(Who)
-	If(OldDevice != None)
+
+	;; if they are already on this device take some notes.
+
+	If(OldDevice == self)
+		If(self.Actors[Slot] == Who)
+			SameDeviceSameSlot = TRUE
+		Else
+			SameDeviceDiffSlot = TRUE
+		EndIf
+	EndIf
+
+	;; if they are on another device then release them.
+
+	If(OldDevice != None && OldDevice != self)
 		OldDevice.ReleaseActor(Who)
 	EndIf
 
 	;; make sure we know what to do.
 
 	Task = Main.Devices.GetDeviceActorSlotPackage(self.File,Slot)
+
 	If(Task == None)
 		Main.Util.PrintDebug("MountActor no package found for " + self.DeviceID + " " + Slot)
 		Return
+	EndIf
+
+	If(SameDeviceDiffSlot)
+		Main.Devices.UnregisterActor(Who,self)
 	EndIf
 
 	;; disable headtracking on the actor by default early on just to give
@@ -350,7 +369,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	;; determine a bunch of other things we want to know before proceeding.
 
-	AlreadyThere = (self.Actors[Slot] == Who)
 	ConfigHeadTracking = Main.Config.GetBool(".DeviceActorHeadTracking")
 	ToggleHeadTracking = Who.IsInFaction(Main.FactionActorToggleHeadTracking)
 
@@ -386,9 +404,14 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; if the actor was already on this device and in this slot then we can
 	;; skip spawning its objects as they should already be there.
 
-	;;If(!AlreadyThere || ForceObjects)
+	If(SameDeviceDiffSlot)
+		self.ClearActorObjects(Who,Slot)
+		self.RemoveActorEquips(Who,Slot)
+	EndIf
+
+	If(!SameDeviceSameSlot)
 		self.SpawnActorObjects(Who,Slot)
-	;;EndIf
+	EndIf
 
 	self.EquipActorEquips(Who,Slot)
 

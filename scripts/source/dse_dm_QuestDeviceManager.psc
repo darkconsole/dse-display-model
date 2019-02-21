@@ -221,6 +221,12 @@ Float Function GetDeviceUpdateFreqUsed(String Filename)
 	Return JsonUtil.GetPathFloatValue(Filename,".Device.UpdateFreqUsed",30.0)
 EndFunction
 
+Bool Function GetDeviceRandomSlotOnLoad(String Filename)
+{read the activator property out of a device file.}
+
+	Return JsonUtil.GetPathBoolValue(Filename,".Device.RandomSlotOnLoad",false)
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -230,7 +236,7 @@ Int Function GetDeviceActorCount(String Filename)
 {check if there is an override on how many actors this can hold. this is if some
 of the actor slots are actually being used for alternate animations.}
 
-	Return JsonUtil.PathCount(Filename,".Device.ActorCount")
+	Return JsonUtil.GetPathIntValue(Filename,".Device.ActorCount",1)
 EndFunction
 
 Int Function GetDeviceActorSlotCount(String Filename)

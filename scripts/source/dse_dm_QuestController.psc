@@ -24,6 +24,7 @@ Keyword Property KeywordFurniture Auto
 Faction Property FactionActorUsingDevice Auto
 Faction Property FactionActorToggleLightFace Auto
 Faction Property FactionActorToggleHeadTracking Auto
+Faction Property FactionActorRandomSlotOnLoad Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

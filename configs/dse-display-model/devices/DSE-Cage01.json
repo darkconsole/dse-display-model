@@ -4,7 +4,7 @@
 		"Activator": "25588|dse-display-model.esp",
 		"Ghost": "25588|dse-display-model.esp",
 		"Inventory": "25587|dse-display-model.esp",
-		"RandomOnLoad": true,
+		"RandomSlotOnLoad": true,
 		"ActorCount": 1,
 		"Actors": [
 			{

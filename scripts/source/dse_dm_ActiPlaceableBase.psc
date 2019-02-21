@@ -405,11 +405,10 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; skip spawning its objects as they should already be there.
 
 	If(SameDeviceDiffSlot)
-		self.ClearActorObjects(Who,Slot)
 		self.RemoveActorEquips(Who,Slot)
 	EndIf
 
-	If(!SameDeviceSameSlot)
+	If(!SameDeviceSameSlot || ForceObjects)
 		self.SpawnActorObjects(Who,Slot)
 	EndIf
 
@@ -493,6 +492,28 @@ Function ReleaseActorSlot(Int Slot)
 	Return
 EndFunction
 
+Function RandomiseMountedActor()
+{randomise the currently mounted actor if there is one. the way it currently
+works you should only use it on devices that only hold one at a time.}
+
+	Int Slot = 0
+
+	While(Slot < self.Actors.Length)
+		If(self.Actors[Slot] != None)
+			Main.Util.PrintDebug("Attempting To Random Slot " + self.Actors[Slot].GetDisplayName())
+			If(self.Actors[Slot].IsInFaction(Main.FactionActorRandomSlotOnLoad))
+				Main.Util.PrintDebug("Random Slot Faction Enabled " + self.Actors[Slot].GetDisplayName())
+				self.MountActor(self.Actors[Slot],Utility.RandomInt(0,self.Actors.Length))
+			EndIf
+			Return
+		EndIf
+
+		Slot += 1
+	EndWhile
+
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -506,7 +527,7 @@ to be doing.}
 		If(self.Actors[Iter] != None)
 			Main.Util.PrintDebug(self.DeviceID + " refresh actor " + Iter + " " + self.Actors[Iter].GetDisplayName())
 			self.MountActor(self.Actors[Iter],Iter,ForceObjects)
-		EndIf;
+		EndIf
 		Iter += 1
 	EndWhile
 
@@ -981,6 +1002,14 @@ State Idle
 		Main.Util.PrintDebug(self.DeviceID + " Load While Idle")
 		self.TimeAroused = Utility.GetCurrentRealTime()
 		self.Refresh()
+
+		If(Main.Devices.GetDeviceActorCount(self.File) == 1)
+			Main.Util.PrintDebug("Device Is Solo Device")
+			If(Main.Devices.GetDeviceRandomSlotOnLoad(self.File))
+				Main.Util.PrintDebug("Device Is Random Enabled")
+				self.RandomiseMountedActor()
+			EndIf
+		EndIf
 
 		Return
 	EndEvent

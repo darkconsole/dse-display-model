@@ -71,11 +71,29 @@
 				"Objects": []
 			},
 			{
+				"Name": "Spread On Bars Facing Left Jilling",
+				"HeadTracking": false,
+				"Package": "28371|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": true,
+				"Equips": [],
+				"Objects": []
+			},
+			{
 				"Name": "Spread On Bars Facing Right",
 				"HeadTracking": false,
 				"Package": "25598|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Spread On Bars Facing Right Jilling",
+				"HeadTracking": false,
+				"Package": "28372|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": true,
 				"Equips": [],
 				"Objects": []
 			},
@@ -110,6 +128,24 @@
 				"Name": "On Belly Pointing Backwards",
 				"HeadTracking": true,
 				"Package": "25606|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Proped Up At The Door",
+				"HeadTracking": false,
+				"Package": "28375|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Proped Up Towards The Back",
+				"HeadTracking": false,
+				"Package": "28376|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"Moan": false,
 				"Equips": [],

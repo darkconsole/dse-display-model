@@ -150,6 +150,17 @@
 				"Moan": false,
 				"Equips": [],
 				"Objects": []
+			},
+			{
+				"Name": "Suspension Rigged",
+				"HeadTracking": false,
+				"Package": "28378|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": true,
+				"Equips": [ ],
+				"Objects": [
+					{ "Form": "28379|dse-display-model.esp" }
+				]
 			}
 		]
 	}

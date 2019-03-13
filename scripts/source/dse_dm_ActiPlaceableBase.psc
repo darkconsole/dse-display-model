@@ -399,12 +399,11 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Main.Util.HighHeelsCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
 	Main.Util.ImmersiveExpression(Who,FALSE)
-	Who.MoveTo(self)
 
 	;; if the actor was already on this device and in this slot then we can
 	;; skip spawning its objects as they should already be there.
 
-	If(SameDeviceDiffSlot)
+	If(SameDeviceDiffSlot || ForceObjects)
 		self.RemoveActorEquips(Who,Slot)
 	EndIf
 
@@ -429,6 +428,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;;;;;;;;
 
 	self.RegisterForSingleUpdate(self.UpdateFreqUsed)
+	Who.MoveTo(self)
 
 	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return

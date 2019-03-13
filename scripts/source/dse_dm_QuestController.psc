@@ -7,8 +7,8 @@ dse_dm_QuestConfig Property Config Auto
 dse_dm_QuestDeviceManager Property Devices Auto
 dse_dm_QuestUtil Property Util Auto
 
-SexLabFramework Property SexLab Auto Hidden
-slaFrameworkScr Property Aroused Auto Hidden
+SexLabFramework Property SexLab = None Auto Hidden
+Quest Property Aroused = None Auto Hidden ;; slaFrameworkScr
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -154,13 +154,15 @@ Bool Function CheckForDeps_SexLabAroused(Bool Popup)
 
 	;; aroused is not required for functioning so it is a soft fail.
 
-	self.Aroused = Util.GetFormFrom("SexLabAroused.esm",0x4290f) as slaFrameworkScr
+	Quest ArousedAPI = Util.GetFormFrom("SexLabAroused.esm",0x4290f) as Quest
 
 	;; check we even have aroused.
 
-	If(self.Aroused == NONE)
+	If(ArousedAPI == NONE)
 		Return TRUE
 	EndIf
+
+	self.Aroused = ArousedAPI
 
 	;; check that the version of aroused is good enough.
 

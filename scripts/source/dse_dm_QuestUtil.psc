@@ -168,7 +168,7 @@ Float Function ActorArousalGetTick(Actor Who)
 
 	Tick *= Main.Config.GetFloat(".ArousedTickFactor")
 
-	If(!Main.Aroused.IsActorExhibitionist(Who))
+	If(!(Main.Aroused as slaFrameworkScr).IsActorExhibitionist(Who))
 		Tick *= -1.0
 	EndIf
 
@@ -187,7 +187,7 @@ Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
 
 	If(Main.Aroused && Main.Config.GetBool(".ArousedTickExposure"))
 		;; exposure goes up or down based on exhibitionist status.
-		Main.Aroused.UpdateActorExposure(Who,(Tick as Int),"Arousal Mod By DM3")
+		(Main.Aroused as slaFrameworkScr).UpdateActorExposure(Who,(Tick as Int),"Arousal Mod By DM3")
 	EndIf
 
 	If(Main.Aroused && Main.Config.GetBool(".ArousedTickTimeRate"))

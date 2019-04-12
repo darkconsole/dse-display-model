@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-Alokzaam01",
 		"Activator": "21391|dse-display-model.esp",
-		"Ghost": "21391|dse-display-model.esp",
+		"Ghost": "29784|dse-display-model.esp",
 		"Inventory": "21392|dse-display-model.esp",
 		"Actors": [
 			{

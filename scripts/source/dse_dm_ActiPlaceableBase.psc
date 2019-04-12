@@ -3,7 +3,7 @@ Scriptname dse_dm_ActiPlaceableBase extends ObjectReference
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-dse_dm_QuestController Property Main Auto
+dse_dm_QuestController Property Main Auto Hidden
 {link to the main api.}
 
 String Property DeviceID="" Auto
@@ -966,6 +966,8 @@ Auto State Initial
 
 	Event OnLoad()
 		{handle the device being spawned in the world.}
+
+		self.Main = dse_dm_QuestController.GetAPI()
 		
 		If(self.DeviceID == "")
 			Debug.MessageBox("DeviceID was not set.")

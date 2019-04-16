@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-PonyRope01",
 		"Activator": "11717|dse-display-model.esp",
-		"Ghost": "11717|dse-display-model.esp",
+		"Ghost": "29792|dse-display-model.esp",
 		"Inventory": "11721|dse-display-model.esp",
 		"Actors": [
 			{

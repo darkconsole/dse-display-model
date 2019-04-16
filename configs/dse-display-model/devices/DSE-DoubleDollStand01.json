@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-DoubleDollStand01",
 		"Activator": "11712|dse-display-model.esp",
-		"Ghost": "11712|dse-display-model.esp",
+		"Ghost": "29791|dse-display-model.esp",
 		"Inventory": "11720|dse-display-model.esp",
 		"Actors": [
 			{

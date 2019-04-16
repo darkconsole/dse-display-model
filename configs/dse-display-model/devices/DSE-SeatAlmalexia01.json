@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-SeatAlmalexia01",
 		"Activator": "21414|dse-display-model.esp",
-		"Ghost": "21414|dse-display-model.esp",
+		"Ghost": "29799|dse-display-model.esp",
 		"Inventory": "21419|dse-display-model.esp",
 		"Actors": [
 			{

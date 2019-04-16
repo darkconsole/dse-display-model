@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-PonyWood01",
 		"Activator": "11718|dse-display-model.esp",
-		"Ghost": "11717|dse-display-model.esp",
+		"Ghost": "29795|dse-display-model.esp",
 		"Inventory": "11722|dse-display-model.esp",
 		"Actors": [
 			{

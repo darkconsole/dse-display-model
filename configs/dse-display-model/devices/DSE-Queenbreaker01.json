@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-Queenbreaker01",
 		"Activator": "24185|dse-display-model.esp",
-		"Ghost": "24185|dse-display-model.esp",
+		"Ghost": "29798|dse-display-model.esp",
 		"Inventory": "24186|dse-display-model.esp",
 		"Actors": [
 			{

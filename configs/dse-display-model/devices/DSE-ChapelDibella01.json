@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-ChapelDibella01",
 		"Activator": "21413|dse-display-model.esp",
-		"Ghost": "21413|dse-display-model.esp",
+		"Ghost": "29790|dse-display-model.esp",
 		"Inventory": "21418|dse-display-model.esp",
 		"Actors": [
 			{

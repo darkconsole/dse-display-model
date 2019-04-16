@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-Bovahdin01",
 		"Activator": "21412|dse-display-model.esp",
-		"Ghost": "21412|dse-display-model.esp",
+		"Ghost": "29788|dse-display-model.esp",
 		"Inventory": "21417|dse-display-model.esp",
 		"Actors": [
 			{

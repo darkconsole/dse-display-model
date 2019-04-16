@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-Cage01",
 		"Activator": "25588|dse-display-model.esp",
-		"Ghost": "25588|dse-display-model.esp",
+		"Ghost": "29789|dse-display-model.esp",
 		"Inventory": "25587|dse-display-model.esp",
 		"RandomSlotOnLoad": true,
 		"ActorCount": 1,

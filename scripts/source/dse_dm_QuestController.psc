@@ -213,14 +213,6 @@ Bool Function CheckForDeps_RaceMenu(Bool Popup)
 		Output = FALSE
 	EndIf
 
-	;; soft fail if no morph sliders.
-	
-	If(!Game.IsPluginInstalled("RaceMenuMorphsCBBE.esp") && !Game.IsPluginInstalled("RaceMenuMorphsTBD.esp") && !Game.IsPluginInstalled("RaceMenuMorphsUUNP.esp"))
-		If(Popup)
-			self.Util.PopupError("You have no BodyMorphs installed. Currently the only known ones are CBBE and TBD. You will not see any body scaling until you fix this.")
-		EndIf
-	EndIf
-
 	Return Output
 EndFunction
 

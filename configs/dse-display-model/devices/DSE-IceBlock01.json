@@ -16,6 +16,15 @@
 				"Objects": []
 			},
 			{
+				"Name": "Back On Ice",
+				"HeadTracking": false,
+				"Package": "29807|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
 				"Name": "Doggy On Ice",
 				"HeadTracking": false,
 				"Package": "29803|dse-display-model.esp",
@@ -25,9 +34,18 @@
 				"Objects": []
 			},
 			{
-				"Name": "Back On Ice",
+				"Name": "Swan On Ice",
 				"HeadTracking": false,
-				"Package": "29807|dse-display-model.esp",
+				"Package": "29813|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Thinker On Ice",
+				"HeadTracking": false,
+				"Package": "29812|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"Moan": false,
 				"Equips": [],

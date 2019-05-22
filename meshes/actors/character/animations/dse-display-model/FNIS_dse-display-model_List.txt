@@ -108,4 +108,6 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Ball01-A1 poses\DSE-B
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A1 poses\DSE-IceBlock01-A1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A2 poses\DSE-IceBlock01-A2.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A3 poses\DSE-IceBlock01-A3.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A4 poses\DSE-IceBlock01-A4.hkx
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A5 poses\DSE-IceBlock01-A5.hkx
 

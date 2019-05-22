@@ -1,0 +1,44 @@
+{
+	"Device": {
+		"ID": "DSE-IceBlock01",
+		"Activator": "29804|dse-display-model.esp",
+		"Ghost": "29804|dse-display-model.esp",
+		"Inventory": "29805|dse-display-model.esp",
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Alice On Ice",
+				"HeadTracking": false,
+				"Package": "29809|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Doggy On Ice",
+				"HeadTracking": false,
+				"Package": "29803|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Back On Ice",
+				"HeadTracking": false,
+				"Package": "29807|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": false,
+				"Equips": [],
+				"Objects": []
+			}
+		],
+		"ObjectsIdle": [
+
+		],
+		"ObjectsUsed": [
+
+		]
+	}
+}

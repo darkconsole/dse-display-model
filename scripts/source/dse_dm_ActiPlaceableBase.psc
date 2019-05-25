@@ -503,7 +503,7 @@ works you should only use it on devices that only hold one at a time.}
 			Main.Util.PrintDebug("Attempting To Random Slot " + self.Actors[Slot].GetDisplayName())
 			If(self.Actors[Slot].IsInFaction(Main.FactionActorRandomSlotOnLoad))
 				Main.Util.PrintDebug("Random Slot Faction Enabled " + self.Actors[Slot].GetDisplayName())
-				self.MountActor(self.Actors[Slot],Utility.RandomInt(0,self.Actors.Length))
+				self.MountActor(self.Actors[Slot],Utility.RandomInt(0,(self.Actors.Length - 1)))
 			EndIf
 			Return
 		EndIf

@@ -214,6 +214,66 @@ Function ActorToggleFaction(Actor Who, Faction What)
 	Return
 EndFunction
 
+Function ActorOutfitStop(Actor Who, Bool Strip=TRUE)
+{disable an actors original outfit, saving it for later.}
+
+	ActorBase Base = Who.GetLeveledActorBase()
+	Outfit Current1 = Base.GetOutfit(FALSE)
+	Outfit Current2 = Base.GetOutfit(TRUE)
+
+	If(Current1 == Main.OutfitNone)
+		Return
+	EndIf
+
+	Base.SetOutfit(Main.OutfitNone,FALSE)
+	Base.SetOutfit(Main.OutfitNone,TRUE)
+	Who.AddToFaction(Main.FactionActorOutfit)
+
+	If(Strip)
+		Who.UnequipAll()
+	EndIf
+
+	StorageUtil.SetFormValue(Who,Main.DataKeyActorOutfit1,Current1)
+	StorageUtil.SetFormValue(Who,Main.DataKeyActorOutfit2,Current2)
+	Return
+EndFunction
+
+Function ActorOutfitResume(Actor Who)
+{restore an actor's default outfit.}
+
+	ActorBase Base = Who.GetLeveledActorBase()
+	Outfit Original1 = StorageUtil.GetFormValue(Who,Main.DataKeyActorOutfit1) as Outfit
+	Outfit Original2 = StorageUtil.GetFormValue(Who,Main.DataKeyActorOutfit2) as Outfit
+
+	If(Original1 != None)
+		Base.SetOutfit(Original1,FALSE)
+		self.ActorOutfitEquip(Who,Original1)
+		Who.RemoveFromFaction(Main.FactionActorOutfit)
+	EndIf
+
+	If(Original2 != None)
+		Base.SetOutfit(Original2,TRUE)
+	EndIf
+
+	Return
+EndFunction
+
+Function ActorOutfitEquip(Actor Who, Outfit Items)
+{equip an outfit part by part.}
+
+	Int Count = Items.GetNumParts()
+
+	;; assuming these are 0 indexed...
+
+	While(Count > 0)
+		Who.EquipItem(Items.GetNthPart(Count - 1))
+		Count -= 1
+	EndWhile
+
+	Return
+EndFunction
+
+
 sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
 {play an expression on the actor face.}
 

@@ -19,6 +19,7 @@ Event OnEffectStart(Actor Who, Actor Caster)
 
 	self.GimpUserControls()
 	self.RegisterForControlKeys()
+	Main.ImodModeAssign.Apply(1.0)
 
 	Return
 EndEvent
@@ -30,6 +31,7 @@ Event OnEffectFinish(Actor Who, Actor Caster)
 	StorageUtil.UnsetIntValue(Main.Player,"DM3.AssignNPC.Slot")
 
 	self.RestoreUserControls()
+	Main.ImodModeAssign.Remove()
 
 	Return
 EndEvent

@@ -25,6 +25,10 @@ Faction Property FactionActorUsingDevice Auto
 Faction Property FactionActorToggleLightFace Auto
 Faction Property FactionActorToggleHeadTracking Auto
 Faction Property FactionActorRandomSlotOnLoad Auto
+Faction Property FactionActorOutfit Auto
+ImageSpaceModifier Property ImodModeAssign Auto
+ImageSpaceModifier Property ImodModeMove Auto
+Outfit Property OutfitNone Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -32,6 +36,8 @@ Faction Property FactionActorRandomSlotOnLoad Auto
 String Property KeyESP = "dse-display-model.esp" AutoReadOnly Hidden
 String Property DataKeyGrabObjectTarget = "DM3.GrabObject.Target" AutoReadOnly Hidden
 String Property DataKeyActorDevice = "DM3.Actor.Device" AutoReadOnly Hidden
+String Property DataKeyActorOutfit1 = "DM3.Actor.Outfit1" AutoReadOnly Hidden
+String Property DataKeyActorOutfit2 = "DM3.Actor.Outfit2" AutoReadOnly Hidden
 String Property DataKeyDeviceList = "DM3.DeviceManager.List" AutoReadOnly Hidden
 String Property DataKeyActorOverride = "DM3.Actor.Override" AutoReadOnly Hidden
 String Property DataKeyActorMouth = "DM3.Actor.Mouth" AutoReadOnly Hidden

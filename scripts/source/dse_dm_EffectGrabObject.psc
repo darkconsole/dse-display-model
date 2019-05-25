@@ -128,6 +128,7 @@ Event OnEffectStart(Actor Who, Actor From)
 
 	;; go go go
 
+		Main.ImodModeMove.Apply(1.0)
 	self.GrabEnable(Object)
 
 	Return
@@ -138,6 +139,7 @@ Event OnEffectFinish(Actor Who, Actor From)
 
 	;; control key unregistration is automatic on spell removal.
 
+	Main.ImodModeMove.Remove()
 	StorageUtil.UnsetFormValue(Who,Main.DataKeyGrabObjectTarget)
 	self.RestoreUserControls()
 

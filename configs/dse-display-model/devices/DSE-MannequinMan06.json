@@ -1,0 +1,19 @@
+{
+	"Device": {
+		"ID": "DSE-MannequinMan06",
+		"Activator": "29841|dse-display-model.esp",
+		"Inventory": "29847|dse-display-model.esp",
+		"Ghost": "29864|dse-display-model.esp",
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Riding The Standing Man",
+				"HeadTracking": false,
+				"Package": "29835|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Objects": [ { "Form": "29857|dse-display-model.esp" } ],
+				"Equips": []
+			}
+		]
+	}
+}

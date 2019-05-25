@@ -26,9 +26,11 @@ Faction Property FactionActorToggleLightFace Auto
 Faction Property FactionActorToggleHeadTracking Auto
 Faction Property FactionActorRandomSlotOnLoad Auto
 Faction Property FactionActorOutfit Auto
+Faction Property FactionFollow Auto
 ImageSpaceModifier Property ImodModeAssign Auto
 ImageSpaceModifier Property ImodModeMove Auto
 Outfit Property OutfitNone Auto
+Package Property PackageFollow Auto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

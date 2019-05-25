@@ -491,10 +491,12 @@ Function BehaviourSet(Actor Who, Package Task)
 	;;;;;;;;
 
 	If(Task != None)
-		Who.SetDontMove(TRUE)
-		Who.SetRestrained(TRUE)
-		Who.RegisterForUpdate(9001)
+		If(Task != Main.PackageFollow)
+			Who.SetDontMove(TRUE)
+			Who.SetRestrained(TRUE)
+		EndIf
 
+		Who.RegisterForUpdate(9001)
 		StorageUtil.SetFormValue(Who,Main.DataKeyActorOverride,Task)
 		ActorUtil.AddPackageOverride(Who,Task,100)
 		Main.Util.PrintDebug("BehaviourSet applied new package on " + Who.GetDisplayName())

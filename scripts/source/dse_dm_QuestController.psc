@@ -31,6 +31,9 @@ ImageSpaceModifier Property ImodModeAssign Auto
 ImageSpaceModifier Property ImodModeMove Auto
 Outfit Property OutfitNone Auto
 Package Property PackageFollow Auto
+FormList Property ListBookVendors Auto
+Book Property BookDialogue Auto
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -235,6 +238,44 @@ Bool Function CheckForDeps_UIExtensions(Bool Popup)
 	EndIf
 
 	Return TRUE
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Function InstallVendorItems()
+
+	Int Iter
+	FormList CurrentList
+	LeveledItem CurrentLvld
+	Int CountAdds = 0
+
+	;;;;;;;;
+
+	Iter = self.ListBookVendors.GetSize()
+	While(Iter > 0)
+		Iter -= 1
+
+		CurrentLvld = self.ListBookVendors.GetAt(Iter) As LeveledItem
+		If(CurrentLvld != None && !Util.LeveledListHas(CurrentLvld,self.BookDialogue))
+			CurrentLvld.AddForm(self.BookDialogue,1,1)
+			CountAdds += 1
+		EndIf
+
+		CurrentList = self.ListBookVendors.GetAt(Iter) As FormList
+		If(CurrentList != None && !CurrentList.HasForm(self.BookDialogue))
+			CurrentList.AddForm(self.BookDialogue)
+			CountAdds += 1
+		EndIf
+	EndWhile
+
+	;;;;;;;;
+
+	If(CountAdds > 0)
+		Util.PrintDebug(CountAdds + "items added to lists.")
+	EndIf
+
+	Return
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -59,6 +59,22 @@ Form Function GetFormFrom(String ModName, Int FormID)
 	Return Game.GetFormFromFile(FormID,ModName)
 EndFunction
 
+Bool Function LeveledListHas(LeveledItem List, Form SomeShit)
+{because nobody thought a HasForm for LeveledItem was worth adding appartently.}
+
+	Int Len = List.GetNumForms()
+
+	While(Len > 0)
+		Len -= 1
+
+		If(List.GetNthForm(Len) == SomeShit)
+			Return TRUE
+		EndIf
+	EndWhile
+
+	Return FALSE
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

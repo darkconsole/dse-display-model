@@ -13,6 +13,9 @@ Event OnGameReload()
 	;; check if any devices have been added lately.
 	Main.Devices.ScanFiles()
 
+	;; add books to vendors.
+	Main.InstallVendorItems()
+
 	Return
 EndEvent
 

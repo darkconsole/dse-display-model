@@ -2,8 +2,8 @@
 	"Device": {
 		"ID": "DSE-IceBlock01",
 		"Activator": "29804|dse-display-model.esp",
-		"Ghost": "29804|dse-display-model.esp",
 		"Inventory": "29805|dse-display-model.esp",
+		"Ghost": "40907|dse-display-model.esp",
 		"ActorCount": 1,
 		"Actors": [
 			{
@@ -46,15 +46,6 @@
 				"Name": "Thinker On Ice",
 				"HeadTracking": false,
 				"Package": "29812|dse-display-model.esp",
-				"Pos": [ 0.0, 0.0, 0.0 ],
-				"Moan": false,
-				"Equips": [],
-				"Objects": []
-			},
-			{
-				"Name": "Ass Hanging Out",
-				"HeadTracking": false,
-				"Package": "29816|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"Moan": false,
 				"Equips": [],

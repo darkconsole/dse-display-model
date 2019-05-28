@@ -430,7 +430,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	self.RegisterForSingleUpdate(self.UpdateFreqUsed)
 	Who.MoveTo(self)
 
-	Main.Util.Print(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
+	Main.Util.PrintDebug(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
 EndFunction
 

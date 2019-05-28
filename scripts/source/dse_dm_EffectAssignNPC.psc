@@ -84,6 +84,11 @@ Function Assign()
 		Return
 	EndIf
 
+	If(!Main.Util.ActorIsValid(Who))
+		Main.Util.PrintDebug("EffectAssignNPC denied by ActorIsValid")
+		Return
+	EndIf
+
 	;;;;;;;;
 
 	Device.ActivateByActor(Who,Slot)

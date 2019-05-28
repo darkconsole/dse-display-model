@@ -9,6 +9,7 @@ dse_dm_QuestUtil Property Util Auto
 
 SexLabFramework Property SexLab = None Auto Hidden
 Quest Property Aroused = None Auto Hidden ;; slaFrameworkScr
+Bool Property OptValidateActor = TRUE Auto Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

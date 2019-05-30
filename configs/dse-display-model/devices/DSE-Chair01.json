@@ -1,0 +1,20 @@
+{
+	"Device": {
+		"ID": "DSE-Chair01",
+		"Activator": "42287|dse-display-model.esp",
+		"Inventory": "42289|dse-display-model.esp",
+		"Ghost": "42288|dse-display-model.esp",
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "On That Chair",
+				"HeadTracking": false,
+				"Package": "42286|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "42291|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

@@ -127,3 +127,9 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan05-A1 pos
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan06-A1 poses\DSE-MannequinMan06-A1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan07-A1 poses\DSE-MannequinMan07-A1.hkx
 
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Chair '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Chair01-A1 poses\DSE-Chair01-A1.hkx
+

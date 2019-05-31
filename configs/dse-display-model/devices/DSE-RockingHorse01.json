@@ -1,0 +1,20 @@
+{
+	"Device": {
+		"ID": "DSE-RockingHorse01",
+		"Activator": "42294|dse-display-model.esp",
+		"Inventory": "42295|dse-display-model.esp",
+		"Ghost": "42297|dse-display-model.esp",
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Ride The Horse",
+				"HeadTracking": false,
+				"Package": "42293|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "42296|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

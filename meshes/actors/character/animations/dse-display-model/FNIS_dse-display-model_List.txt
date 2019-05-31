@@ -133,3 +133,7 @@ b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan07-A1 pos
 
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Chair01-A1 poses\DSE-Chair01-A1.hkx
 
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Rocking Horse '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-RockingHorse01-A1 poses\DSE-RockingHorse01-A1.hkx

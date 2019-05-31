@@ -429,6 +429,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	self.RegisterForSingleUpdate(self.UpdateFreqUsed)
 	Who.MoveTo(self)
+	Who.RemoveFromFaction(Main.FactionFollow)
 
 	Main.Util.PrintDebug(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return

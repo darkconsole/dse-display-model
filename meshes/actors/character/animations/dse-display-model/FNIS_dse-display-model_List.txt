@@ -14,6 +14,7 @@ Version 100
 '' -AVIbHeadTrackSpine = keep torso locked if head tracking enabled
 '' -h = head tracking enabled
 
+ofa dse-dm-Follow01 poses\DSE-Follow01-A1.hkx
 b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TPose poses\DSE-TPose.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

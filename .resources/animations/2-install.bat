@@ -13,4 +13,4 @@ FOR %%F in (hkx\*.HKX) DO (
 )
 
 echo.
-pause
+rem pause

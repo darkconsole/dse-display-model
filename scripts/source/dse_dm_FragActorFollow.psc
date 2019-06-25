@@ -11,9 +11,17 @@ dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
 If(akSpeaker.IsInFaction(DM.FactionFollow))
 	DM.Util.BehaviourSet(akSpeaker,None)
 	akSpeaker.RemoveFromFaction(DM.FactionFollow)
+	akSpeaker.SetAnimationVariableBool("bSprintOK",TRUE)
+	akSpeaker.SetAnimationVariableBool("bEquipOK",TRUE)
+	akSpeaker.ForceActorValue("SpeedMult",( akSpeaker.GetActorValue("SpeedMult") * 4 ))
+	akSpeaker.ForceActorValue("CarryWeight", (akSpeaker.GetActorValue("CarryWeight") + 1))
 Else
 	DM.Util.BehaviourSet(akSpeaker,DM.PackageFollow)
 	akSpeaker.AddToFaction(DM.FactionFollow)
+	akSpeaker.SetAnimationVariableBool("bSprintOK",FALSE)
+	akSpeaker.SetAnimationVariableBool("bEquipOK",FALSE)
+	akSpeaker.ForceActorValue("SpeedMult",( akSpeaker.GetActorValue("SpeedMult") / 4 ))
+	akSpeaker.ForceActorValue("CarryWeight", (akSpeaker.GetActorValue("CarryWeight") - 1))
 EndIf
 
 ;END CODE

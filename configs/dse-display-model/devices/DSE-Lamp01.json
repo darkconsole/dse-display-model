@@ -1,0 +1,38 @@
+{
+	"Device": {
+		"ID": "DSE-Lamp01",
+		"Activator": "45054|dse-display-model.esp",
+		"Inventory": "45055|dse-display-model.esp",
+		"Ghost": "45056|dse-display-model.esp",
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Brightness: Low",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "45061|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			},
+			{
+				"Name": "Brightness: Normal",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "45057|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			},
+			{
+				"Name": "Brightness: High",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "45060|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			}
+		]
+	}
+}

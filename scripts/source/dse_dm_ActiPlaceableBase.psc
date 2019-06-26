@@ -601,6 +601,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	Form ItemForm
 	Form MarkerForm
 	Float[] ItemPos
+	Float CurrentScale
 	ObjectReference Item
 	ObjectReference Marker
 	Bool ConfigLightFace
@@ -620,6 +621,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	MarkerForm = Main.Util.GetFormFrom("Skyrim.esm",0x3B)
 	ConfigLightFace = Main.Config.GetBool(".DeviceActorLightFace")
 	ToggleLightFace = Who.IsInFaction(Main.FactionActorToggleLightFace)
+	CurrentScale = self.GetScaleOverride()
 	Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
 
 	;;;;;;;;
@@ -633,6 +635,9 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 
 		ItemForm = Main.Devices.GetDeviceActorSlotObjectForm(self.File,Slot,Iter)
 		ItemPos = Main.Devices.GetDeviceActorSlotObjectPosition(self.File,Slot,Iter)
+		ItemPos[0] = ItemPos[0] * CurrentScale
+		ItemPos[1] = ItemPos[1] * CurrentScale
+		ItemPos[2] = ItemPos[2] * CurrentScale
 
 		If(ItemForm != None)
 
@@ -649,7 +654,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			Marker.Delete()
 
 			;; determine if we should scale the object.
-			Main.Util.ScaleOverride(Item,self.GetScaleOverride())
+			Main.Util.ScaleOverride(Item,CurrentScale)
 
 			;; make note of the object that belongs to this actor.
 			StorageUtil.FormListAdd(Who,DeviceKey,Item)

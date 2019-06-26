@@ -92,6 +92,7 @@ Function Reload()
 	
 	;; unregister ourself.
 
+	Main.Devices.ReloadFile(self.File)
 	Main.Devices.Register(self)
 
 	self.Disable()

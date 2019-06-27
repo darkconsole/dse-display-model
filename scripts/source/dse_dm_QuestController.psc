@@ -272,9 +272,9 @@ Function InstallVendorItems()
 
 	;;;;;;;;
 
-	If(CountAdds > 0)
-		Util.PrintDebug(CountAdds + "items added to lists.")
-	EndIf
+	;;If(CountAdds > 0)
+		Util.PrintDebug(CountAdds + " items added to lists.")
+	;;EndIf
 
 	Return
 EndFunction

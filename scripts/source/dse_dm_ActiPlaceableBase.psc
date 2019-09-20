@@ -175,6 +175,59 @@ also return the slot that actor is in if they are already.}
 	Return -1
 Endfunction
 
+Int Function GetActorCount()
+{get how many actors are currently attached.}
+
+	Int Count = 0
+	Int Iter = 0
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] != None)
+			Count += 1
+		Endif
+		Iter += 1
+	EndWhile
+
+	Return Count
+EndFunction
+
+Actor[] Function GetActors()
+{fetch a list of all the actors currently attached.}
+
+	Int Iter = 0
+	Int Count = self.GetActorCount()
+	Actor[] Result = PapyrusUtil.ActorArray(Count)
+
+	Iter = 0
+	Count = 0
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] != None)
+			Result[Count] = self.Actors[Iter]
+			Count += 1
+		Endif
+		Iter += 1
+	EndWhile
+
+	Return Result
+EndFunction
+
+Bool Function AreActorsLoaded()
+{check if all the actors currently attached are loaded.}
+
+	Int Iter = 0
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] != None && !self.Actors[Iter].Is3dLoaded())			
+			Return FALSE
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return TRUE
+EndFunction
+
 Bool Function IsEmptySlot(Int Slot, Actor Who=None)
 {check if this slot is empty or occupied by the same actor.}
 
@@ -866,8 +919,10 @@ Function Moan()
 
 		If(self.Actors[Slot] != None)
 			If(StorageUtil.GetIntValue(self.Actors[Slot],Main.DataKeyActorMoan,1) == 1)
-				Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
-				Return
+				If(self.Actors[Slot].Is3dLoaded() && self.Actors[Slot].IsNearPlayer())
+					Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
+					Return
+				EndIf
 			EndIf
 		EndIf
 
@@ -1006,8 +1061,28 @@ EndState
 State Idle
 
 	Event OnLoad()
-		{handle the device being re-loaded.}
+	{handle the device being re-loaded.}
 		
+		Int Stalling
+
+		;; handle making sure our 3d is loaded.
+
+		Stalling = 0
+		
+		While(!self.Is3dLoaded() && Stalling < 30)
+			Utility.Wait(0.1)
+			Stalling += 1
+		EndWhile
+
+		;; handle making sure the actors are loaded.
+
+		Stalling = 0
+
+		While(!self.AreActorsLoaded() && Stalling < 30)
+			Utility.Wait(0.1)
+			Stalling += 1
+		EndWhile
+
 		Main.Util.PrintDebug(self.DeviceID + " Load While Idle")
 		self.TimeAroused = Utility.GetCurrentRealTime()
 		self.Refresh()

@@ -36,6 +36,12 @@ EndEvent
 Event OnUpdate()
 EndEvent
 
+Event OnGainLOS(Actor Viewer, ObjectReference What)
+EndEvent
+
+Event OnLostLOS(Actor Viewer, ObjectReference What)
+EndEvent
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1120,6 +1126,40 @@ State Idle
 			self.RegisterForSingleUpdate(UpdateFreq)
 		EndIf
 
+		Return
+	EndEvent
+
+	Event OnGainLOS(Actor Viewer, ObjectReference What)
+	{when an actor is registered to a device, this device gets registered for when
+	the player gains line of sight on any of the actors. we are going to try using
+	this to fix wandering actors because the SSE ActorUtil is less than stellar.}
+
+		;; our main problem seems to be that the ai is free to do as it wishes
+		;; while the game is in the black load screen because actorutil isn't
+		;; forcing the packages in time like it did in le. we will first try
+		;; to combat that with a cell check. if the actor managed to roam out of
+		;; the cell of the device just move them back we don't really care if
+		;; they are aligned and mounted right now since they are off screen.
+		;; the device's onload itself will handle that the next time we actually
+		;; go inside... probably.
+
+		If(self.GetParentCell() != What.GetParentCell())
+			What.MoveTo(self)
+			Main.Util.Print(What.GetDisplayName() + " had to be corrected via LOS Check")
+		Else
+			;; idea - experiment with checking if the actor is properly aligned
+			;; with the device. if they are too far, refresh them. also experiment
+			;; with maybe refreshing the actor package stack just because actorutil.
+		EndIf
+
+		Return
+	EndEvent
+
+	Event OnLostLOS(Actor Viewer, ObjectReference What)
+		;; idea - experiment with disabling an actor's ai while they are out
+		;; of visual range if we really need to stop radiant roaming. something
+		;; like if not in same cell as player then tai them. our gain method above
+		;; would then need to toggle that back on.
 		Return
 	EndEvent
 

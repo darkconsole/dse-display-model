@@ -516,8 +516,10 @@ Function BehaviourSet(Actor Who, Package Task)
 
 	If(OldTask != None)
 		ActorUtil.RemovePackageOverride(Who,OldTask)
+		ActorUtil.ClearPackageOverride(Who)
 		StorageUtil.UnsetFormValue(Who,Main.DataKeyActorOverride)
 		Main.Util.PrintDebug("BehaviourSet cleared old package off " + Who.GetDisplayName())
+		Who.EvaluatePackage()
 	EndIf
 
 	;;;;;;;;
@@ -537,9 +539,11 @@ Function BehaviourSet(Actor Who, Package Task)
 		Who.SetDontMove(FALSE)
 		Who.SetRestrained(FALSE)
 		Debug.SendAnimationEvent(Who,"IdleForceDefaultState")
+		Who.UnregisterForUpdate()
 		Main.Util.PrintDebug("BehaviourSet released " + Who.GetDisplayName())
 	EndIf
 
+	Utility.Wait(0.01)
 	Who.EvaluatePackage()
 
 	Return

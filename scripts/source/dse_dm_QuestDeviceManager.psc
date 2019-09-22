@@ -119,6 +119,10 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 
 	Who.AddToFaction(Main.FactionActorUsingDevice)
 
+	;; see how a los based error check works out.
+
+	Device.RegisterForLOS(Main.Player,Who)
+
 	Main.Util.PrintDebug(Who.GetDisplayName() + " registered to " + Device.DeviceID + " slot " + Slot)
 	Return
 EndFunction
@@ -144,6 +148,8 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Sl
 	Who.RemoveFromFaction(Main.FactionActorUsingDevice)
 
 	;; make the device forget this actor.
+
+	Device.UnregisterForLOS(Main.Player,Who)
 
 	While(Iter < Device.Actors.Length)
 		If(Device.Actors[Iter] == Who)

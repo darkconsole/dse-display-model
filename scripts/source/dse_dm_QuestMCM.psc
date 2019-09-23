@@ -22,9 +22,11 @@ EndEvent
 Event OnConfigInit()
 {things to do when the menu initalises (is opening)}
 
-	self.Pages = new String[1]
+	self.Pages = new String[3]
 	
 	self.Pages[0] = "$DM3_Menu_General"
+	self.Pages[1] = "$DM3_Menu_Stats"
+	self.Pages[2] = "$DM3_Menu_Splash"
 
 	Return
 EndEvent
@@ -50,12 +52,89 @@ Event OnPageReset(String page)
 
 	If(Page == "$DM3_Menu_General")
 		self.ShowPageGeneral()
+	ElseIf(Page == "$DM3_Menu_Stats")
+		self.ShowPageStats()
+	ElseIf(Page == "$DM3_Menu_Splash")
+		self.ShowPageSplash()
 	EndIf
 
 	Return
 EndEvent
 
 Function ShowPageGeneral()
+
+	Return
+EndFunction
+
+Function ShowPageStats()
+
+	Float TimeTotal = 0.0
+	Float ActorCount = StorageUtil.FormListCount(None,Main.DataKeyActorDevice)
+	Int Iter
+	Actor Who
+	Float TimeSpent
+
+	;; some cleanup just in case.
+
+	StorageUtil.FormListRemove(None,Main.DataKeyActorDevice,None,TRUE)
+
+	;;;;;;;;
+
+	;; first have everyone update their calcs.
+
+	Iter = 0
+
+	While(Iter < ActorCount)
+		Who = StorageUtil.FormListGet(None,Main.DataKeyActorDevice,Iter) As Actor
+
+		If(Who != None)
+			Main.Util.ActorBondageTimerUpdate(Who)
+			Main.Util.ActorBondageTimerStart(Who)
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	;; now make a list.
+
+	self.SetTitleText("$DM3_Menu_Stats")
+	self.SetCursorFillMode(LEFT_TO_RIGHT)
+	self.SetCursorPosition(0)
+
+	self.AddHeaderOption("$DM3_Menu_StatsGlobalStats")
+	self.AddHeaderOption("")
+
+	self.AddTextOption("$DM3_Menu_StatActorCount","")
+	self.AddTextOption("",Main.Util.FloatToString(ActorCount,0))
+	self.AddTextOption("$DM3_Menu_StatsTotalTime","")
+	self.AddTextOption("",Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(None)))
+	self.AddTextOption("$DM3_Menu_StatsPlayerTime","")
+	self.AddTextOption("",Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(Main.Player)))
+	self.AddTextOption("$DM3_Menu_StatsPlayerEscapeAttempts","")
+	self.AddTextOption("",Main.Util.FloatToString(StorageUtil.GetIntValue(Main.Player,Main.DataKeyActorEscapeAttempts),0))
+	self.AddEmptyOption()
+	self.AddEmptyOption()
+
+	self.AddHeaderOption("$DM3_Menu_StatsActorStats")
+	self.AddHeaderOption("")
+
+	Iter = 0
+	While(Iter < ActorCount)
+		Who = StorageUtil.FormListGet(None,Main.DataKeyActorDevice,Iter) As Actor
+		TimeSpent = Main.Util.ActorBondageTimeTotal(Who)
+
+		If(Who != None)
+			self.AddTextOption(Who.GetDisplayName(),"")
+			self.AddTextOption("",Main.Util.ReadableTimeDelta(TimeSpent))
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function ShowPageSplash()
 
 	Return
 EndFunction

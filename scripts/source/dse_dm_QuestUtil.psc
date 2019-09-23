@@ -525,9 +525,13 @@ Function BehaviourSet(Actor Who, Package Task)
 	;;;;;;;;
 
 	If(Task != None)
-		If(Task != Main.PackageFollow)
+		If(Who != Main.Player && Task != Main.PackageFollow)
 			Who.SetDontMove(TRUE)
 			Who.SetRestrained(TRUE)
+		EndIf
+
+		If(Who == Main.Player)
+			Game.SetPlayerAIDriven(TRUE)
 		EndIf
 
 		Who.RegisterForUpdate(9001)
@@ -538,6 +542,11 @@ Function BehaviourSet(Actor Who, Package Task)
 		Who.SetHeadTracking(TRUE)
 		Who.SetDontMove(FALSE)
 		Who.SetRestrained(FALSE)
+
+		If(Who == Main.Player)
+			Game.SetPlayerAIDriven(FALSE)
+		EndIf
+
 		Debug.SendAnimationEvent(Who,"IdleForceDefaultState")
 		Who.UnregisterForUpdate()
 		Main.Util.PrintDebug("BehaviourSet released " + Who.GetDisplayName())
@@ -549,3 +558,89 @@ Function BehaviourSet(Actor Who, Package Task)
 	Return
 EndFunction
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Function ActorBondageTimerStart(Actor Who)
+{updates the tracking time that this actor enters bondage}
+
+	If(Who == Main.Player)
+		;; start tracking the client time for self bondage enforcement.
+		StorageUtil.SetFloatValue(Who,Main.DataKeyActorPlayerBondageTimer,Utility.GetCurrentRealTime())
+	EndIf
+
+	StorageUtil.SetFloatValue(Who,Main.DataKeyActorBondageTimer,Utility.GetCurrentGameTime())
+	Return
+EndFunction
+
+Function ActorBondageTimerUpdate(Actor Who)
+{update the tracking stat for total time spent based on the time start.}
+
+	Float TimeStart = StorageUtil.GetFloatValue(Who,Main.DataKeyActorBondageTimer,0.0)
+	Float TimeNow = Utility.GetCurrentGameTime()
+	Float TimeDiff = TimeNow - TimeStart
+
+	If(TimeStart > 0.0 && TimeNow > TimeStart)
+		StorageUtil.AdjustFloatValue(Who,Main.DataKeyStatTimeBound,TimeDiff)
+		StorageUtil.AdjustFloatValue(None,Main.DataKeyStatTimeBound,TimeDiff)
+	EndIf
+
+	If(Who == Main.Player)
+		;; clear the client time for self bondage enforcement.
+		StorageUtil.SetFloatValue(Who,Main.DataKeyActorPlayerBondageTimer,0.0)
+	EndIf
+
+	StorageUtil.SetFloatValue(Who,Main.DataKeyActorBondageTimer,0.0)
+	Return
+EndFunction
+
+Float Function ActorBondageTimeTotal(Actor Who)
+{return the time spent in bondage stat}
+
+	return StorageUtil.GetFloatValue(Who,Main.DataKeyStatTimeBound,0.0)
+EndFunction
+
+Function ActorBondageTimeReset(Actor Who)
+{reset the bondage stat to 0}
+	
+	StorageUtil.SetFloatValue(Who,Main.DataKeyActorBondageTimer,0.0)
+	StorageUtil.SetFloatValue(Who,Main.DataKeyStatTimeBound,0.0)
+	Return
+EndFunction
+
+String Function ReadableTimeDelta(Float Time, Bool RealLife=FALSE)
+{given a skyrim time (float of days) return a readble time frame. if asking for
+"real life time" we will use the current timescale to calculate it. }
+
+	String Output = ""
+	Float Work = 0.0
+
+	If(RealLife)
+		Time /= Main.Timescale.GetValue()
+	EndIf
+
+	;;;;;;;;
+	;;;;;;;;
+
+	Work = Time
+
+	If(Work > 1.0)
+		Output += Math.Floor(Work) + " D,"
+	EndIf
+	Work = (Work - Math.Floor(Work)) * 24
+
+	If(Work > 0.0)
+		Output += Math.Floor(Work) + " H,"
+	EndIf
+	Work = (Work - Math.Floor(Work)) * 60
+
+	If(Work > 0.0)
+		Output += Math.Floor(Work) + " M"
+	EndIf
+
+	;; hillarious trick dealing with the above string since we have no
+	;; trim function.
+	Output = PapyrusUtil.StringJoin(PapyrusUtil.StringSplit(Output,",")," ")
+
+	Return Output	
+EndFunction

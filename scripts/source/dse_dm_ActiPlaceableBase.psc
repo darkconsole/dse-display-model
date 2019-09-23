@@ -42,6 +42,13 @@ EndEvent
 Event OnLostLOS(Actor Viewer, ObjectReference What)
 EndEvent
 
+Event OnControlDown(String What)
+EndEvent
+
+Event OnControlUp(String What, Float Len)
+EndEvent
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -319,7 +326,7 @@ Function ActivateByPlayer()
 	ElseIf(PlayersChoice == 3)
 		self.AssignNPC()
 	ElseIf(PlayersChoice == 4)
-		;;self.UseByPlayer()
+		self.AssignPlayer()
 	ElseIf(PlayersChoice == 5)
 		Value = self.ShowScaleMenu()
 		If(Value > 0)
@@ -490,6 +497,13 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	self.RegisterForSingleUpdate(self.UpdateFreqUsed)
 	Who.MoveTo(self)
 	Who.RemoveFromFaction(Main.FactionFollow)
+	Main.Util.ActorBondageTimerStart(Who)
+
+	If(Who == Main.Player)
+		self.RegisterForControl("Jump")
+		Game.DisablePlayerControls(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,0)
+		Game.ForceThirdPerson()
+	EndIf
 
 	Main.Util.PrintDebug(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
@@ -543,11 +557,17 @@ Function ReleaseActorSlot(Int Slot)
 
 	;; let the actor behave normal again.
 
+	If(self.Actors[Slot] == Main.Player)
+		self.UnregisterForControl("Jump")
+		Game.EnablePlayerControls()
+	EndIf
+
 	Main.Util.BehaviourSet(self.Actors[Slot],None)
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
 	Main.Util.ImmersiveExpression(self.Actors[Slot],FALSE)
+	Main.Util.ActorBondageTimerUpdate(self.Actors[Slot])
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 
 	Return
@@ -957,7 +977,7 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-Function AssignNPC()
+Function AssignNPC(Bool IsPlayer=FALSE)
 {begin the npc selection process.}
 
 	String[] Names
@@ -989,15 +1009,24 @@ Function AssignNPC()
 		Return
 	EndIf
 
-	;; throw some data out that the assignment spell will then read out.
+	If(IsPlayer)
+		self.ActivateByActor(Main.Player,Selected)
+	Else
+		;; throw some data out that the assignment spell will then read out.
+		StorageUtil.SetFormValue(Main.Player,"DM3.AssignNPC.Device",self)
+		StorageUtil.SetIntValue(Main.Player,"DM3.AssignNPC.Slot",Selected)
+		;; and begin the assignment spell.
+		Main.Util.Print("Select an NPC to assign...")
+		Main.Player.AddSpell(Main.SpellAssignNPC)
+	EndIf
 
-	StorageUtil.SetFormValue(Main.Player,"DM3.AssignNPC.Device",self)
-	StorageUtil.SetIntValue(Main.Player,"DM3.AssignNPC.Slot",Selected)
+	Return
+EndFunction
 
-	;; and begin the assignment spell.
-
-	Main.Util.Print("Select an NPC to assign...")
-	Main.Player.AddSpell(Main.SpellAssignNPC)
+Function AssignPlayer()
+{begin the player mounting process.}
+	
+	self.AssignNPC(TRUE)
 
 	Return
 EndFunction
@@ -1161,6 +1190,15 @@ State Idle
 		;; like if not in same cell as player then tai them. our gain method above
 		;; would then need to toggle that back on.
 		Return
+	EndEvent
+
+	Event OnControlDown(String What)
+	EndEvent
+
+	Event OnControlUp(String What, Float Len)
+
+		self.ReleaseActor(Main.Player)
+
 	EndEvent
 
 EndState

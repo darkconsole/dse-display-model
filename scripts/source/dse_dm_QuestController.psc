@@ -34,6 +34,7 @@ Outfit Property OutfitNone Auto
 Package Property PackageFollow Auto
 FormList Property ListBookVendors Auto
 Book Property BookDialogue Auto
+GlobalVariable Property Timescale Auto
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -48,7 +49,11 @@ String Property DataKeyDeviceList = "DM3.DeviceManager.List" AutoReadOnly Hidden
 String Property DataKeyActorOverride = "DM3.Actor.Override" AutoReadOnly Hidden
 String Property DataKeyActorMouth = "DM3.Actor.Mouth" AutoReadOnly Hidden
 String Property DataKeyActorMoan = "DM3.Actor.Moan" AutoReadOnly Hidden
+String Property DataKeyActorPlayerBondageTimer = "DM3.Actor.BondageClientStart" AutoReadOnly Hidden
+String Property DataKeyActorBondageTimer = "DM3.Actor.BondageTimesStart" AutoReadOnly Hidden
+String Property DataKeyActorEscapeAttempts = "DM3.Actor.EscapeAttempts" AutoReadOnly Hidden
 String Property DataKeyDeviceScale = "DM3.Device.Scale" AutoReadOnly Hidden
+String Property DataKeyStatTimeBound = "DM3.Stat.TimeBound" AutoReadOnly Hidden
 
 String Property EvAnimObjEquip = "AnimObjDraw" AutoReadOnly Hidden
 
@@ -393,4 +398,7 @@ Int Function MenuFromList(String[] Items)
 
 	Return Result
 EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

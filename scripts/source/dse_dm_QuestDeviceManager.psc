@@ -114,6 +114,7 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 	StorageUtil.SetIntValue(Who,Main.DataKeyActorDevice,Slot)
 	StorageUtil.SetStringValue(Who,Main.DataKeyActorMouth,self.GetDeviceActorSlotMouth(Device.File,Slot))
 	StorageUtil.SetIntValue(Who,Main.DataKeyActorMoan,self.GetDeviceActorSlotMoan(Device.File,Slot) As Int)
+	StorageUtil.FormListAdd(None,Main.DataKeyActorDevice,Who,FALSE)
 
 	;; give us ways to query actor with factions.
 
@@ -142,6 +143,7 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Sl
 	StorageUtil.UnsetFormValue(Who,Main.DataKeyActorDevice)
 	StorageUtil.UnsetIntValue(Who,Main.DataKeyActorDevice)
 	StorageUtil.UnsetStringValue(Who,Main.DataKeyActorMouth)
+	StorageUtil.FormListRemove(None,Main.DataKeyActorDevice,Who,TRUE)
 
 	;; remove actor factions.
 

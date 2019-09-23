@@ -183,9 +183,9 @@ Float Function ActorArousalGetTick(Actor Who)
 	EndIf
 
 	If(Who == Main.Player)
-		Tick *= Main.Config.GetFloat(".ArousedTickFactor")
-	Else
 		Tick *= Main.Config.GetFloat(".ArousedTickPlayerFactor")
+	Else
+		Tick *= Main.Config.GetFloat(".ArousedTickFactor")
 	EndIF
 
 	If(!(Main.Aroused as slaFrameworkScr).IsActorExhibitionist(Who))

@@ -936,6 +936,10 @@ Function Moan()
 	;; a chance it wont end up moaning at all but its super slim you'd think
 	;; given most devices will only have one slot lol.
 
+	If(!Main.Config.GetBool(".DeviceActorMoan"))
+		Return
+	EndIf
+
 	If(!self.Is3dLoaded())
 		Return
 	EndIf

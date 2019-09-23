@@ -182,7 +182,11 @@ Float Function ActorArousalGetTick(Actor Who)
 		Return 0.0
 	EndIf
 
-	Tick *= Main.Config.GetFloat(".ArousedTickFactor")
+	If(Who == Main.Player)
+		Tick *= Main.Config.GetFloat(".ArousedTickFactor")
+	Else
+		Tick *= Main.Config.GetFloat(".ArousedTickPlayerFactor")
+	EndIF
 
 	If(!(Main.Aroused as slaFrameworkScr).IsActorExhibitionist(Who))
 		Tick *= -1.0
@@ -192,7 +196,7 @@ Float Function ActorArousalGetTick(Actor Who)
 EndFunction
 
 Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
-{update an actors arousal.}
+{update an actors arousal based on time.}
 
 	Float Tick = self.ActorArousalGetTick(Who)
 	Float TimeRate = 0.0
@@ -203,7 +207,7 @@ Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
 
 	If(Main.Aroused && Main.Config.GetBool(".ArousedTickExposure"))
 		;; exposure goes up or down based on exhibitionist status.
-		(Main.Aroused as slaFrameworkScr).UpdateActorExposure(Who,(Tick as Int),"Arousal Mod By DM3")
+		self.ActorArousalInc(Who,(Tick as Int),"DM3 Bound Arousal Mod")
 	EndIf
 
 	If(Main.Aroused && Main.Config.GetBool(".ArousedTickTimeRate"))
@@ -215,6 +219,14 @@ Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
 		EndIf
 	EndIf
 
+	Return
+EndFunction
+
+Function ActorArousalInc(Actor Who, Int Exposure, String Reason="DM3 Arousal Mod")
+{update an actors arousal.}
+
+	(Main.Aroused as slaFrameworkScr).UpdateActorExposure(Who,Exposure,Reason)
+	
 	Return
 EndFunction
 
@@ -525,13 +537,13 @@ Function BehaviourSet(Actor Who, Package Task)
 	;;;;;;;;
 
 	If(Task != None)
-		If(Who != Main.Player && Task != Main.PackageFollow)
-			Who.SetDontMove(TRUE)
-			Who.SetRestrained(TRUE)
-		EndIf
-
 		If(Who == Main.Player)
 			Game.SetPlayerAIDriven(TRUE)
+		Else
+			If(Task != Main.PackageFollow)
+				Who.SetDontMove(TRUE)
+				Who.SetRestrained(TRUE)
+			EndIf
 		EndIf
 
 		Who.RegisterForUpdate(9001)
@@ -594,6 +606,13 @@ Function ActorBondageTimerUpdate(Actor Who)
 	Return
 EndFunction
 
+Function ActorBondageTimerGet(Actor Who)
+{get the tracking time that this actor entered bondage}
+
+	StorageUtil.GetFloatValue(Who,Main.DataKeyActorBondageTimer,Utility.GetCurrentGameTime())
+	Return
+EndFunction
+
 Float Function ActorBondageTimeTotal(Actor Who)
 {return the time spent in bondage stat}
 
@@ -606,6 +625,80 @@ Function ActorBondageTimeReset(Actor Who)
 	StorageUtil.SetFloatValue(Who,Main.DataKeyActorBondageTimer,0.0)
 	StorageUtil.SetFloatValue(Who,Main.DataKeyStatTimeBound,0.0)
 	Return
+EndFunction
+
+Bool Function ActorEscapeAttempt(Actor Who)
+{roll to see if an escape attempt was successful.}
+
+	If(Who == Main.Player)
+		Return self.ActorEscapeAttemptPlayer(Who)
+	EndIf
+
+	;; atm npc escape is always false. someone might appreciate the possible
+	;; gamification of it though so this kinda sits here waiting for implementation.
+
+	Return self.ActorEscapeAttemptNPC(Who)	
+EndFunction
+
+Bool Function ActorEscapeAttemptNPC(Actor Who)
+{roll an escape attempt for the an npc.}
+
+	Return FALSE
+EndFunction
+
+Bool Function ActorEscapeAttemptPlayer(Actor Who)
+{roll an escape attempt for the player.}
+
+	Float Stamina = Who.GetActorValue(Main.KeyActorValueStamina)
+	Float StaminaMax = Who.GetBaseActorValue(Main.KeyActorValueStamina)
+	Float StaminaCost = Main.Config.GetFloat(".BondageEscapeStaminaMinimum")
+	Float StaminaFactor = Main.Config.GetFloat(".BondageEscapeStaminaFactor")
+	Float StaminaPercent = PapyrusUtil.ClampFloat((Stamina / StaminaMax),0,1.0)
+	Float Chance = Main.Config.GetFloat(".BondageEscapeChancePlayer")
+	Float ChanceMax = 100.0
+	Float Roll = 0.0	
+	Int ArousalFailure = Main.Config.GetInt(".BondageEscapeFailureArousal")
+	Int ArousalSuccess = Main.Config.GetInt(".BondageEscapeSuccessArousal")
+
+	;; do you even have enough energy to try.
+
+	If(Stamina < StaminaCost)
+		Return FALSE
+	EndIf
+
+	StorageUtil.AdjustIntValue(Who,Main.DataKeyActorEscapeAttempts,1)
+	Who.DamageActorValue(Main.KeyActorValueStamina,StaminaCost)
+	self.ImmersiveSoundMoan(Who,FALSE)
+
+	;; roll a chance.
+
+	ChanceMax += (StaminaMax * (1 - StaminaPercent)) * StaminaFactor
+	Roll = Utility.RandomFloat(0.0,ChanceMax)
+	Main.Util.PrintDebug(Who.GetDisplayName() + " Escape Chance " + Roll + " (" + Chance + ", " + ChanceMax + ")")
+
+	If(Roll <= Chance)
+		If(ArousalSuccess != 0)
+			Main.Util.ActorArousalInc(Who,ArousalSuccess)
+		EndIf
+		Return TRUE
+	EndIf
+
+	If(ArousalSuccess != 0)
+		Main.Util.ActorArousalInc(Who,ArousalFailure)
+	EndIf
+
+	Return FALSE
+EndFunction
+
+Float Function GetActorValueMax(Actor Who, String ValueName)
+{get the max value of whatever actor value.}
+
+	Float Max = Who.GetBaseActorValue(ValueName)
+
+	;; this does not take into consideration buffs.
+	;; GetActorValuePercentage's result is questionable.
+
+	Return Max
 EndFunction
 
 String Function ReadableTimeDelta(Float Time, Bool RealLife=FALSE)

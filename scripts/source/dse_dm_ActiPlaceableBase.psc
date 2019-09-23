@@ -1197,7 +1197,9 @@ State Idle
 
 	Event OnControlUp(String What, Float Len)
 
-		self.ReleaseActor(Main.Player)
+		If(Main.Util.ActorEscapeAttempt(Main.Player))
+			self.ReleaseActor(Main.Player)
+		EndIf
 
 	EndEvent
 

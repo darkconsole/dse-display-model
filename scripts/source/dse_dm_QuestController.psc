@@ -64,6 +64,8 @@ String Property NioBoneScale      = "NPC" AutoReadOnly Hidden
 String Property NioKeyCancelScale = "DM3.CancelScale" AutoReadOnly Hidden
 String Property NioKeyOverrideScale = "DM3.OverrideScale" AutoReadOnly Hidden
 
+String Property KeyActorValueStamina = "Stamina" AutoReadOnly Hidden
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

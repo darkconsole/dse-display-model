@@ -2,10 +2,16 @@
 	"ArousedTickExposure": true,
 	"ArousedTickTimeRate": true,
 	"ArousedTickFactor": 1.0,
+	"ArousedTickPlayerFactor": 2.0,
 	"DeviceActorAroused": true,
 	"DeviceActorExpression": true,
 	"DeviceActorHeadTracking": true,
 	"DeviceActorLightFace": false,
 	"DeviceActorMoan": true,
-	"DeviceDropDistance": 128.0
+	"DeviceDropDistance": 75.0,
+	"BondageEscapeChancePlayer": 15.0,
+	"BondageEscapeStaminaFactor": 0.5,
+	"BondageEscapeFailureArousal": 4,
+	"BondageEscapeSuccessArousal": -20,
+	"BondageEscapeStaminaMinimum": 35.0
 }

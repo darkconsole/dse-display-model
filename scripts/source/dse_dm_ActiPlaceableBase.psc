@@ -150,23 +150,6 @@ Form Function GetGhostForm()
 	Return Main.Devices.GetDeviceGhost(self.File)
 EndFunction
 
-Int Function GetMountedActorCount()
-{get how many actors we have mounted.}
-
-	Int Output = 0
-	Int Iter = 0
-
-	While(Iter < self.Actors.Length)
-		If(self.Actors[Iter] != None)
-			Output += 1
-		EndIf
-
-		Iter += 1
-	EndWhile
-
-	Return Output
-EndFunction
-
 Int Function GetNextSlot(Actor Who=None)
 {get the next empty slot on the device. if an actor is provided then it will
 also return the slot that actor is in if they are already.}
@@ -188,27 +171,28 @@ also return the slot that actor is in if they are already.}
 	Return -1
 Endfunction
 
-Int Function GetActorCount()
-{get how many actors are currently attached.}
+Int Function GetMountedActorCount()
+{get how many actors we have mounted.}
 
-	Int Count = 0
+	Int Output = 0
 	Int Iter = 0
 
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] != None)
-			Count += 1
-		Endif
+			Output += 1
+		EndIf
+
 		Iter += 1
 	EndWhile
 
-	Return Count
+	Return Output
 EndFunction
 
-Actor[] Function GetActors()
+Actor[] Function GetMountedActors()
 {fetch a list of all the actors currently attached.}
 
 	Int Iter = 0
-	Int Count = self.GetActorCount()
+	Int Count = self.GetMountedActorCount()
 	Actor[] Result = PapyrusUtil.ActorArray(Count)
 
 	Iter = 0
@@ -908,7 +892,7 @@ Function HandlePeriodicUpdates()
 	Int ActorCount = self.GetMountedActorCount()
 	Float Now = Utility.GetCurrentRealTime()
 
-	;; no actors nothing to do good bye.
+	;; no actors nothing to do goodbye.
 
 	If(ActorCount == 0)
 		Return 
@@ -916,12 +900,21 @@ Function HandlePeriodicUpdates()
 
 	;;;;;;;;
 
+	;; throttled events regardless of the device update frequency.
+
 	If((Now - self.TimeAroused) > 30)
-		self.UpdateArousals()
 		self.TimeAroused = Now
+
+		If(Main.Config.GetBool(".DeviceActorAroused"))
+			self.UpdateArousals()
+		EndIf
 	EndIf
 
-	self.Moan()
+	;;;;;;;;
+
+	If(Main.Config.GetBool(".DeviceActorMoan"))
+		self.Moan()
+	EndIf
 
 	Return
 EndFunction
@@ -936,10 +929,6 @@ Function Moan()
 	;; accidentally picks a slot that has an actor in it. there is technically
 	;; a chance it wont end up moaning at all but its super slim you'd think
 	;; given most devices will only have one slot lol.
-
-	If(!Main.Config.GetBool(".DeviceActorMoan"))
-		Return
-	EndIf
 
 	If(!self.Is3dLoaded())
 		Return

@@ -450,14 +450,15 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; device by like a long long time (the 0.000001 rotation speed). this
 	;; is the same trick sexlab uses during scenes.
 
-	Who.SplineTranslateTo(         \
+	Who.SetAngle(0.0,0.0,self.GetAngleZ())
+	Who.TranslateTo(               \
 		self.GetPositionX(),       \
 		self.GetPositionY(),       \
 		self.GetPositionZ(),       \
 		self.GetAngleX(),          \
 		self.GetAngleY(),          \
 		(self.GetAngleZ() + 0.01), \
-		1.0,10000,0.000001         \
+		10000,0.000001             \
 	)
 
 	;; assuming direct control

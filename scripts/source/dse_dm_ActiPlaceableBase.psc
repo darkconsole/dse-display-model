@@ -891,6 +891,9 @@ Function HandlePeriodicUpdates()
 
 	Int ActorCount = self.GetMountedActorCount()
 	Float Now = Utility.GetCurrentRealTime()
+	Bool DoArousal = Main.Config.GetBool(".DeviceActorAroused")
+	Bool DoMoan = Main.Config.GetBool(".DeviceActorMoan")
+	Int Iter = 0
 
 	;; no actors nothing to do goodbye.
 
@@ -902,17 +905,24 @@ Function HandlePeriodicUpdates()
 
 	;; throttled events regardless of the device update frequency.
 
-	If((Now - self.TimeAroused) > 30)
+	If((Now - self.TimeAroused) >= 30.0)
 		self.TimeAroused = Now
 
-		If(Main.Config.GetBool(".DeviceActorAroused"))
-			self.UpdateArousals()
-		EndIf
+		Iter = 0
+		While(Iter < self.Actors.Length)
+			If(self.Actors[Iter] != None)
+				If(DoArousal)
+					Main.Util.ActorArousalUpdate(self.Actors[Iter],TRUE)
+				EndIf
+				self.PrintUpdateInfo(self.Actors[Iter])
+			EndIf
+			Iter += 1
+		EndWhile
 	EndIf
 
 	;;;;;;;;
 
-	If(Main.Config.GetBool(".DeviceActorMoan"))
+	If(DoMoan)
 		self.Moan()
 	EndIf
 
@@ -964,6 +974,34 @@ Function UpdateArousals()
 
 		Iter += 1
 	EndWhile
+
+	Return
+EndFunction
+
+Function PrintUpdateInfo(Actor Who)
+
+	Bool DoTimer = Main.Config.GetBool(".BondagePrintPlayerTimer")
+	Bool DoArousal = Main.Config.GetBool(".BondagePrintPlayerArousal") && Main.Config.GetBool(".DeviceActorAroused")
+	String Output = ""
+
+	If(Who == Main.Player)
+		If(DoTimer)
+			Output += "Time Bound: " 
+			Output += Main.Util.ReadableTimeDelta(Main.Util.ActorBondagePlayerTimerDelta())
+		EndIf
+
+		If(DoArousal)
+			If(Output != "")
+				Output += ", "
+			EndIf
+			Output += "Arousal: "
+			Output += Main.Util.ActorArousalGet(Main.Player)
+		EndIf
+	EndIf
+
+	If(Output != "")
+		Main.Util.Print(Output)
+	EndIf
 
 	Return
 EndFunction
@@ -1191,8 +1229,12 @@ State Idle
 
 	Event OnControlUp(String What, Float Len)
 
-		If(Main.Util.ActorEscapeAttempt(Main.Player))
-			self.ReleaseActor(Main.Player)
+		If(What == "Jump")
+			If(Main.Util.ActorEscapeAttempt(Main.Player))
+				self.ReleaseActor(Main.Player)
+			EndIf
+
+			self.PrintUpdateInfo(Main.Player)
 		EndIf
 
 	EndEvent

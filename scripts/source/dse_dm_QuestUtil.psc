@@ -230,6 +230,12 @@ Function ActorArousalInc(Actor Who, Int Exposure, String Reason="DM3 Arousal Mod
 	Return
 EndFunction
 
+Int Function ActorArousalGet(Actor Who)
+{update an actors arousal.}
+
+	Return (Main.Aroused as slaFrameworkScr).GetActorExposure(Who)
+EndFunction
+
 Function ActorToggleFaction(Actor Who, Faction What)
 {add the actor to a faction if not in it, remove them from it if they are.}
 
@@ -606,11 +612,42 @@ Function ActorBondageTimerUpdate(Actor Who)
 	Return
 EndFunction
 
-Function ActorBondageTimerGet(Actor Who)
+Float Function ActorBondageTimerGet(Actor Who)
 {get the tracking time that this actor entered bondage}
 
-	StorageUtil.GetFloatValue(Who,Main.DataKeyActorBondageTimer,Utility.GetCurrentGameTime())
-	Return
+	Return StorageUtil.GetFloatValue(Who,Main.DataKeyActorBondageTimer,-1.0)
+EndFunction
+
+Float Function ActorBondageTimerDelta(Actor Who)
+{get the tracking time that this actor entered bondage}
+
+	Float Now = Utility.GetCurrentGameTime()
+	Float Then = self.ActorBondageTimerGet(Who)
+
+	If(Then < 0.0)
+		Return 0.0
+	EndIf
+
+	Return Now - Then
+EndFunction
+
+Float Function ActorBondagePlayerTimerGet()
+{get the tracking time that this actor entered bondage the player's real life time}
+
+	Return StorageUtil.GetFloatValue(Main.Player,Main.DataKeyActorPlayerBondageTimer,-1.0)
+EndFunction
+
+Float Function ActorBondagePlayerTimerDelta()
+{get the tracking time that this actor entered bondage the players real life time.}
+
+	Float Now = Utility.GetCurrentRealTime()
+	Float Then = self.ActorBondagePlayerTimerGet()
+
+	If(Then < 0.0)
+		Return 0.0
+	EndIf
+
+	Return (Now - Then) / 86400 
 EndFunction
 
 Float Function ActorBondageTimeTotal(Actor Who)

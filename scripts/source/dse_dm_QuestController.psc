@@ -41,6 +41,7 @@ GlobalVariable Property Timescale Auto
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 String Property KeyESP = "dse-display-model.esp" AutoReadOnly Hidden
+String Property KeySplashGraphic = "dse-display-model/splash.dds" AutoReadOnly Hidden
 String Property DataKeyGrabObjectTarget = "DM3.GrabObject.Target" AutoReadOnly Hidden
 String Property DataKeyActorDevice = "DM3.Actor.Device" AutoReadOnly Hidden
 String Property DataKeyActorOutfit1 = "DM3.Actor.Outfit1" AutoReadOnly Hidden

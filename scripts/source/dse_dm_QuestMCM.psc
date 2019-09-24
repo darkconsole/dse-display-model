@@ -61,7 +61,7 @@ Event OnPageReset(String page)
 		self.ShowPageGeneral()
 	ElseIf(Page == "$DM3_Menu_Stats")
 		self.ShowPageStats()
-	ElseIf(Page == "$DM3_Menu_Splash")
+	Else
 		self.ShowPageSplash()
 	EndIf
 
@@ -143,5 +143,6 @@ EndFunction
 
 Function ShowPageSplash()
 
+	self.LoadCustomContent(Main.KeySplashGraphic)
 	Return
 EndFunction

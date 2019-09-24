@@ -11,7 +11,7 @@
 	"DeviceDropDistance": 75.0,
 	"BondageEscapeChancePlayer": 15.0,
 	"BondageEscapeStaminaFactor": 0.5,
-	"BondageEscapeArousalFactor": 0.5,
+	"BondageEscapeArousalFactor": 0.6,
 	"BondageEscapeFailureArousal": 2,
 	"BondageEscapeSuccessArousal": -10,
 	"BondageEscapeStaminaMinimum": 35.0,

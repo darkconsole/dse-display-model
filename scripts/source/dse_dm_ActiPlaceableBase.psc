@@ -488,6 +488,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		self.RegisterForControl("Jump")
 		Game.DisablePlayerControls(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,0)
 		Game.ForceThirdPerson()
+		self.PrintUpdateInfo(Who)
 	EndIf
 
 	Main.Util.PrintDebug(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)

@@ -690,10 +690,14 @@ Bool Function ActorEscapeAttemptPlayer(Actor Who)
 	Float StaminaMax = Who.GetBaseActorValue(Main.KeyActorValueStamina)
 	Float StaminaCost = Main.Config.GetFloat(".BondageEscapeStaminaMinimum")
 	Float StaminaFactor = Main.Config.GetFloat(".BondageEscapeStaminaFactor")
-	Float StaminaPercent = PapyrusUtil.ClampFloat((Stamina / StaminaMax),0,1.0)
+	Float StaminaPercent = PapyrusUtil.ClampFloat((Stamina / StaminaMax),0.0,1.0)
+	Float ArousalFactor = Main.Config.GetFloat(".BondageEscapeArousalFactor")
+	Float ArousalPercent = PapyrusUtil.ClampFloat((self.ActorArousalGet(Who) / 100.0),0.0,1.0)
 	Float Chance = Main.Config.GetFloat(".BondageEscapeChancePlayer")
 	Float ChanceMax = 100.0
-	Float Roll = 0.0	
+	Float Roll = 0.0
+	Float StaminaMod = 0.0
+	Float ArousalMod = 0.0
 	Int ArousalFailure = Main.Config.GetInt(".BondageEscapeFailureArousal")
 	Int ArousalSuccess = Main.Config.GetInt(".BondageEscapeSuccessArousal")
 
@@ -709,9 +713,12 @@ Bool Function ActorEscapeAttemptPlayer(Actor Who)
 
 	;; roll a chance.
 
-	ChanceMax += (StaminaMax * (1 - StaminaPercent)) * StaminaFactor
+	StaminaMod = (StaminaMax * (1 - StaminaPercent)) * StaminaFactor
+	ArousalMod = (StaminaMax * (ArousalPercent - ArousalFactor)) * ArousalFactor
+	ChanceMax += StaminaMod + ArousalMod
+
 	Roll = Utility.RandomFloat(0.0,ChanceMax)
-	Main.Util.PrintDebug(Who.GetDisplayName() + " Escape Chance " + Roll + " (" + Chance + ", " + ChanceMax + ")")
+	Main.Util.PrintDebug(Who.GetDisplayName() + " Roll: " + Roll + " <= " + Chance + ", ChanceMax: " + ChanceMax + " (StaminaMod: " + StaminaMod + ", ArousalMod: " + ArousalMod + ")")
 
 	If(Roll <= Chance)
 		If(ArousalSuccess != 0)

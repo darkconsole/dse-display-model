@@ -107,9 +107,9 @@ Function ShowPageStats()
 	self.AddTextOption("$DM3_Menu_StatActorCount","")
 	self.AddTextOption("",Main.Util.FloatToString(ActorCount,0))
 	self.AddTextOption("$DM3_Menu_StatsTotalTime","")
-	self.AddTextOption("",Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(None)))
+	self.AddTextOption(Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(None),FALSE),Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(None),TRUE))
 	self.AddTextOption("$DM3_Menu_StatsPlayerTime","")
-	self.AddTextOption("",Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(Main.Player)))
+	self.AddTextOption(Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(Main.Player),FALSE),Main.Util.ReadableTimeDelta(Main.Util.ActorBondageTimeTotal(Main.Player),TRUE))
 	self.AddTextOption("$DM3_Menu_StatsPlayerEscapeAttempts","")
 	self.AddTextOption("",Main.Util.FloatToString(StorageUtil.GetIntValue(Main.Player,Main.DataKeyActorEscapeAttempts),0))
 	self.AddEmptyOption()
@@ -125,7 +125,7 @@ Function ShowPageStats()
 
 		If(Who != None)
 			self.AddTextOption(Who.GetDisplayName(),"")
-			self.AddTextOption("",Main.Util.ReadableTimeDelta(TimeSpent))
+			self.AddTextOption(Main.Util.ReadableTimeDelta(TimeSpent,FALSE),Main.Util.ReadableTimeDelta(TimeSpent,TRUE))
 		EndIf
 
 		Iter += 1

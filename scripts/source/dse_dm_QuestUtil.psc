@@ -170,6 +170,43 @@ a float into a string directly.}
 	Return Output
 EndFunction
 
+String Function ReadableTimeDelta(Float Time, Bool RealLife=FALSE)
+{given a skyrim time (float of days) return a readble time frame. if asking for
+"real life time" we will use the current timescale to calculate it. }
+
+	String Output = ""
+	Float Work = 0.0
+
+	If(RealLife)
+		Time /= Main.Timescale.GetValue()
+	EndIf
+
+	;;;;;;;;
+	;;;;;;;;
+
+	Work = Time
+
+	If(Work > 1.0)
+		Output += Math.Floor(Work) + " D,"
+	EndIf
+	Work = (Work - Math.Floor(Work)) * 24
+
+	If(Work > 0.0)
+		Output += Math.Floor(Work) + " H,"
+	EndIf
+	Work = (Work - Math.Floor(Work)) * 60
+
+	If(Work > 0.0)
+		Output += Math.Floor(Work) + " M"
+	EndIf
+
+	;; hillarious trick dealing with the above string since we have no
+	;; trim function.
+	Output = PapyrusUtil.StringJoin(PapyrusUtil.StringSplit(Output,",")," ")
+
+	Return Output	
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -637,8 +674,10 @@ Float Function ActorBondagePlayerTimerGet()
 	Return StorageUtil.GetFloatValue(Main.Player,Main.DataKeyActorPlayerBondageTimer,-1.0)
 EndFunction
 
-Float Function ActorBondagePlayerTimerDelta()
-{get the tracking time that this actor entered bondage the players real life time.}
+Float Function ActorBondagePlayerTimerDelta(Bool InSeconds=FALSE)
+{get the tracking time that this actor entered bondage the players real life time.
+default is it returns the value in days passed like the game time is. returns seconds
+passed if the arg is set true.}
 
 	Float Now = Utility.GetCurrentRealTime()
 	Float Then = self.ActorBondagePlayerTimerGet()
@@ -647,6 +686,10 @@ Float Function ActorBondagePlayerTimerDelta()
 		Return 0.0
 	EndIf
 
+	If(InSeconds)
+		Return (Now - Then)
+	EndIf
+	
 	Return (Now - Then) / 86400 
 EndFunction
 
@@ -693,6 +736,8 @@ Bool Function ActorEscapeAttemptPlayer(Actor Who)
 	Float StaminaPercent = PapyrusUtil.ClampFloat((Stamina / StaminaMax),0.0,1.0)
 	Float ArousalFactor = Main.Config.GetFloat(".BondageEscapeArousalFactor")
 	Float ArousalPercent = PapyrusUtil.ClampFloat((self.ActorArousalGet(Who) / 100.0),0.0,1.0)
+	Float TimeMinimum = Main.Config.GetFloat(".BondageEscapeTimeMinimum")
+	Float TimePassed = Main.Util.ActorBondagePlayerTimerDelta(TRUE)
 	Float Chance = Main.Config.GetFloat(".BondageEscapeChancePlayer")
 	Float ChanceMax = 100.0
 	Float Roll = 0.0
@@ -704,12 +749,25 @@ Bool Function ActorEscapeAttemptPlayer(Actor Who)
 	;; do you even have enough energy to try.
 
 	If(Stamina < StaminaCost)
+		Main.Util.PrintDebug(Who.GetDisplayName() + " not enough stamina to escape.")
 		Return FALSE
 	EndIf
 
 	StorageUtil.AdjustIntValue(Who,Main.DataKeyActorEscapeAttempts,1)
 	Who.DamageActorValue(Main.KeyActorValueStamina,StaminaCost)
 	self.ImmersiveSoundMoan(Who,FALSE)
+
+	;; have you waited long enough?
+	;; this is intentionally placed to allow you to waste your stamina and
+	;; arousal if you're trying to be a little shit.
+
+	If(TimePassed < TimeMinimum)
+		If(ArousalFailure != 0)
+			Main.Util.ActorArousalInc(Who,ArousalFailure)
+		EndIf
+		Main.Util.PrintDebug(Who.GetDisplayName() + " hasn't waited long enough to escape.")
+		Return FALSE
+	EndIf
 
 	;; roll a chance.
 
@@ -727,7 +785,7 @@ Bool Function ActorEscapeAttemptPlayer(Actor Who)
 		Return TRUE
 	EndIf
 
-	If(ArousalSuccess != 0)
+	If(ArousalFailure != 0)
 		Main.Util.ActorArousalInc(Who,ArousalFailure)
 	EndIf
 
@@ -743,41 +801,4 @@ Float Function GetActorValueMax(Actor Who, String ValueName)
 	;; GetActorValuePercentage's result is questionable.
 
 	Return Max
-EndFunction
-
-String Function ReadableTimeDelta(Float Time, Bool RealLife=FALSE)
-{given a skyrim time (float of days) return a readble time frame. if asking for
-"real life time" we will use the current timescale to calculate it. }
-
-	String Output = ""
-	Float Work = 0.0
-
-	If(RealLife)
-		Time /= Main.Timescale.GetValue()
-	EndIf
-
-	;;;;;;;;
-	;;;;;;;;
-
-	Work = Time
-
-	If(Work > 1.0)
-		Output += Math.Floor(Work) + " D,"
-	EndIf
-	Work = (Work - Math.Floor(Work)) * 24
-
-	If(Work > 0.0)
-		Output += Math.Floor(Work) + " H,"
-	EndIf
-	Work = (Work - Math.Floor(Work)) * 60
-
-	If(Work > 0.0)
-		Output += Math.Floor(Work) + " M"
-	EndIf
-
-	;; hillarious trick dealing with the above string since we have no
-	;; trim function.
-	Output = PapyrusUtil.StringJoin(PapyrusUtil.StringSplit(Output,",")," ")
-
-	Return Output	
 EndFunction

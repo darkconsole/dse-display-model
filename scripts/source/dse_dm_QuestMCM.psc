@@ -13,7 +13,7 @@ Event OnGameReload()
 	;; restarting the game we have to restart the timer
 	;; due to how the real time timer counts since the
 	;; game started.
-	If(Main.Devices.GetActorDevice(Main.Player) != None)
+	If(Main.Player.IsInFaction(Main.FactionActorUsingDevice))
 		Main.Util.ActorBondageTimerStart(Main.Player)
 	EndIf
 

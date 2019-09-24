@@ -978,11 +978,17 @@ EndFunction
 Function TryArousalRelease(Actor Who)
 {try to automatically release when arousal is zero.}
 
+	Float TimeMinimum = 0.0
+	Float TimePassed = 0.0
 	Bool Release = FALSE
 
 	If(Main.Util.ActorArousalGet(Who) <= 0.0)
 		If(Who == Main.Player && Main.Config.GetBool(".BondageEscapeArousalPlayer"))
-			Release = TRUE
+			TimeMinimum = Main.Config.GetFloat(".BondageEscapeTimeMinimum")
+			TimePassed = Main.Util.ActorBondagePlayerTimerDelta(TRUE)
+			If(TimePassed >= TimeMinimum)
+				Release = TRUE
+			EndIf
 		ElseIf(Main.Config.GetBool(".BondageEscapeArousalNPC"))
 			Release = TRUE
 		EndIf

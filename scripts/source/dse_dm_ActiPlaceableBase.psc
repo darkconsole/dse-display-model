@@ -896,9 +896,18 @@ Function HandlePeriodicUpdates()
 	Bool DoMoan = Main.Config.GetBool(".DeviceActorMoan")
 	Int Iter = 0
 
+	;; handle the case where the game has been restarted and that real time
+	;; counter has started over.
+
+	If(self.TimeAroused > Now)
+		self.TimeAroused = Now - 69
+		;; giggity giggity.
+	EndIf
+
 	;; no actors nothing to do goodbye.
 
 	If(ActorCount == 0)
+		Main.Util.PrintDebug(self.GetName() + " skipped: no actors mounted.")
 		Return 
 	EndIf
 
@@ -915,8 +924,11 @@ Function HandlePeriodicUpdates()
 				If(DoArousal)
 					Main.Util.ActorArousalUpdate(self.Actors[Iter],TRUE)
 				EndIf
+
 				self.PrintUpdateInfo(self.Actors[Iter])
+				self.TryArousalRelease(self.Actors[Iter])
 			EndIf
+
 			Iter += 1
 		EndWhile
 	EndIf
@@ -963,18 +975,23 @@ Function Moan()
 	Return
 EndFunction
 
-Function UpdateArousals()
-{update arousal on all actors on this device.}
+Function TryArousalRelease(Actor Who)
+{try to automatically release when arousal is zero.}
 
-	Int Iter = 0
+	Bool Release = FALSE
 
-	While(Iter < self.Actors.Length)
-		If(self.Actors[Iter] != None)
-			Main.Util.ActorArousalUpdate(self.Actors[Iter],TRUE)
+	If(Main.Util.ActorArousalGet(Who) <= 0.0)
+		If(Who == Main.Player && Main.Config.GetBool(".BondageEscapeArousalPlayer"))
+			Release = TRUE
+		ElseIf(Main.Config.GetBool(".BondageEscapeArousalNPC"))
+			Release = TRUE
 		EndIf
+	EndIf
 
-		Iter += 1
-	EndWhile
+	If(Release)
+		Main.Util.PrintDebug(Who.GetDisplayName() + " released due empty arousal.")
+		self.ReleaseActor(Who)
+	EndIf
 
 	Return
 EndFunction

@@ -10,6 +10,13 @@ Event OnGameReload()
 	;; dependency check
 	Main.CheckForDeps(TRUE)
 
+	;; restarting the game we have to restart the timer
+	;; due to how the real time timer counts since the
+	;; game started.
+	If(Main.Devices.GetActorDevice(Main.Player) != None)
+		Main.Util.ActorBondageTimerStart(Main.Player)
+	EndIf
+
 	;; check if any devices have been added lately.
 	Main.Devices.ScanFiles()
 

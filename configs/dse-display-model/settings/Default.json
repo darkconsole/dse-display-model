@@ -12,6 +12,8 @@
 	"BondageEscapeChancePlayer": 15.0,
 	"BondageEscapeStaminaFactor": 0.5,
 	"BondageEscapeArousalFactor": 0.6,
+	"BondageEscapeArousalPlayer": true,
+	"BondageEscapeArousalNPC": false,
 	"BondageEscapeFailureArousal": 2,
 	"BondageEscapeSuccessArousal": -10,
 	"BondageEscapeStaminaMinimum": 35.0,

@@ -213,16 +213,12 @@ EndFunction
 Float Function ActorArousalGetTick(Actor Who)
 {determine how much the actor arousal should be modified per script tick.}
 
-	Float Tick = 1.0 
-
-	If(Main.Aroused == None)
-		Return 0.0
-	EndIf
+	Float Tick
 
 	If(Who == Main.Player)
-		Tick *= Main.Config.GetFloat(".ArousedTickPlayerFactor")
+		Tick = Main.Config.GetFloat(".ArousedTickFactorPlayer")
 	Else
-		Tick *= Main.Config.GetFloat(".ArousedTickFactor")
+		Tick = Main.Config.GetFloat(".ArousedTickFactor")
 	EndIF
 
 	If(!(Main.Aroused as slaFrameworkScr).IsActorExhibitionist(Who))
@@ -238,16 +234,20 @@ Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
 	Float Tick = self.ActorArousalGetTick(Who)
 	Float TimeRate = 0.0
 
+	If(Main.Aroused == None)
+		Return
+	EndIf
+
 	If(!Lower)
 		Tick *= -1;
 	EndIf
 
-	If(Main.Aroused && Main.Config.GetBool(".ArousedTickExposure"))
+	If(Main.Config.GetBool(".ArousedTickExposure"))
 		;; exposure goes up or down based on exhibitionist status.
 		self.ActorArousalInc(Who,(Tick as Int),"DM3 Bound Arousal Mod")
 	EndIf
 
-	If(Main.Aroused && Main.Config.GetBool(".ArousedTickTimeRate"))
+	If(Main.Config.GetBool(".ArousedTickTimeRate"))
 		;; time rate however always goes down.
 		TimeRate = ((Math.Abs(Tick) / 4) * -1) 
 		StorageUtil.AdjustFloatValue(Who,"SLAroused.TimeRate",TimeRate)
@@ -262,13 +262,20 @@ EndFunction
 Function ActorArousalInc(Actor Who, Int Exposure, String Reason="DM3 Arousal Mod")
 {update an actors arousal.}
 
+	If(Main.Aroused == None)
+		Return
+	EndIf
+
 	(Main.Aroused as slaFrameworkScr).UpdateActorExposure(Who,Exposure,Reason)
-	
 	Return
 EndFunction
 
 Int Function ActorArousalGet(Actor Who)
 {update an actors arousal.}
+
+	If(Main.Aroused == None)
+		Return 0
+	EndIf
 
 	Return (Main.Aroused as slaFrameworkScr).GetActorExposure(Who)
 EndFunction
@@ -772,7 +779,9 @@ Bool Function ActorEscapeAttemptPlayer(Actor Who)
 	;; roll a chance.
 
 	StaminaMod = (StaminaMax * (1 - StaminaPercent)) * StaminaFactor
-	ArousalMod = (StaminaMax * (ArousalPercent - ArousalFactor)) * ArousalFactor
+	If(Main.Aroused != None)
+		ArousalMod = (StaminaMax * (ArousalPercent - ArousalFactor)) * ArousalFactor
+	EndIf
 	ChanceMax += StaminaMod + ArousalMod
 
 	Roll = Utility.RandomFloat(0.0,ChanceMax)

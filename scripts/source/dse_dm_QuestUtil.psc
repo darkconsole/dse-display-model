@@ -560,6 +560,50 @@ slot spell.}
 	Return
 EndFunction
 
+Function FreezeAllActors(Bool Freeze=TRUE, Bool LocalOnly=TRUE)
+{mostly used by the wait menu to prevent them from doing crazy shit while
+you wait in the same room as them.}
+
+	Int Len = StorageUtil.FormListCount(None,Main.DataKeyActorDevice)
+	Actor Who
+
+	While(Len > 0)
+		Len -= 1
+		Who = StorageUtil.FormListGet(None,Main.DataKeyActorDevice,Len) As Actor
+
+		If(Who != None)
+			If(!LocalOnly || (LocalOnly && Who.GetParentCell() == Main.Player.GetParentCell()))
+				self.FreezeActor(Who,Freeze)
+			EndIf
+		EndIf
+	EndWhile
+
+	Return
+EndFunction
+
+Function FreezeActor(Actor Who, Bool Freeze)
+{prevent an actor from thinking.}
+
+	;; the story behind the use of consoleutil is due to the Actor.EnableAI
+	;; not working 1:1 as it did in oldrim. it does disable their ai, but
+	;; it seems only partially or not as deeply as it used to. it used to
+	;; prevent them from letting their packages control them during the wait
+	;; or sleep process, but in sse it does not go that far. however manually
+	;; targeting them with tai from the console worked. so. here we are.
+
+	If(Main.HasConsoleUtil)
+		If(Freeze && Who.IsAiEnabled())
+			ConsoleUtil.SetSelectedReference(Who)
+			ConsoleUtil.ExecuteCommand("tai")
+		ElseIf(!Freeze && !Who.IsAiEnabled())
+			ConsoleUtil.SetSelectedReference(Who)
+			ConsoleUtil.ExecuteCommand("tai")
+		EndIf
+	EndIf
+
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

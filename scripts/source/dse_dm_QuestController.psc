@@ -9,6 +9,7 @@ dse_dm_QuestUtil Property Util Auto
 
 SexLabFramework Property SexLab = None Auto Hidden
 Quest Property Aroused = None Auto Hidden ;; slaFrameworkScr
+Bool Property HasConsoleUtil = TRUE Auto Hidden
 Bool Property OptValidateActor = TRUE Auto Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -107,6 +108,10 @@ Bool Function CheckForDeps(Bool Popup)
 	EndIf
 
 	If(!self.CheckForDeps_UIExtensions(Popup))
+		Output = FALSE
+	EndIf
+
+	If(!self.CheckForDeps_ConsoleUtil(Popup))
 		Output = FALSE
 	EndIf
 
@@ -249,6 +254,20 @@ Bool Function CheckForDeps_UIExtensions(Bool Popup)
 	Return TRUE
 EndFunction
 
+Bool Function CheckForDeps_ConsoleUtil(Bool Popup)
+{make sure we have console util installed.}
+
+	If(SKSE.GetPluginVersion("ConsoleUtilSSE") < 0)
+		If(Popup)
+			self.Util.PopupError("ConsoleUtilSSE 1.0.4+ is not installed.")
+		EndIf
+		self.HasConsoleUtil = FALSE
+		Return FALSE
+	EndIf
+
+	Return TRUE
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -283,6 +302,15 @@ Function InstallVendorItems()
 	;;If(CountAdds > 0)
 		Util.PrintDebug(CountAdds + " items added to lists.")
 	;;EndIf
+
+	Return
+EndFunction
+
+Function RegisterForThings()
+{indeed.}
+
+	self.UnregisterForMenu("Sleep/Wait Menu")
+	self.RegisterForMenu("Sleep/Wait Menu")
 
 	Return
 EndFunction
@@ -404,4 +432,27 @@ EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Event OnMenuOpen(String Name)
+{handler for our menu hack}
+
+	If(Name == "Sleep/Wait Menu")
+		Util.PrintDebug("Wait Menu Open")
+		Util.FreezeAllActors(TRUE,TRUE)
+	EndIf
+
+	Return
+EndEvent
+
+Event OnMenuClose(String Name)
+{handler for our menu hack}
+
+	If(Name == "Sleep/Wait Menu")
+		Util.PrintDebug("Wait Menu Close")
+		Utility.Wait(0.25)
+		Util.FreezeAllActors(FALSE,TRUE)
+	EndIf
+
+	Return
+EndEvent
 

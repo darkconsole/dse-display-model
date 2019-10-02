@@ -1,6 +1,7 @@
 Scriptname dse_dm_QuestMCM extends SKI_ConfigBase
 
 dse_dm_QuestController Property Main Auto
+String Property Current Auto Hidden
 
 Event OnGameReload()
 {things to do when the game is loaded from disk.}
@@ -23,6 +24,9 @@ Event OnGameReload()
 	;; add books to vendors.
 	Main.InstallVendorItems()
 
+	;; some misc things.
+	Main.RegisterForThings()
+
 	Return
 EndEvent
 
@@ -33,7 +37,8 @@ Event OnConfigInit()
 	
 	self.Pages[0] = "$DM3_Menu_General"
 	self.Pages[1] = "$DM3_Menu_Stats"
-	self.Pages[2] = "$DM3_Menu_Splash"
+	self.Pages[2] = "$DM3_Menu_Info"
+	self.Pages[3] = "$DM3_Menu_Splash"
 
 	Return
 EndEvent
@@ -56,11 +61,14 @@ Event OnPageReset(String Page)
 {when a different tab is selected in the menu.}
 
 	self.UnloadCustomContent()
+	self.Current = Page
 
 	If(Page == "$DM3_Menu_General")
 		self.ShowPageGeneral()
 	ElseIf(Page == "$DM3_Menu_Stats")
 		self.ShowPageStats()
+	ElseIf(Page == "$DM3_Menu_Info")
+		self.ShowPageInfo()
 	Else
 		self.ShowPageSplash()
 	EndIf
@@ -75,6 +83,13 @@ EndEvent
 Event OnOptionSelect(Int Item)
 	Bool Val = FALSE
 	Int Data = -1
+
+	;;;;;;;;
+
+	If(self.Current == "$DM3_Menu_Info")
+		;; these aren't options they are statuses.
+		Val = TRUE
+	EndIf
 
 	;;;;;;;;
 
@@ -437,6 +452,29 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+Function ShowPageInfo()
+
+	self.SetTitleText("$DM3_Menu_Info")
+	self.SetCursorFillMode(LEFT_TO_RIGHT)
+	self.SetCursorPosition(0)
+
+	self.AddHeaderOption("$DM3_MenuOpt_DependencyCheck")
+	self.AddHeaderOption("")
+	self.AddToggleOption("$DM3_MenuOpt_SKSE",Main.CheckForDeps_SKSE(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_SkyUI",Main.CheckForDeps_SkyUI(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_SexLab",Main.CheckForDeps_SexLab(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_SexLab Aroused",Main.CheckForDeps_SexLabAroused(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_PapyrusUtil",Main.CheckForDeps_PapyrusUtil(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_RaceMenu",Main.CheckForDeps_RaceMenu(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_UIExtensions",Main.CheckForDeps_UIExtensions(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_ConsoleUtil",Main.CheckForDeps_ConsoleUtil(FALSE))
+
+	Return
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function ShowPageSplash()
 
 	self.LoadCustomContent(Main.KeySplashGraphic)

@@ -1228,6 +1228,8 @@ State Idle
 		;; the device's onload itself will handle that the next time we actually
 		;; go inside... probably.
 
+		Actor Who = What As Actor
+
 		If(self.GetParentCell() != What.GetParentCell())
 			What.MoveTo(self)
 			Main.Util.Print(What.GetDisplayName() + " had to be corrected via LOS Check")
@@ -1235,6 +1237,11 @@ State Idle
 			;; idea - experiment with checking if the actor is properly aligned
 			;; with the device. if they are too far, refresh them. also experiment
 			;; with maybe refreshing the actor package stack just because actorutil.
+
+			If(Who != None)
+				Main.Util.PrintDebug(Who.GetDisplayName() + " Enabled By LOS")
+				Who.EnableAI(TRUE)
+			EndIf
 		EndIf
 
 		Return
@@ -1245,6 +1252,14 @@ State Idle
 		;; of visual range if we really need to stop radiant roaming. something
 		;; like if not in same cell as player then tai them. our gain method above
 		;; would then need to toggle that back on.
+
+		Actor Who = What As Actor
+
+		If(Who != None)
+			;;Main.Util.PrintDebug(Who.GetDisplayName() + " Disabled By LOS")
+			;;Who.EnableAI(FALSE)
+		EndIf
+
 		Return
 	EndEvent
 

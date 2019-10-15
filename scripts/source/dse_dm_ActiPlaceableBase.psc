@@ -1240,7 +1240,7 @@ State Idle
 
 			If(Who != None)
 				Main.Util.PrintDebug(Who.GetDisplayName() + " Enabled By LOS")
-				Who.EnableAI(TRUE)
+				Main.Util.FreezeActor(Who,FALSE)
 			EndIf
 		EndIf
 
@@ -1256,8 +1256,8 @@ State Idle
 		Actor Who = What As Actor
 
 		If(Who != None)
-			;;Main.Util.PrintDebug(Who.GetDisplayName() + " Disabled By LOS")
-			;;Who.EnableAI(FALSE)
+			Main.Util.PrintDebug(Who.GetDisplayName() + " Disabled By LOS")
+			Main.Util.FreezeActor(Who,TRUE)
 		EndIf
 
 		Return

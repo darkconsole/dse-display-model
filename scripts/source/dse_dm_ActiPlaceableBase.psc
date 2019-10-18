@@ -225,6 +225,25 @@ Bool Function AreActorsLoaded()
 	Return TRUE
 EndFunction
 
+Bool Function ForceActorsCell()
+{check if all the actors currently attached are loaded.}
+
+	Int Iter = 0
+
+	While(Iter < self.Actors.Length)
+		If(self.Actors[Iter] != None)
+			If(self.Actors[Iter].GetParentCell() != self.GetParentCell())
+				self.Actors[Iter].MoveTo(self)
+				Main.Util.Print(self.Actors[Iter].GetDisplayName() + " had to be corrected via ForceActorsCell")
+			EndIf
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return TRUE
+EndFunction
+
 Bool Function IsEmptySlot(Int Slot, Actor Who=None)
 {check if this slot is empty or occupied by the same actor.}
 
@@ -1165,6 +1184,10 @@ State Idle
 			Stalling += 1
 		EndWhile
 
+		;; then check they are even nearby.
+
+		self.ForceActorsCell()
+
 		;; handle making sure the actors are loaded.
 
 		Stalling = 0
@@ -1179,9 +1202,7 @@ State Idle
 		self.Refresh()
 
 		If(Main.Devices.GetDeviceActorCount(self.File) == 1)
-			Main.Util.PrintDebug("Device Is Solo Device")
 			If(Main.Devices.GetDeviceRandomSlotOnLoad(self.File))
-				Main.Util.PrintDebug("Device Is Random Enabled")
 				self.RandomiseMountedActor()
 			EndIf
 		EndIf
@@ -1228,20 +1249,21 @@ State Idle
 		;; the device's onload itself will handle that the next time we actually
 		;; go inside... probably.
 
-		Actor Who = What As Actor
-
-		If(self.GetParentCell() != What.GetParentCell())
-			What.MoveTo(self)
-			Main.Util.Print(What.GetDisplayName() + " had to be corrected via LOS Check")
-		Else
-			;; idea - experiment with checking if the actor is properly aligned
-			;; with the device. if they are too far, refresh them. also experiment
-			;; with maybe refreshing the actor package stack just because actorutil.
-
-			If(Who != None)
-				Main.Util.PrintDebug(Who.GetDisplayName() + " Enabled By LOS")
-				Main.Util.FreezeActor(Who,FALSE)
+		If((What As Actor) != None)
+			If(self.GetParentCell() != What.GetParentCell())
+				;; actor ran away.
+				What.MoveTo(self)
+				Main.Util.Print(What.GetDisplayName() + " had to be corrected via LOS Check")
+			Else
+				;; re-enable actor ai while looking at them.
+				Main.Util.PrintDebug(What.GetDisplayName() + " Enabled By LOS")
+				Main.Util.FreezeActor(What As Actor,FALSE)
 			EndIf
+		ElseIf((What As dse_dm_ActiPlaceableBase) != None)
+			;; idea, check its actors are aligned.
+			;; los is not currently registered on the device itself.
+			;; only consider this if the OnLoad ForceActorsCells isn't
+			;; getting the job done.
 		EndIf
 
 		Return
@@ -1253,11 +1275,13 @@ State Idle
 		;; like if not in same cell as player then tai them. our gain method above
 		;; would then need to toggle that back on.
 
+		;; probably need to wrap this with an option. it messes with my outfit manager.
+
 		Actor Who = What As Actor
 
 		If(Who != None)
-			Main.Util.PrintDebug(Who.GetDisplayName() + " Disabled By LOS")
-			Main.Util.FreezeActor(Who,TRUE)
+			;;Main.Util.PrintDebug(Who.GetDisplayName() + " Disabled By LOS")
+			;;Main.Util.FreezeActor(Who,TRUE)
 		EndIf
 
 		Return

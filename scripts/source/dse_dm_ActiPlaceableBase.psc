@@ -470,6 +470,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Main.Util.HighHeelsCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
 	Main.Util.ImmersiveExpression(Who,FALSE)
+	Main.Util.ActorMouthApply(Who)
 
 	;; if the actor was already on this device and in this slot then we can
 	;; skip spawning its objects as they should already be there.
@@ -572,6 +573,7 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
 	Main.Util.ImmersiveExpression(self.Actors[Slot],FALSE)
+	Main.Util.ActorMouthClear(self.Actors[Slot])
 	Main.Util.ActorBondageTimerUpdate(self.Actors[Slot])
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
 

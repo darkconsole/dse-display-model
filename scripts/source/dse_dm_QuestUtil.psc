@@ -368,12 +368,48 @@ Bool Function ActorIsValid(Actor Who)
 	Return TRUE
 EndFunction
 
+Bool Function ActorIsMouthControlled(Actor Who)
+{check if an actor is having their mouth controlled for the pose.}
+
+	Return StorageUtil.GetStringValue(Who,Main.DataKeyActorMouth,Main.KeyActorMouthNormal) != Main.KeyActorMouthNormal
+EndFunction
+
+String Function ActorMouthGet(Actor Who)
+{get the mouth value.}
+
+	Return StorageUtil.GetStringValue(Who,Main.DataKeyActorMouth,Main.KeyActorMouthNormal)
+EndFunction
+
+Function ActorMouthApply(Actor Who)
+
+	String Mouth = self.ActorMouthGet(Who)
+
+	If(Mouth == Main.KeyActorMouthNormal)
+		Who.ResetExpressionOverrides()
+	ElseIf(Mouth == Main.KeyActorMouthOpen)
+		Who.SetExpressionPhoneme(11,100)
+	EndIf
+
+	Return
+EndFunction
+
+Function ActorMouthClear(Actor Who)
+{reset the expression.}
+
+	Who.ResetExpressionOverrides()
+	Return
+EndFunction
+
 sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
 {play an expression on the actor face.}
 
 	sslBaseExpression E
 
 	If(!Who.Is3dLoaded())
+		Return None
+	EndIf
+
+	If(self.ActorIsMouthControlled(Who))
 		Return None
 	EndIf
 

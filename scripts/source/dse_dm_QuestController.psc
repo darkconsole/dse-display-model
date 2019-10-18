@@ -68,6 +68,9 @@ String Property NioKeyOverrideScale = "DM3.OverrideScale" AutoReadOnly Hidden
 
 String Property KeyActorValueStamina = "Stamina" AutoReadOnly Hidden
 
+String Property KeyActorMouthNormal = "normal" AutoReadOnly Hidden
+String Property KeyActorMouthOpen = "open" AutoReadOnly Hidden
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -15,134 +15,137 @@ Version 100
 '' -h = head tracking enabled
 
 ofa -AVbHumanoidFootIKDisable dse-dm-Follow01 poses\DSE-Follow01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TPose poses\DSE-TPose.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TPose poses\DSE-TPose.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Dollstand01-A1 poses\DSE-Dollstand01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Dollstand01-A1 poses\DSE-Dollstand01-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Double Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-DoubleDollstand01-A1 poses\DSE-DoubleDollstand01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-DoubleDollstand01-A2 poses\DSE-DoubleDollstand01-A2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-DoubleDollstand01-A1 poses\DSE-DoubleDollstand01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-DoubleDollstand01-A2 poses\DSE-DoubleDollstand01-A2.hkx
 
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rope and Wooden Pony '''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope01-A1 poses\DSE-PonyRope01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope02-A1 poses\DSE-PonyRope02-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope03-A1 poses\DSE-PonyRope03-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope01-A1 poses\DSE-PonyRope01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope02-A1 poses\DSE-PonyRope02-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope03-A1 poses\DSE-PonyRope03-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Alokzaam '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam01-A1 poses\DSE-Alokzaam01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam02-A1 poses\DSE-Alokzaam02-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam03-A1 poses\DSE-Alokzaam03-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam04-A1 poses\DSE-Alokzaam04-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam01-A1 poses\DSE-Alokzaam01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam02-A1 poses\DSE-Alokzaam02-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam03-A1 poses\DSE-Alokzaam03-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Alokzaam04-A1 poses\DSE-Alokzaam04-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' St Alessia's Perch '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-AlessiasPerch01-A1 poses\DSE-AlessiasPerch01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-AlessiasPerch01-A1 poses\DSE-AlessiasPerch01-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Bovahdin '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Bovahdin01-A1 poses\DSE-Bovahdin01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Bovahdin01-A1 poses\DSE-Bovahdin01-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Chapel Of Dibella ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ChapelDibella01-A1 poses\DSE-ChapelDibella01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-ChapelDibella01-A1 poses\DSE-ChapelDibella01-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Seat Of Almalexia ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-SeatAlmalexia01-A1 poses\DSE-SeatAlmalexia01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-SeatAlmalexia01-A1 poses\DSE-SeatAlmalexia01-A1.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Vigiant Of Stendarr ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheVigilant01-A1 poses\DSE-TheVigilant01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheVigilant01-A1 poses\DSE-TheVigilant01-A1.hkx
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Queenbreaker ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A1 poses\DSE-Queenbreaker01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01A-A1 poses\DSE-Queenbreaker01A-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker02-A1 poses\DSE-Queenbreaker02-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker02A-A1 poses\DSE-Queenbreaker02A-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A1 poses\DSE-Queenbreaker01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01A-A1 poses\DSE-Queenbreaker01A-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker02-A1 poses\DSE-Queenbreaker02-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker02A-A1 poses\DSE-Queenbreaker02A-A1.hkx
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Cage ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A1 poses\DSE-Cage01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A2 poses\DSE-Cage01-A2.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A3 poses\DSE-Cage01-A3.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A4 poses\DSE-Cage01-A4.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A5 poses\DSE-Cage01-A5.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A6 poses\DSE-Cage01-A6.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A7 poses\DSE-Cage01-A7.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A8 poses\DSE-Cage01-A8.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A9 poses\DSE-Cage01-A9.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A10 poses\DSE-Cage01-A10.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A11 poses\DSE-Cage01-A11.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A12 poses\DSE-Cage01-A12.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A13 poses\DSE-Cage01-A13.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A14 poses\DSE-Cage01-A14.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A15 poses\DSE-Cage01-A15.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A16 poses\DSE-Cage01-A16.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A17 poses\DSE-Cage01-A17.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A1 poses\DSE-Cage01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A2 poses\DSE-Cage01-A2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A3 poses\DSE-Cage01-A3.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A4 poses\DSE-Cage01-A4.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A5 poses\DSE-Cage01-A5.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A6 poses\DSE-Cage01-A6.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A7 poses\DSE-Cage01-A7.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A8 poses\DSE-Cage01-A8.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A9 poses\DSE-Cage01-A9.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A10 poses\DSE-Cage01-A10.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A11 poses\DSE-Cage01-A11.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A12 poses\DSE-Cage01-A12.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A13 poses\DSE-Cage01-A13.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A14 poses\DSE-Cage01-A14.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A15 poses\DSE-Cage01-A15.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A16 poses\DSE-Cage01-A16.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Cage01-A17 poses\DSE-Cage01-A17.hkx
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Ball ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Ball01-A1 poses\DSE-Ball01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Ball01-A1 poses\DSE-Ball01-A1.hkx
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Ice Block '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A1 poses\DSE-IceBlock01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A2 poses\DSE-IceBlock01-A2.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A3 poses\DSE-IceBlock01-A3.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A4 poses\DSE-IceBlock01-A4.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A5 poses\DSE-IceBlock01-A5.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A6 poses\DSE-IceBlock01-A6.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A1 poses\DSE-IceBlock01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A2 poses\DSE-IceBlock01-A2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A3 poses\DSE-IceBlock01-A3.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A4 poses\DSE-IceBlock01-A4.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A5 poses\DSE-IceBlock01-A5.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-IceBlock01-A6 poses\DSE-IceBlock01-A6.hkx
 
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Mannequin Man '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan01-A1 poses\DSE-MannequinMan01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A1 poses\DSE-MannequinMan02-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A2 poses\DSE-MannequinMan02-A2.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A3 poses\DSE-MannequinMan02-A3.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A4 poses\DSE-MannequinMan02-A4.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan03-A1 poses\DSE-MannequinMan03-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan04-A1 poses\DSE-MannequinMan04-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan05-A1 poses\DSE-MannequinMan05-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan06-A1 poses\DSE-MannequinMan06-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan07-A1 poses\DSE-MannequinMan07-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan01-A1 poses\DSE-MannequinMan01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A1 poses\DSE-MannequinMan02-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A2 poses\DSE-MannequinMan02-A2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A3 poses\DSE-MannequinMan02-A3.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan02-A4 poses\DSE-MannequinMan02-A4.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan03-A1 poses\DSE-MannequinMan03-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan04-A1 poses\DSE-MannequinMan04-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan05-A1 poses\DSE-MannequinMan05-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan06-A1 poses\DSE-MannequinMan06-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan07-A1 poses\DSE-MannequinMan07-A1.hkx
 
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Chair '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Chair01-A1 poses\DSE-Chair01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Chair01-A1 poses\DSE-Chair01-A1.hkx
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rocking Horse '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-RockingHorse01-A1 poses\DSE-RockingHorse01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-RockingHorse01-A1 poses\DSE-RockingHorse01-A1.hkx
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Lamp 01 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Lamp01-A1 poses\DSE-Lamp01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Lamp01-A1 poses\DSE-Lamp01-A1.hkx
 
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MarasTear01-A1 poses\DSE-MarasTear01-A1.hkx
-b -AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MarasTear01-A2 poses\DSE-MarasTear01-A2.hkx
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Mara's Tear '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MarasTear01-A1 poses\DSE-MarasTear01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MarasTear01-A2 poses\DSE-MarasTear01-A2.hkx

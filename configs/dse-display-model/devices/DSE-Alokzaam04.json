@@ -6,7 +6,7 @@
 		"Inventory": "22804|dse-display-model.esp",
 		"Actors": [
 			{
-				"Name": "Mounted Slave",
+				"Name": "Opened Slave",
 				"HeadTracking": false,
 				"Package": "22802|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],

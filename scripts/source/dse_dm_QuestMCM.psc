@@ -33,7 +33,7 @@ EndEvent
 Event OnConfigInit()
 {things to do when the menu initalises (is opening)}
 
-	self.Pages = new String[3]
+	self.Pages = new String[4]
 	
 	self.Pages[0] = "$DM3_Menu_General"
 	self.Pages[1] = "$DM3_Menu_Stats"

@@ -11,7 +11,7 @@ echo.
 echo Converting HKX to SSE format...
 FOR %%F in (hkx\*.HKX) DO (
 	echo ^>^> %%F
-	convert --platformamd64 "%%F" "%%F"
+	convert --platformamd64 "%%F" "%%F" > nul 2> nul
 )
 
 echo.

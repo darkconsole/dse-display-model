@@ -1,0 +1,47 @@
+{
+	"Device": {
+		"ID": "DSE-Pumpkin",
+		"Activator": "50601|dse-display-model.esp",
+		"Ghost": "50603|dse-display-model.esp",
+		"Inventory": "50602|dse-display-model.esp",
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Elegant Sit",
+				"HeadTracking": true,
+				"Package": "50600|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Objects": [
+					{ "Form": "50604|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Casual Sit",
+				"HeadTracking": true,
+				"Package": "50608|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Objects": [
+					{ "Form": "50611|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Relaxed Sit",
+				"HeadTracking": true,
+				"Package": "50609|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Objects": [
+					{ "Form": "50611|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Aroused Sit",
+				"HeadTracking": true,
+				"Package": "50610|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Objects": [
+					{ "Form": "50611|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

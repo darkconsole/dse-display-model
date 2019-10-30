@@ -149,3 +149,11 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Lamp01-A1 poses\DS
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MarasTear01-A1 poses\DSE-MarasTear01-A1.hkx
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MarasTear01-A2 poses\DSE-MarasTear01-A2.hkx
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Pumpkin '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A1 poses\DSE-Pumpkin01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A2 poses\DSE-Pumpkin01-A2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A3 poses\DSE-Pumpkin01-A3.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A4 poses\DSE-Pumpkin01-A4.hkx

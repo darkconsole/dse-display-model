@@ -1,0 +1,1249 @@
+<?xml version="1.0" encoding="ascii"?>
+<hktagfile version="1">
+  <class name="hkRootLevelContainer" version="0">
+    <member name="namedVariants" type="struct" array="true" class="hkRootLevelContainerNamedVariant"/>
+  </class>
+  <class name="hkRootLevelContainerNamedVariant" version="1">
+    <member name="name" type="string"/>
+    <member name="className" type="string"/>
+    <member name="variant" type="ref" class="hkReferencedObject"/>
+  </class>
+  <class name="hkBaseObject" version="0">
+  </class>
+  <class name="hkReferencedObject" version="0" parent="hkBaseObject">
+    <member name="memSizeAndFlags" type="void"/>
+    <member name="referenceCount" type="void"/>
+  </class>
+  <class name="hkaAnimationContainer" version="1" parent="hkReferencedObject">
+    <member name="skeletons" type="ref" array="true" class="hkaSkeleton"/>
+    <member name="animations" type="ref" array="true" class="hkaAnimation"/>
+    <member name="bindings" type="ref" array="true" class="hkaAnimationBinding"/>
+    <member name="attachments" type="ref" array="true" class="hkaBoneAttachment"/>
+    <member name="skins" type="ref" array="true" class="hkaMeshBinding"/>
+  </class>
+  <class name="hkaSkeleton" version="3" parent="hkReferencedObject">
+    <member name="name" type="string"/>
+    <member name="parentIndices" type="int" array="true"/>
+    <member name="bones" type="struct" array="true" class="hkaBone"/>
+    <member name="referencePose" type="vec12" array="true"/>
+    <member name="referenceFloats" type="real" array="true"/>
+    <member name="floatSlots" type="string" array="true"/>
+    <member name="localFrames" type="struct" array="true" class="hkaSkeletonLocalFrameOnBone"/>
+  </class>
+  <class name="hkaBone" version="0">
+    <member name="name" type="string"/>
+    <member name="lockTranslation" type="byte"/>
+  </class>
+  <class name="hkaSkeletonLocalFrameOnBone" version="0">
+    <member name="localFrame" type="ref" class="hkLocalFrame"/>
+    <member name="boneIndex" type="int"/>
+  </class>
+  <class name="hkLocalFrame" version="0" parent="hkReferencedObject">
+  </class>
+  <class name="hkaAnimation" version="3" parent="hkReferencedObject">
+    <member name="type" type="int"/>
+    <member name="duration" type="real"/>
+    <member name="numberOfTransformTracks" type="int"/>
+    <member name="numberOfFloatTracks" type="int"/>
+    <member name="extractedMotion" type="ref" class="hkaAnimatedReferenceFrame"/>
+    <member name="annotationTracks" type="struct" array="true" class="hkaAnnotationTrack"/>
+  </class>
+  <class name="hkaAnimatedReferenceFrame" version="0" parent="hkReferencedObject">
+  </class>
+  <class name="hkaAnnotationTrack" version="0">
+    <member name="trackName" type="string"/>
+    <member name="annotations" type="struct" array="true" class="hkaAnnotationTrackAnnotation"/>
+  </class>
+  <class name="hkaAnnotationTrackAnnotation" version="0">
+    <member name="time" type="real"/>
+    <member name="text" type="string"/>
+  </class>
+  <class name="hkaAnimationBinding" version="1" parent="hkReferencedObject">
+    <member name="originalSkeletonName" type="string"/>
+    <member name="animation" type="ref" class="hkaAnimation"/>
+    <member name="transformTrackToBoneIndices" type="int" array="true"/>
+    <member name="floatTrackToFloatSlotIndices" type="int" array="true"/>
+    <member name="blendHint" type="int"/>
+  </class>
+  <class name="hkaBoneAttachment" version="2" parent="hkReferencedObject">
+    <member name="originalSkeletonName" type="string"/>
+    <member name="boneFromAttachment" type="vec16"/>
+    <member name="attachment" type="ref" class="hkReferencedObject"/>
+    <member name="name" type="string"/>
+    <member name="boneIndex" type="int"/>
+  </class>
+  <class name="hkaMeshBinding" version="3" parent="hkReferencedObject">
+    <member name="mesh" type="ref" class="hkxMesh"/>
+    <member name="originalSkeletonName" type="string"/>
+    <member name="name" type="string"/>
+    <member name="skeleton" type="ref" class="hkaSkeleton"/>
+    <member name="mappings" type="struct" array="true" class="hkaMeshBindingMapping"/>
+    <member name="boneFromSkinMeshTransforms" type="vec16" array="true"/>
+  </class>
+  <class name="hkxMesh" version="1" parent="hkReferencedObject">
+    <member name="sections" type="ref" array="true" class="hkxMeshSection"/>
+    <member name="userChannelInfos" type="ref" array="true" class="hkxMeshUserChannelInfo"/>
+  </class>
+  <class name="hkxMeshSection" version="2" parent="hkReferencedObject">
+    <member name="vertexBuffer" type="ref" class="hkxVertexBuffer"/>
+    <member name="indexBuffers" type="ref" array="true" class="hkxIndexBuffer"/>
+    <member name="material" type="ref" class="hkxMaterial"/>
+    <member name="userChannels" type="ref" array="true" class="hkReferencedObject"/>
+  </class>
+  <class name="hkxVertexBuffer" version="1" parent="hkReferencedObject">
+    <member name="data" type="struct" class="hkxVertexBufferVertexData"/>
+    <member name="desc" type="struct" class="hkxVertexDescription"/>
+  </class>
+  <class name="hkxVertexBufferVertexData" version="0">
+    <member name="vectorData" type="vec4" array="true"/>
+    <member name="floatData" type="real" array="true"/>
+    <member name="uint32Data" type="int" array="true"/>
+    <member name="uint16Data" type="int" array="true"/>
+    <member name="uint8Data" type="byte" array="true"/>
+    <member name="numVerts" type="int"/>
+    <member name="vectorStride" type="int"/>
+    <member name="floatStride" type="int"/>
+    <member name="uint32Stride" type="int"/>
+    <member name="uint16Stride" type="int"/>
+    <member name="uint8Stride" type="int"/>
+  </class>
+  <class name="hkxVertexDescription" version="1">
+    <member name="decls" type="struct" array="true" class="hkxVertexDescriptionElementDecl"/>
+  </class>
+  <class name="hkxVertexDescriptionElementDecl" version="2">
+    <member name="byteOffset" type="int"/>
+    <member name="type" type="int"/>
+    <member name="usage" type="int"/>
+    <member name="byteStride" type="int"/>
+    <member name="numElements" type="byte"/>
+  </class>
+  <class name="hkxIndexBuffer" version="1" parent="hkReferencedObject">
+    <member name="indexType" type="int"/>
+    <member name="indices16" type="int" array="true"/>
+    <member name="indices32" type="int" array="true"/>
+    <member name="vertexBaseOffset" type="int"/>
+    <member name="length" type="int"/>
+  </class>
+  <class name="hkxAttributeHolder" version="2" parent="hkReferencedObject">
+    <member name="attributeGroups" type="struct" array="true" class="hkxAttributeGroup"/>
+  </class>
+  <class name="hkxAttributeGroup" version="0">
+    <member name="name" type="string"/>
+    <member name="attributes" type="struct" array="true" class="hkxAttribute"/>
+  </class>
+  <class name="hkxAttribute" version="1">
+    <member name="name" type="string"/>
+    <member name="value" type="ref" class="hkReferencedObject"/>
+  </class>
+  <class name="hkxMaterial" version="2" parent="hkxAttributeHolder">
+    <member name="name" type="string"/>
+    <member name="stages" type="struct" array="true" class="hkxMaterialTextureStage"/>
+    <member name="diffuseColor" type="vec4"/>
+    <member name="ambientColor" type="vec4"/>
+    <member name="specularColor" type="vec4"/>
+    <member name="emissiveColor" type="vec4"/>
+    <member name="subMaterials" type="ref" array="true" class="hkxMaterial"/>
+    <member name="extraData" type="ref" class="hkReferencedObject"/>
+    <member name="properties" type="struct" array="true" class="hkxMaterialProperty"/>
+  </class>
+  <class name="hkxMaterialTextureStage" version="1">
+    <member name="texture" type="ref" class="hkReferencedObject"/>
+    <member name="usageHint" type="int"/>
+    <member name="tcoordChannel" type="int"/>
+  </class>
+  <class name="hkxMaterialProperty" version="0">
+    <member name="key" type="int"/>
+    <member name="value" type="int"/>
+  </class>
+  <class name="hkxMeshUserChannelInfo" version="0" parent="hkxAttributeHolder">
+    <member name="name" type="string"/>
+    <member name="className" type="string"/>
+  </class>
+  <class name="hkaMeshBindingMapping" version="0">
+    <member name="mapping" type="int" array="true"/>
+  </class>
+  <class name="hkaSplineCompressedAnimation" version="0" parent="hkaAnimation">
+    <member name="numFrames" type="int"/>
+    <member name="numBlocks" type="int"/>
+    <member name="maxFramesPerBlock" type="int"/>
+    <member name="maskAndQuantizationSize" type="int"/>
+    <member name="blockDuration" type="real"/>
+    <member name="blockInverseDuration" type="real"/>
+    <member name="frameDuration" type="real"/>
+    <member name="blockOffsets" type="int" array="true"/>
+    <member name="floatBlockOffsets" type="int" array="true"/>
+    <member name="transformOffsets" type="int" array="true"/>
+    <member name="floatOffsets" type="int" array="true"/>
+    <member name="data" type="byte" array="true"/>
+    <member name="endian" type="int"/>
+  </class>
+
+  <object id="#0001" type="hkRootLevelContainer">
+    <array name="namedVariants" size="1">
+      <struct>
+        <string name="name">Animation Container</string>
+        <string name="className">hkaAnimationContainer</string>
+        <ref name="variant">#0002</ref>
+      </struct>
+    </array>
+  </object>
+  <object id="#0002" type="hkaAnimationContainer">
+    <array name="animations" size="1">
+      <ref>#0003</ref>
+    </array>
+    <array name="bindings" size="1">
+      <ref>#0004</ref>
+    </array>
+  </object>
+  <object id="#0003" type="hkaSplineCompressedAnimation">
+    <int name="type">3</int>
+    <real name="duration">x3d088889 <!-- 0.0333333 --></real>
+    <int name="numberOfTransformTracks">242</int>
+    <array name="annotationTracks" size="242">
+      <struct>
+        <string name="trackName">NPC Root [Root]</string>
+        <array name="annotations" size="1">
+          <struct>
+            <string name="text">FootLeft</string>
+          </struct>
+        </array>
+      </struct>
+      <struct>
+        <string name="trackName">x_NPC LookNode [Look]</string>
+      </struct>
+      <struct>
+        <string name="trackName">x_NPC Translate [Pos ]</string>
+      </struct>
+      <struct>
+        <string name="trackName">x_NPC Rotate [Rot ]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC COM [COM ]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Pelvis [Pelv]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Thigh [LThg]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Calf [LClf]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Foot [Lft ]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Thigh [RThg]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Calf [RClf]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Foot [Rft ]</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtRBone01</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtRBone02</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtRBone03</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtLBone01</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtLBone02</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtLBone03</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtBBone01</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtBBone02</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtBBone03</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtFBone01</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtFBone02</string>
+      </struct>
+      <struct>
+        <string name="trackName">SkirtFBone03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Spine [Spn0]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Spine1 [Spn1]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Spine2 [Spn2]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Clavicle [LClv]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L UpperArm [LUar]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Forearm [LLar]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Clavicle [RClv]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R UpperArm [RUar]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Forearm [RLar]</string>
+      </struct>
+      <struct>
+        <string name="trackName">AnimObjectA</string>
+      </struct>
+      <struct>
+        <string name="trackName">AnimObjectB</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Neck [Neck]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Head [Head]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPCEyeBone</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hand [LHnd]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hand [RHnd]</string>
+      </struct>
+      <struct>
+        <string name="trackName">AnimObjectL</string>
+      </struct>
+      <struct>
+        <string name="trackName">AnimObjectR</string>
+      </struct>
+      <struct>
+        <string name="trackName">SHIELD</string>
+      </struct>
+      <struct>
+        <string name="trackName">WEAPON</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Pauldron</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Pauldron</string>
+      </struct>
+      <struct>
+        <string name="trackName">MagicEffectsNode</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L MagicNode [LMag]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R MagicNode [RMag]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Head MagicNode [Hmag]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Toe0 [LToe]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Toe0 [RToe]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L ForearmTwist1 [LLt1]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L ForearmTwist2 [LLt2]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L UpperarmTwist1 [LUt1]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L UpperarmTwist2 [LUt2]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R ForearmTwist1 [RLt1]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R ForearmTwist2 [RLt2]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R UpperarmTwist1 [RUt1]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R UpperarmTwist2 [RUt2]</string>
+      </struct>
+      <struct>
+        <string name="trackName">QUIVER</string>
+      </struct>
+      <struct>
+        <string name="trackName">WeaponAxe</string>
+      </struct>
+      <struct>
+        <string name="trackName">WeaponBack</string>
+      </struct>
+      <struct>
+        <string name="trackName">WeaponBow</string>
+      </struct>
+      <struct>
+        <string name="trackName">WeaponDagger</string>
+      </struct>
+      <struct>
+        <string name="trackName">WeaponMace</string>
+      </struct>
+      <struct>
+        <string name="trackName">WeaponSword</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger00 [LF00]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger01 [LF01]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger02 [LF02]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger10 [LF10]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger11 [LF11]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger12 [LF12]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger20 [LF20]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger21 [LF21]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger22 [LF22]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger30 [LF30]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger31 [LF31]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger32 [LF32]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger40 [LF40]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger41 [LF41]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Finger42 [LF42]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger00 [RF00]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger01 [RF01]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger02 [RF02]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger10 [RF10]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger11 [RF11]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger12 [RF12]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger20 [RF20]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger21 [RF21]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger22 [RF22]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger30 [RF30]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger31 [RF31]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger32 [RF32]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger40 [RF40]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger41 [RF41]</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Finger42 [RF42]</string>
+      </struct>
+      <struct>
+        <string name="trackName">Camera3rd [Cam3]</string>
+      </struct>
+      <struct>
+        <string name="trackName">Camera Control</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L PreBreast</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Breast</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R PreBreast</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Breast</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L PreButt</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R PreButt</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Butt</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Butt</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Breast01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Breast01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Hair01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair04</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair05</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair06</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair07</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair08</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair09</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair10</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair11</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair12</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair13</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair14</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair15</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BHair16</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair04</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair05</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair06</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair07</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair08</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair09</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair10</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair11</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair12</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair13</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair14</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair15</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BLHair16</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair04</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair05</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair06</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair07</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair08</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair09</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair10</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair11</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair12</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair13</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair14</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair15</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC BRHair16</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair04</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair05</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair06</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair07</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair08</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Hair09</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair04</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair05</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair06</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair07</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair08</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Hair09</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak04</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak05</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak06</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak07</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak08</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak09</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak10</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak11</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Cloak12</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak04</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak05</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak06</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak07</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak08</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak09</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak10</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak11</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Cloak12</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Item01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Item02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Item03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Item01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Item02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Item03</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Pussy01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC L Pussy02</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Pussy01</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC R Pussy02</string>
+      </struct>
+      <struct>
+        <string name="trackName">LeftWing1</string>
+      </struct>
+      <struct>
+        <string name="trackName">LeftWing2</string>
+      </struct>
+      <struct>
+        <string name="trackName">LeftWing3</string>
+      </struct>
+      <struct>
+        <string name="trackName">LeftWing4</string>
+      </struct>
+      <struct>
+        <string name="trackName">LeftWing5</string>
+      </struct>
+      <struct>
+        <string name="trackName">RightWing1</string>
+      </struct>
+      <struct>
+        <string name="trackName">RightWing2</string>
+      </struct>
+      <struct>
+        <string name="trackName">RightWing3</string>
+      </struct>
+      <struct>
+        <string name="trackName">RightWing4</string>
+      </struct>
+      <struct>
+        <string name="trackName">RightWing5</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 01 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 02 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 03 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 04 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 05 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 06 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 07 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 08 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 09 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 10 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 11 L</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 01 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 02 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 03 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 04 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 05 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 06 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 07 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 08 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 09 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 10 R</string>
+      </struct>
+      <struct>
+        <string name="trackName">NPC Wing 11 R</string>
+      </struct>
+    </array>
+    <int name="numFrames">2</int>
+    <int name="numBlocks">1</int>
+    <int name="maxFramesPerBlock">256</int>
+    <int name="maskAndQuantizationSize">968</int>
+    <real name="blockDuration">x41080000 <!-- 8.5 --></real>
+    <real name="blockInverseDuration">x3df0f0f1 <!-- 0.117647 --></real>
+    <real name="frameDuration">x3d088889 <!-- 0.0333333 --></real>
+    <array name="blockOffsets" size="1">
+      0 
+    </array>
+    <array name="floatBlockOffsets" size="1">
+      4168 
+    </array>
+    <array name="transformOffsets" size="242">
+      968 968 976 984 992 1008 1016 1028 
+      1040 1056 1068 1080 1096 1116 1128 1140 
+      1160 1172 1184 1200 1204 1208 1224 1228 
+      1232 1248 1260 1280 1304 1316 1332 1356 
+      1372 1384 1388 1392 1412 1424 1444 1460 
+      1472 1488 1508 1524 1544 1564 1588 1604 
+      1616 1628 1636 1656 1676 1692 1708 1716 
+      1728 1740 1752 1760 1772 1796 1816 1840 
+      1864 1884 1904 1924 1944 1956 1968 1988 
+      2000 2012 2032 2044 2056 2076 2088 2100 
+      2120 2132 2144 2164 2176 2188 2208 2220 
+      2232 2252 2264 2276 2296 2308 2320 2340 
+      2352 2364 2368 2368 2384 2392 2408 2416 
+      2428 2440 2440 2440 2444 2448 2452 2464 
+      2472 2480 2488 2496 2504 2512 2520 2528 
+      2536 2544 2552 2560 2568 2576 2584 2600 
+      2608 2620 2632 2652 2672 2684 2696 2708 
+      2720 2732 2744 2756 2768 2776 2788 2800 
+      2812 2824 2836 2856 2876 2888 2900 2912 
+      2924 2936 2948 2956 2968 2980 2988 3012 
+      3020 3028 3036 3044 3052 3060 3068 3072 
+      3096 3104 3112 3120 3128 3136 3140 3144 
+      3152 3168 3180 3192 3204 3216 3228 3240 
+      3252 3264 3276 3288 3300 3316 3328 3340 
+      3352 3364 3376 3388 3400 3412 3424 3436 
+      3448 3472 3484 3500 3524 3536 3552 3560 
+      3568 3576 3584 3608 3628 3648 3668 3688 
+      3712 3732 3752 3772 3792 3816 3836 3856 
+      3876 3884 3904 3924 3932 3952 3960 3980 
+      4004 4024 4044 4064 4072 4092 4112 4120 
+      4140 4148 
+    </array>
+    <array name="data" size="4176">
+      69 0 0 0 69 3 0 0 69 3 0 0 69 3 0 0 
+      69 6 9 0 69 0 9 0 69 1 15 0 69 4 15 0 
+      69 4 15 1 69 1 15 0 69 4 15 0 69 4 15 1 
+      69 7 15 0 69 4 9 0 69 4 9 0 69 7 15 0 
+      69 4 9 0 69 4 9 0 69 6 9 0 69 4 0 0 
+      69 4 0 0 69 6 14 0 69 4 0 0 69 4 0 0 
+      69 6 9 0 69 4 9 0 69 6 9 1 69 7 15 1 
+      69 4 15 0 69 4 9 1 69 7 15 1 69 4 15 1 
+      69 4 13 0 69 1 0 0 69 1 0 0 69 6 15 1 
+      69 4 15 0 69 7 15 0 69 4 15 1 69 4 15 0 
+      69 6 15 0 69 7 15 0 69 6 15 0 69 7 15 0 
+      69 7 15 0 69 7 15 1 69 6 9 0 69 7 0 0 
+      69 7 0 0 69 6 0 0 69 6 15 1 69 6 15 1 
+      69 4 15 1 69 4 15 1 69 0 15 0 69 1 9 0 
+      69 4 15 0 69 4 15 0 69 0 15 0 69 1 9 0 
+      69 7 15 1 69 7 15 0 69 7 15 1 69 7 15 1 
+      69 7 15 0 69 7 15 0 69 7 15 0 69 7 15 0 
+      69 4 15 0 69 4 15 0 69 7 15 0 69 4 9 0 
+      69 4 9 0 69 7 15 0 69 4 9 0 69 4 9 0 
+      69 7 15 0 69 4 9 0 69 4 9 0 69 7 15 0 
+      69 4 9 0 69 4 9 0 69 7 15 0 69 4 15 0 
+      69 4 15 0 69 7 15 0 69 4 9 0 69 4 9 0 
+      69 7 15 0 69 4 9 0 69 4 9 0 69 7 15 0 
+      69 4 9 0 69 4 9 0 69 7 15 0 69 4 9 0 
+      69 4 9 0 69 4 0 0 69 0 0 0 69 7 0 1 
+      69 6 0 0 69 7 0 1 69 6 0 0 69 7 0 0 
+      69 7 0 0 69 0 0 0 69 0 0 0 69 2 0 0 
+      69 2 0 0 69 4 0 0 69 7 0 0 69 6 0 0 
+      69 6 0 0 69 6 0 0 69 6 0 0 69 6 0 0 
+      69 6 0 0 69 6 0 0 69 6 0 0 69 6 0 0 
+      69 6 0 0 69 6 0 0 69 6 0 0 69 6 0 0 
+      69 6 0 0 69 6 0 0 69 7 0 1 69 6 0 0 
+      69 6 0 1 69 6 0 1 69 6 9 1 69 6 9 1 
+      69 6 0 1 69 6 0 1 69 6 0 1 69 6 0 1 
+      69 6 0 1 69 6 0 1 69 6 0 1 69 6 0 1 
+      69 6 0 0 69 6 0 1 69 7 0 0 69 6 0 1 
+      69 6 0 1 69 6 0 1 69 6 9 1 69 6 9 1 
+      69 6 0 1 69 6 0 1 69 6 0 1 69 6 0 1 
+      69 6 0 1 69 6 0 1 69 6 0 0 69 6 0 1 
+      69 6 0 1 69 6 0 0 69 7 2 1 69 4 0 1 
+      69 4 0 1 69 4 0 1 69 4 0 1 69 4 0 1 
+      69 4 0 1 69 4 0 1 69 4 0 0 69 7 2 1 
+      69 4 0 1 69 4 0 1 69 4 0 1 69 4 0 1 
+      69 4 0 1 69 4 0 0 69 4 0 0 69 4 0 1 
+      69 7 0 1 69 7 0 0 69 7 0 0 69 7 0 0 
+      69 7 0 0 69 7 0 0 69 7 0 0 69 7 0 0 
+      69 7 0 0 69 7 0 0 69 7 0 0 69 7 0 0 
+      69 7 0 1 69 7 0 0 69 7 0 0 69 7 0 0 
+      69 7 0 0 69 7 0 0 69 7 0 0 69 7 0 0 
+      69 7 0 0 69 7 0 0 69 7 0 0 69 7 0 0 
+      69 7 15 1 69 7 0 0 69 7 0 1 69 7 15 1 
+      69 7 0 0 69 7 0 1 69 5 0 0 69 5 0 0 
+      69 5 0 0 69 5 0 0 69 7 15 1 69 7 15 0 
+      69 7 15 0 69 7 15 0 69 7 15 0 69 7 15 1 
+      69 7 15 0 69 7 15 0 69 7 15 0 69 7 15 0 
+      69 7 15 1 69 7 15 0 69 7 15 0 69 7 15 0 
+      69 0 15 0 69 7 15 0 69 7 15 0 69 0 15 0 
+      69 7 15 0 69 0 15 0 69 7 15 0 69 7 15 1 
+      69 7 15 0 69 7 15 0 69 7 15 0 69 0 15 0 
+      69 7 15 0 69 7 15 0 69 0 15 0 69 7 15 0 
+      69 0 15 0 69 7 15 0 232 26 93 190 2 171 210 62 
+      232 26 93 190 2 171 210 62 232 26 93 190 2 171 210 62 
+      234 222 135 63 56 244 49 66 129 247 127 255 55 0 0 0 
+      120 249 127 255 55 0 0 0 170 174 211 192 158 197 201 9 
+      20 0 0 0 130 97 14 66 12 24 129 198 14 0 0 0 
+      15 153 223 65 161 99 124 39 57 0 0 0 194 20 121 63 
+      170 174 211 64 95 186 201 245 27 0 0 0 138 97 14 66 
+      242 215 126 197 14 0 0 0 5 153 223 65 159 83 131 217 
+      54 0 0 0 54 72 131 63 198 82 113 65 148 47 166 191 
+      232 74 234 64 245 255 138 175 8 0 0 0 172 170 78 65 
+      123 248 127 255 55 0 0 0 176 170 78 65 123 248 127 255 
+      55 0 0 0 198 82 113 193 124 47 166 191 232 74 234 64 
+      8 240 116 175 8 0 0 0 172 170 78 65 123 248 127 255 
+      55 0 0 0 172 170 78 65 122 248 127 255 55 0 0 0 
+      192 240 51 193 116 44 15 65 255 247 127 210 8 0 0 0 
+      172 170 78 65 160 170 78 65 189 231 62 65 48 114 183 64 
+      255 103 130 255 23 0 0 0 156 170 78 65 172 170 78 65 
+      222 172 167 192 32 170 114 64 192 247 127 255 55 0 0 0 
+      192 250 11 65 24 249 127 255 55 0 0 0 0 26 140 188 
+      92 211 29 65 226 246 127 255 55 0 0 0 12 255 95 63 
+      212 248 216 191 68 102 188 64 100 162 155 65 139 86 69 130 
+      18 0 0 0 48 75 146 63 3 180 96 65 147 167 19 35 
+      57 0 0 0 12 172 182 65 201 244 127 255 55 0 0 0 
+      255 255 95 63 239 248 216 63 66 102 188 64 92 162 155 65 
+      115 89 69 124 29 0 0 0 146 109 91 63 245 179 96 65 
+      148 71 236 219 54 0 0 0 128 171 170 63 14 172 182 65 
+      199 244 127 255 55 0 0 0 254 255 159 192 253 255 159 64 
+      0 224 220 60 216 80 176 65 45 247 127 240 55 0 0 0 
+      196 73 146 63 192 145 236 64 19 249 127 255 55 0 0 0 
+      212 115 168 189 62 138 1 65 192 151 109 64 255 247 127 14 
+      56 0 0 0 106 95 128 65 33 22 160 41 51 0 0 0 
+      230 72 146 63 120 95 128 65 33 214 95 213 60 0 0 0 
+      16 207 27 192 208 23 229 64 115 81 201 149 12 0 0 0 
+      32 0 128 191 208 158 183 191 8 140 2 65 88 98 218 88 
+      66 0 0 0 16 207 27 192 208 23 229 64 115 81 201 149 
+      12 0 0 0 0 132 102 190 224 2 73 192 8 24 229 64 
+      88 130 37 166 125 0 0 0 64 89 202 191 96 33 226 63 
+      65 236 59 65 2 201 186 153 80 0 0 0 64 90 202 63 
+      160 30 226 63 34 236 59 65 251 230 186 102 95 0 0 0 
+      125 171 170 63 129 159 158 64 144 156 155 64 62 248 127 255 
+      55 0 0 0 192 254 255 190 112 53 137 192 96 249 11 65 
+      0 254 255 62 164 53 137 192 132 249 11 65 175 161 56 65 
+      128 151 81 192 0 180 133 188 12 148 42 65 13 128 128 238 
+      55 0 0 0 55 142 131 63 0 208 133 188 4 148 42 65 
+      16 112 127 16 56 0 0 0 153 153 121 63 60 224 33 65 
+      205 127 155 70 38 0 0 0 17 73 146 63 112 111 148 64 
+      238 191 143 2 39 0 0 0 20 73 146 63 239 63 143 9 
+      39 0 0 0 8 74 225 64 81 247 127 255 55 0 0 0 
+      24 224 33 65 86 214 2 86 54 0 0 0 120 112 148 64 
+      18 231 0 18 55 0 0 0 255 54 1 255 54 0 0 0 
+      120 74 225 64 173 248 127 255 55 0 0 0 208 232 232 192 
+      176 137 193 192 112 133 134 193 170 105 246 179 89 0 0 0 
+      198 73 146 63 149 238 151 65 134 150 63 192 46 100 152 193 
+      170 30 49 219 53 0 0 0 116 200 72 65 252 11 203 192 
+      68 53 229 65 89 176 150 119 57 0 0 0 198 73 146 63 
+      14 183 99 192 84 62 41 193 0 199 29 64 23 185 250 170 
+      90 0 0 0 198 73 146 63 87 191 9 193 200 50 185 64 
+      96 114 63 64 136 179 240 245 105 0 0 0 155 232 69 65 
+      240 75 89 192 208 194 74 64 237 12 28 169 3 0 0 0 
+      125 67 62 193 224 92 245 63 80 80 213 64 200 67 231 14 
+      5 0 0 0 240 16 55 192 64 146 107 191 240 176 74 64 
+      248 120 71 75 62 0 0 0 224 27 79 64 161 186 141 202 
+      55 0 0 0 240 144 53 64 208 55 131 92 64 0 0 0 
+      248 222 34 192 0 113 223 189 124 81 6 65 152 126 122 117 
+      55 0 0 0 216 82 29 64 255 247 127 219 14 0 0 0 
+      240 68 242 63 214 251 127 255 55 0 0 0 64 75 188 190 
+      0 147 169 189 244 48 4 65 51 209 131 7 121 0 0 0 
+      112 231 76 64 255 247 127 68 65 0 0 0 64 166 254 63 
+      9 252 127 255 55 0 0 0 64 225 184 63 96 158 35 191 
+      224 62 255 64 188 160 131 3 122 0 0 0 112 0 43 64 
+      255 247 127 162 64 0 0 0 32 119 0 64 162 251 127 255 
+      55 0 0 0 80 5 64 64 192 166 202 191 224 120 237 64 
+      104 72 169 67 64 0 0 0 160 96 225 63 42 240 127 255 
+      119 0 0 0 224 67 228 63 91 252 127 255 55 0 0 0 
+      120 16 55 64 192 147 107 191 16 177 74 64 248 120 184 179 
+      49 0 0 0 192 27 79 64 161 58 114 52 56 0 0 0 
+      0 145 53 64 46 184 124 92 64 0 0 0 96 222 34 64 
+      0 125 223 189 144 81 6 65 152 126 133 137 56 0 0 0 
+      232 82 29 64 255 247 127 35 65 0 0 0 64 69 242 63 
+      214 251 127 255 55 0 0 0 0 74 188 62 0 155 169 189 
+      4 49 4 65 203 222 131 7 57 0 0 0 224 231 76 64 
+      255 247 127 68 65 0 0 0 0 166 254 63 9 252 127 255 
+      55 0 0 0 32 225 184 191 32 159 35 191 16 63 255 64 
+      66 175 131 3 58 0 0 0 176 0 43 64 255 247 127 162 
+      64 0 0 0 80 119 0 64 162 251 127 255 55 0 0 0 
+      240 4 64 192 224 165 202 191 8 121 237 64 104 72 169 187 
+      15 0 0 0 16 97 225 63 42 240 127 255 119 0 0 0 
+      80 68 228 63 91 252 127 255 55 0 0 0 0 0 242 66 
+      1 0 160 192 176 110 160 64 160 176 223 64 199 73 146 63 
+      236 255 255 63 0 0 124 187 254 255 159 64 180 110 160 64 
+      128 176 223 64 199 73 146 63 208 255 255 63 0 128 122 187 
+      4 0 128 192 255 255 23 193 0 0 160 64 255 255 127 64 
+      255 255 23 193 0 0 160 64 144 255 255 62 208 255 255 62 
+      248 255 71 65 0 238 230 186 112 0 192 192 64 251 255 191 
+      120 4 128 191 96 255 159 192 128 4 128 191 160 255 159 192 
+      80 4 128 191 240 255 159 192 176 4 128 191 112 255 159 192 
+      64 4 128 191 176 255 159 192 96 4 128 191 144 255 159 192 
+      80 4 128 191 160 255 159 192 176 4 128 191 224 255 159 192 
+      96 4 128 191 136 255 159 192 96 4 128 191 144 255 159 192 
+      160 4 128 191 216 255 159 192 144 4 128 191 232 255 159 192 
+      64 4 128 191 80 255 159 192 112 4 128 191 16 0 160 192 
+      128 4 128 191 160 255 159 192 119 4 160 192 152 207 255 191 
+      160 2 0 192 207 26 127 63 128 4 128 191 144 255 159 192 
+      120 4 128 191 128 255 159 192 37 90 129 63 96 4 128 191 
+      144 255 159 192 184 53 126 63 128 4 128 191 0 0 160 192 
+      81 247 127 255 55 0 0 0 168 96 128 63 32 154 128 191 
+      224 247 159 192 174 248 127 255 55 0 0 0 251 89 126 63 
+      104 3 128 191 192 255 159 192 98 115 128 63 96 3 128 191 
+      0 0 160 192 147 114 128 63 64 3 128 191 176 255 159 192 
+      169 27 127 63 96 3 128 191 0 0 160 192 64 29 127 63 
+      144 3 128 191 184 255 159 192 34 52 126 63 80 3 128 191 
+      16 0 160 192 37 90 129 63 112 3 128 191 184 255 159 192 
+      112 24 127 63 144 3 128 191 192 255 159 192 47 231 128 63 
+      112 3 128 191 176 255 159 192 96 3 128 191 188 255 159 192 
+      202 22 127 63 145 251 159 64 252 25 0 192 0 252 255 191 
+      104 4 128 191 128 255 159 192 200 113 128 63 112 4 128 191 
+      64 255 159 192 239 93 125 63 104 4 128 191 224 255 159 192 
+      252 225 128 63 144 4 128 191 192 255 159 192 81 247 127 255 
+      55 0 0 0 29 62 127 63 32 154 128 191 64 248 159 192 
+      174 248 127 255 55 0 0 0 61 97 128 63 56 3 128 191 
+      208 255 159 192 127 50 126 63 96 3 128 191 160 255 159 192 
+      102 232 128 63 136 3 128 191 208 255 159 192 202 115 128 63 
+      48 3 128 191 160 255 159 192 149 223 128 63 96 3 128 191 
+      80 0 160 192 79 182 122 63 48 3 128 191 112 255 159 192 
+      247 207 129 63 80 3 128 191 224 255 159 192 96 3 128 191 
+      240 255 159 192 36 47 126 63 112 3 128 191 152 255 159 192 
+      75 118 128 63 160 3 128 191 208 255 159 192 143 16 162 192 
+      30 68 229 64 160 107 92 192 255 7 128 255 55 0 0 0 
+      74 208 128 63 80 0 192 192 55 97 126 63 240 255 191 192 
+      186 210 128 63 0 0 192 192 66 93 126 63 224 255 191 192 
+      12 106 128 63 240 255 191 192 155 44 127 63 240 255 191 192 
+      153 44 127 63 248 255 191 192 12 106 128 63 232 255 191 192 
+      4 235 157 64 10 162 232 64 128 101 92 192 255 7 128 255 
+      55 0 0 0 105 48 127 63 64 0 192 192 21 210 128 63 
+      112 255 191 192 153 44 127 63 32 0 192 192 212 145 125 63 
+      240 255 191 192 19 58 129 63 0 0 192 192 94 105 128 63 
+      0 0 192 192 240 255 191 192 232 255 191 192 155 99 127 63 
+      6 0 32 193 108 1 254 192 0 156 80 65 191 73 146 63 
+      24 0 128 191 0 18 68 189 136 255 31 193 24 0 128 191 
+      0 20 68 189 80 255 31 193 40 0 128 191 0 14 68 189 
+      152 255 31 193 0 0 128 191 0 18 68 189 108 255 31 193 
+      64 0 128 191 0 20 68 189 128 255 31 193 208 255 127 191 
+      0 18 68 189 134 255 31 193 48 0 128 191 0 16 68 189 
+      155 255 31 193 48 0 128 191 0 18 68 189 140 255 31 193 
+      32 0 128 191 0 22 68 189 122 255 31 193 16 0 128 191 
+      0 10 68 189 144 255 31 193 128 0 128 191 0 30 68 189 
+      138 255 31 193 252 255 31 65 120 1 254 192 40 156 80 65 
+      219 73 146 63 32 0 128 63 0 30 68 189 112 255 31 193 
+      24 0 128 63 0 8 68 189 200 255 31 193 224 255 127 63 
+      0 30 68 189 72 255 31 193 16 0 128 63 0 18 68 189 
+      124 255 31 193 0 0 128 63 0 16 68 189 120 255 31 193 
+      32 0 128 63 0 6 68 189 172 255 31 193 32 0 128 63 
+      0 34 68 189 112 255 31 193 96 255 127 63 0 22 68 189 
+      162 255 31 193 16 0 128 63 0 4 68 189 133 255 31 193 
+      16 0 128 63 0 30 68 189 138 255 31 193 96 255 127 63 
+      0 18 68 189 138 255 31 193 46 210 242 193 94 80 86 64 
+      120 131 138 66 14 113 176 99 24 0 0 0 159 11 90 63 
+      0 208 126 188 128 118 132 62 40 4 136 64 0 32 127 188 
+      0 119 132 62 24 4 136 64 255 74 150 63 54 210 242 65 
+      236 176 86 64 4 133 138 66 240 126 176 154 23 0 0 0 
+      21 5 90 63 0 44 128 60 0 135 132 62 48 4 136 64 
+      0 48 128 60 0 137 132 62 8 4 136 64 188 81 150 63 
+      1 0 0 192 224 0 128 191 252 255 127 191 208 255 63 192 
+      1 0 0 64 224 0 128 191 3 0 128 63 208 255 63 192 
+      127 129 185 192 76 176 9 193 84 224 157 65 175 30 91 46 
+      53 0 0 0 32 74 146 63 0 121 213 189 0 178 129 190 
+      108 133 69 65 176 59 83 52 56 0 0 0 192 84 134 190 
+      0 128 240 62 206 58 181 65 99 17 111 207 55 0 0 0 
+      64 145 162 190 64 188 151 190 140 183 235 65 28 77 124 48 
+      56 0 0 0 128 237 71 191 0 95 80 191 40 52 218 65 
+      213 107 160 231 55 0 0 0 118 129 185 64 82 176 9 193 
+      76 224 157 65 175 222 164 208 58 0 0 0 112 73 146 63 
+      0 117 213 61 0 181 129 190 124 133 69 65 176 187 172 202 
+      55 0 0 0 128 86 134 62 0 130 240 62 192 58 181 65 
+      99 209 144 47 56 0 0 0 128 147 162 62 192 189 151 190 
+      136 183 235 65 28 173 131 206 55 0 0 0 64 236 71 63 
+      128 90 80 191 28 52 218 65 213 139 95 23 56 0 0 0 
+      19 0 160 192 216 127 23 192 224 210 58 64 95 196 121 15 
+      58 0 0 0 200 73 146 63 18 241 175 192 16 245 143 192 
+      184 33 131 64 26 250 62 83 42 0 0 0 214 142 69 65 
+      176 161 202 64 80 18 0 65 151 247 136 0 57 0 0 0 
+      10 216 167 65 38 225 172 64 48 172 185 64 140 151 121 36 
+      8 0 0 0 235 231 123 53 56 0 0 0 156 217 216 65 
+      162 29 54 193 8 92 0 65 223 21 85 197 58 0 0 0 
+      196 218 29 65 46 177 120 193 128 83 145 64 131 166 115 85 
+      57 0 0 0 51 247 134 136 88 0 0 0 168 96 78 193 
+      194 127 31 193 0 180 234 193 255 247 127 64 56 0 0 0 
+      200 134 135 142 88 0 0 0 16 148 41 65 221 24 0 193 
+      22 136 9 194 15 24 129 159 56 0 0 0 236 255 159 64 
+      160 127 23 192 192 210 58 64 80 102 57 248 52 0 0 0 
+      199 73 146 63 124 53 3 65 0 81 117 189 0 196 183 61 
+      20 120 115 71 0 0 0 0 204 37 128 65 0 240 244 188 
+      0 196 64 190 101 5 137 237 117 0 0 0 250 107 179 65 
+      0 50 49 190 0 64 48 59 140 56 132 134 59 0 0 0 
+      100 199 127 7 56 0 0 0 197 199 243 65 0 184 82 61 
+      48 190 150 190 130 39 131 67 59 0 0 0 100 167 151 65 
+      0 250 90 62 96 41 198 190 229 71 128 145 57 0 0 0 
+      215 14 181 68 58 0 0 0 247 57 6 66 128 124 61 190 
+      0 2 30 191 136 247 171 23 56 0 0 0 83 189 220 128 
+      60 0 0 0 162 83 19 66 64 6 99 190 64 173 180 191 
+      244 39 170 1 56 0 0 0 0 0 0 0 0 0 0 0 
+    </array>
+  </object>
+  <object id="#0004" type="hkaAnimationBinding">
+    <string name="originalSkeletonName">NPC Root [Root]</string>
+    <ref name="animation">#0003</ref>
+  </object>
+</hktagfile>

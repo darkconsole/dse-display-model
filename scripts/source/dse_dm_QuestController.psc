@@ -86,6 +86,12 @@ Bool Function CheckForDeps(Bool Popup)
 
 	Bool Output = TRUE
 
+	If(!self.CheckForDeps_DontMergeOrEslThisShit())
+		;; @todo - do something super annoying to the user.
+		Debug.MessageBox("It appears you attempted to merge the Display Model ESP or ESLify it. You done fucked up, nothing is going to work. RIP.")
+		Return FALSE
+	EndIf
+
 	If(!self.CheckForDeps_SKSE(Popup))
 		Output = FALSE
 	EndIf
@@ -119,6 +125,18 @@ Bool Function CheckForDeps(Bool Popup)
 	EndIf
 
 	Return Output
+EndFunction
+
+Bool Function CheckForDeps_DontMergeOrEslThisShit()
+{detect if they merged this esp or attempted to esl it.}
+
+	Form Magic = Util.GetForm(0x696969)
+
+	If(Magic == NONE)
+		Return FALSE
+	EndIf
+
+	Return TRUE
 EndFunction
 
 Bool Function CheckForDeps_SKSE(Bool Popup)

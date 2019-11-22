@@ -745,10 +745,8 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			;; make note of the object that belongs to this actor.
 			StorageUtil.FormListAdd(Who,DeviceKey,Item)
 			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " (" + ItemPos[0] + "," + ItemPos[1] + "," + ItemPos[2] + ")")
-
 		Else
 			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
-
 		EndIf
 
 		Iter += 1
@@ -776,6 +774,25 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 
 		StorageUtil.FormListAdd(Who,DeviceKey,Item)
 	EndIf
+
+	Return
+EndFunction
+
+Function SpawnActorObjectForm(Actor Who, Int Slot, Form What)
+{spawn a specific object form and assign it to the specific actor and slot
+so that it will get cleaned up later when the actor is dismounted.}
+
+	String DeviceKey = "DM3.DeviceObjects." + self.DeviceID
+	Float Scale = self.GetScaleOverride()
+	ObjectReference Item
+
+	;;;;;;;;
+
+	Item = self.PlaceAtMe(What,1,TRUE,TRUE)
+	Item.Enable(FALSE)
+
+	Main.Util.ScaleOverride(Item,Scale)
+	StorageUtil.FormListAdd(Who,DeviceKey,Item)
 
 	Return
 EndFunction

@@ -1076,6 +1076,7 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 
 	String[] Names
 	Int Selected
+	Int NameIter
 
 	;; if this device only has one slot then auto select that slot as the slot
 	;; to use. else pop up the menu that will list them for selection.
@@ -1088,8 +1089,16 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 	Else
 		Main.Util.Print("Select a position on the device...")
 		Names = Main.Devices.GetDeviceActorSlotNameList(self.File)
-		Selected = Main.MenuFromList(Names)
 
+		NameIter = 0
+		While(NameIter < Names.Length)
+			If(self.Actors[NameIter] != None)
+				Names[NameIter] = "In Use: " + self.Actors[NameIter].GetDisplayName()
+			EndIf
+			NameIter += 1
+		EndWhile
+
+		Selected = Main.MenuFromList(Names)
 		If(Selected < 0)
 			Main.Util.PrintDebug("AssignNPC no pose selected")
 			Return

@@ -399,13 +399,13 @@ Int Function MenuDeviceIdleActivate()
 
 	;;;;;;;;
 
-	Menu.AddEntryItem("[Cancel]",NoParent)      ;; 0 cancel
-	Menu.AddEntryItem("Move",NoParent)          ;; 1 move
-	Menu.AddEntryItem("Pick Up",NoParent)       ;; 2 pickup
-	Menu.AddEntryItem("Assign NPC",NoParent)    ;; 3 assign
-	Menu.AddEntryItem("Use",NoParent)           ;; 4 use
-	Menu.AddEntryItem("Scale Device",NoParent)  ;; 5 scale up
-	Menu.AddEntryItem("Reload Device",NoParent) ;; 6 reload device
+	Menu.AddEntryItem(Util.StringLookup("LabelDeviceMenuCancel"),NoParent)      ;; 0 cancel
+	Menu.AddEntryItem(Util.StringLookup("LabelDeviceMenuMove"),NoParent)          ;; 1 move
+	Menu.AddEntryItem(Util.StringLookup("LabelDeviceMenuPickUp"),NoParent)       ;; 2 pickup
+	Menu.AddEntryItem(Util.StringLookup("LabelDeviceMenuAssignNPC"),NoParent)    ;; 3 assign
+	Menu.AddEntryItem(Util.StringLookup("LabelDeviceMenuUse"),NoParent)           ;; 4 use
+	Menu.AddEntryItem(Util.StringLookup("LabelDeviceMenuScale"),NoParent)  ;; 5 scale up
+	Menu.AddEntryItem(Util.StringLookup("LabelDeviceMenuReload"),NoParent) ;; 6 reload device
 
 
 	;;;;;;;;
@@ -414,11 +414,11 @@ Int Function MenuDeviceIdleActivate()
 	Result = Menu.GetResultInt()
 
 	If(Result < 0)
-		self.Util.PrintDebug("MenuDeviceIdleActivate Canceled")
+		self.Util.PrintDebug("MenuDeviceIdleActivate: Canceled")
 		Return -1
 	EndIf
 
-	self.Util.PrintDebug("MenuDeviceIdleActivate Selected " + Result)
+	self.Util.PrintDebug("MenuDeviceIdleActivate: Selected " + Result)
 
 	Return Result
 EndFunction
@@ -444,11 +444,11 @@ Int Function MenuFromList(String[] Items)
 	Result = Menu.GetResultInt()
 
 	If(Result < 0)
-		self.Util.PrintDebug("MenuFromList Canceled")
+		self.Util.PrintDebug("MenuFromList: Canceled")
 		Return -1
 	EndIf
 
-	self.Util.PrintDebug("MenuFromList Selected " + Result)
+	self.Util.PrintDebug("MenuFromList: Selected " + Result)
 
 	Return Result
 EndFunction
@@ -460,7 +460,7 @@ Event OnMenuOpen(String Name)
 {handler for our menu hack}
 
 	If(Name == "Sleep/Wait Menu")
-		Util.PrintDebug("Wait Menu Open")
+		Util.PrintDebug("OnMenuOpen: Wait Menu Open")
 		Util.FreezeAllActors(TRUE,TRUE)
 	EndIf
 
@@ -471,7 +471,7 @@ Event OnMenuClose(String Name)
 {handler for our menu hack}
 
 	If(Name == "Sleep/Wait Menu")
-		Util.PrintDebug("Wait Menu Close")
+		Util.PrintDebug("OnMenuClose: Wait Menu Close")
 		Utility.Wait(0.25)
 		Util.FreezeAllActors(FALSE,TRUE)
 	EndIf

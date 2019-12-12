@@ -27,8 +27,8 @@ EndEvent
 Event OnEffectFinish(Actor Who, Actor Caster)
 {byebye now}
 
-	StorageUtil.UnsetFormValue(Main.Player,"DM3.AssignNPC.Device")
-	StorageUtil.UnsetIntValue(Main.Player,"DM3.AssignNPC.Slot")
+	StorageUtil.UnsetFormValue(Main.Player,Main.DataKeyAssignDevice)
+	StorageUtil.UnsetIntValue(Main.Player,Main.DataKeyAssignSlot)
 
 	self.RestoreUserControls()
 	Main.ImodModeAssign.Remove()

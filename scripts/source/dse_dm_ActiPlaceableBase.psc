@@ -1133,8 +1133,8 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 		self.ActivateByActor(Main.Player,Selected)
 	Else
 		;; throw some data out that the assignment spell will then read out.
-		StorageUtil.SetFormValue(Main.Player,"DM3.AssignNPC.Device",self)
-		StorageUtil.SetIntValue(Main.Player,"DM3.AssignNPC.Slot",Selected)
+		StorageUtil.SetFormValue(Main.Player,Main.DataKeyAssignDevice,self)
+		StorageUtil.SetIntValue(Main.Player,Main.DataKeyAssignSlot,Selected)
 		;; and begin the assignment spell.
 		Main.Util.Print(Main.Util.StringLookup("MsgDeviceSelectNPC"))
 		Main.Player.AddSpell(Main.SpellAssignNPC)

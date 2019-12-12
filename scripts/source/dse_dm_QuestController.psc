@@ -56,6 +56,8 @@ String Property DataKeyActorBondageTimer = "DM3.Actor.BondageTimesStart" AutoRea
 String Property DataKeyActorEscapeAttempts = "DM3.Actor.EscapeAttempts" AutoReadOnly Hidden
 String Property DataKeyDeviceScale = "DM3.Device.Scale" AutoReadOnly Hidden
 String Property DataKeyStatTimeBound = "DM3.Stat.TimeBound" AutoReadOnly Hidden
+String Property DataKeyAssignDevice = "DM3.AssignNPC.Device" AutoReadOnly Hidden
+String Property DataKeyAssignSlot = "DM3.AssignNPC.Slot" AutoReadOnly Hidden
 
 String Property EvAnimObjEquip = "AnimObjDraw" AutoReadOnly Hidden
 

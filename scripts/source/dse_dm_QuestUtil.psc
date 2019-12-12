@@ -210,6 +210,80 @@ EndFunction
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; strings
+
+String Function StringInsert(String Format, String InputList="")
+{a cheeky af implementation of like an sprintf type thing but not.}
+
+	Int Iter = 0
+	Int Pos = -1
+	String ToFind
+	String[] Inputs
+
+	;; short short circuit if we can.
+
+	If(StringUtil.GetLength(InputList) == 0)
+		Return Format
+	EndIf
+
+	;; rebuild a full string.
+
+	Inputs = PapyrusUtil.StringSplit(InputList,"|")
+
+	While(Iter < Inputs.Length)
+		ToFind = "%" + (Iter+1)
+		Pos = StringUtil.Find(Format,ToFind)
+
+		;; substring with a length of 0 means full string so we had to test
+		;; the position in case the token was the first thing in the string.
+
+		If(Pos > -1)
+			If(Pos > 0)
+				Format = StringUtil.Substring(Format,0,Pos) + Inputs[Iter] + StringUtil.Substring(Format,(Pos+2))
+			Else
+				Format = Inputs[Iter] + StringUtil.Substring(Format,(Pos+2))
+			EndIf			
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	Return Format
+EndFunction
+
+String Function StringLookup(String Path, String InputList="")
+{get a string from the translation file and run it through StringInsert.}
+
+	String Format = JsonUtil.GetPathStringValue(self.FileStrings,Path,("MISSING STRING DMSE: " + Path))
+
+	Return self.StringInsert(Format,InputList)
+EndFunction
+
+String Function StringLookupRandom(String Path, String InputList="")
+{get a random string from the translation file and run it through StringInsert.}
+
+	Int Count = JsonUtil.PathCount(self.FileStrings,Path)
+	Int Selected = Utility.RandomInt(0,(Count - 1))
+	String Format = JsonUtil.GetPathStringValue(self.FileStrings,(Path + "[" + Selected + "]"))
+
+	Return self.StringInsert(Format,InputList)
+EndFunction
+
+Function PrintLookup(String KeyName, String InputList="")
+{print a notification string from the translation file.}
+
+	self.Print(self.StringLookup(KeyName,InputList))
+EndFunction
+
+Function PrintLookupRandom(String KeyName, String InputList="")
+{print a random string from the translation file.}
+
+	self.Print(self.StringLookupRandom(KeyName,InputList))
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Float Function ActorArousalGetTick(Actor Who)
 {determine how much the actor arousal should be modified per script tick.}
 

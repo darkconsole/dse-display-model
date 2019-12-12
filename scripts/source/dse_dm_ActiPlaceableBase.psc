@@ -1078,41 +1078,54 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 	Int Selected
 	Int NameIter
 
-	;; if this device only has one slot then auto select that slot as the slot
-	;; to use. else pop up the menu that will list them for selection.
+	;; make sure this device even has enough open free spots.
 
 	If(self.GetMountedActorCount() >= Main.Devices.GetDeviceActorCount(self.File))
-		Debug.MessageBox("This device is already full.")
+		Debug.MessageBox(Main.Util.StringLookup("MsgDeviceFull"))
 		Return
-	ElseIf(Main.Devices.GetDeviceActorCount(self.File) == 1)
+	EndIf
+
+	;; if this device only has one slot then auto select that slot as the slot
+	;; to use. else pop up the menu that will list them for selection.	
+
+	If(Main.Devices.GetDeviceActorCount(self.File) == 1)
 		Selected = 0
 	Else
-		Main.Util.Print("Select a position on the device...")
+		Main.Util.Print(Main.Util.StringLookup("MsgDeviceSelectSlot"))
 		Names = Main.Devices.GetDeviceActorSlotNameList(self.File)
+
+		;; modify the slot names to show them empty or who occupies.
 
 		NameIter = 0
 		While(NameIter < Names.Length)
 			If(self.Actors[NameIter] != None)
-				Names[NameIter] = "In Use: " + self.Actors[NameIter].GetDisplayName()
+				Names[NameIter] = Main.Util.StringLookup("LabelSlotOccupied",(Names[NameIter] + "|" + self.Actors[NameIter].GetDisplayName()))
+			Else
+				Names[NameIter] = Main.Util.StringLookup("LabelSlotEmpty",Names[NameIter])
 			EndIf
 			NameIter += 1
 		EndWhile
 
+		;; present the list for choosing.
+
 		Selected = Main.MenuFromList(Names)
 		If(Selected < 0)
-			Main.Util.PrintDebug("AssignNPC no pose selected")
+			Debug.MessageBox(Main.Util.StringLookup("MsgDeviceSelectSlotNone"))
 			Return
 		EndIf
 	EndIf
+
+	;; sanity check on slot range.
 
 	If(Selected >= self.Actors.Length)
 		Main.Util.PrintDebug("AssignNPC " + Selected + " out of slot range (" + self.Actors.Length + ")")
 		Return
 	EndIf
 
+	;; check to make sure the slot is even available.
+
 	If(self.Actors[Selected] != None)
-		Main.Util.PrintDebug("AssignNPC " + Selected + " is already occupied by " + self.Actors[Selected].GetDisplayName())
-		Debug.MessageBox("That slot is already occupied by " + self.Actors[Selected].GetDisplayName())
+		Debug.MessageBox(Main.Util.StringLookup("MsgDeviceSlotOccupiedBy",self.Actors[Selected].GetDisplayName()))
 		Return
 	EndIf
 
@@ -1123,7 +1136,7 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 		StorageUtil.SetFormValue(Main.Player,"DM3.AssignNPC.Device",self)
 		StorageUtil.SetIntValue(Main.Player,"DM3.AssignNPC.Slot",Selected)
 		;; and begin the assignment spell.
-		Main.Util.Print("Select an NPC to assign...")
+		Main.Util.Print(Main.Util.StringLookup("MsgDeviceSelectNPC"))
 		Main.Player.AddSpell(Main.SpellAssignNPC)
 	EndIf
 

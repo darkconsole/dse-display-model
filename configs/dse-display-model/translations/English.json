@@ -1,6 +1,6 @@
 {
-	"DisplayModelStart": "Untamed has started.",
-	"DisplayModelStartCloseMenu": "Please close all the MCM menus to allow Display Models to start.",
+	"DisplayModelStart": "Display Model has started.",
+	"DisplayModelStartCloseMenu": "Please close all the MCM menus to allow Display Model to start.",
 	"ErrorCannotAnimateOverride": "%1 appears to be forcefully controlled by another mod, skipping the animations.",
 	"ErrorNoTarget": "Nobody has been targeted.",
 	"ErrorNotValid": "%1 is not valid for targeting.",
@@ -10,5 +10,10 @@
 	"MsgDeviceSelectSlotNone": "No slot was selected.",
 	"MsgDeviceSelectNPC": "Select someone to assign...",
 	"LabelSlotEmpty": "Empty: %1",
-	"LabelSlotOccupied": "Occupied: %1 (%2)"
+	"LabelSlotOccupied": "Occupied: %1 (%2)",
+	"LabelScaleCurrent": "[Current: %1%]",
+	"LabelScaleChoice": "%1%",
+	"InfoTimeBound": "Time Bound: %1",
+	"InfoSeparator": "; ",
+	"InfoArousal": "Arousal: %1"
 }

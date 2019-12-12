@@ -1047,16 +1047,14 @@ Function PrintUpdateInfo(Actor Who)
 
 	If(Who == Main.Player)
 		If(DoTimer)
-			Output += "Time Bound: " 
-			Output += Main.Util.ReadableTimeDelta(Main.Util.ActorBondagePlayerTimerDelta())
+			Output += Main.Util.StringLookup("InfoTimeBound",Main.Util.ReadableTimeDelta(Main.Util.ActorBondagePlayerTimerDelta()))
 		EndIf
 
 		If(DoArousal)
 			If(Output != "")
-				Output += ", "
+				Output += Main.Util.StringLookup("InfoSeparator")
 			EndIf
-			Output += "Arousal: "
-			Output += Main.Util.ActorArousalGet(Main.Player)
+			Output += Main.Util.StringLookup("InfoArousal",(Main.Util.ActorArousalGet(Main.Player) as String))
 		EndIf
 	EndIf
 
@@ -1157,11 +1155,11 @@ Int Function ShowScaleMenu()
 	Int Value
 	Int Iter
 
-	Items[0] = "[Current: " + Main.Util.FloatToString((self.GetScaleOverride() * 100.0)) + "%]"
+	Items[0] = Main.Util.StringLookup("LabelScaleCurrent",Main.Util.FloatToString((self.GetScaleOverride() * 100.0)))
 
 	Iter = 1
 	While(Iter < 41)
-		Items[Iter] = (Iter * 5) + "%"
+		Items[Iter] = Main.Util.StringLookup("LabelScaleChoice",((Iter * 5) as String))
 		Iter += 1
 	EndWhile
 

@@ -90,7 +90,7 @@ Bool Function CheckForDeps(Bool Popup)
 
 	If(!self.CheckForDeps_DontMergeOrEslThisShit())
 		;; @todo - do something super annoying to the user.
-		Debug.MessageBox("It appears you attempted to merge the Display Model ESP or ESLify it. You done fucked up, nothing is going to work. RIP.")
+		Debug.MessageBox(Util.StringLookup("MsgDontMergeShit"))
 		Return FALSE
 	EndIf
 
@@ -146,7 +146,7 @@ Bool Function CheckForDeps_SKSE(Bool Popup)
 
 	If(SKSE.GetScriptVersionRelease() < 56)
 		If(Popup)
-			self.Util.PopupError("You need to update your SKSE to 2.0.7 or newer.")
+			Util.PopupError(Util.StringLookup("MsgUpdateSKSE"))
 		EndIf
 
 		Return FALSE
@@ -160,7 +160,7 @@ Bool Function CheckForDeps_SkyUI(Bool Popup)
 
 	If(!Game.IsPluginInstalled("SkyUI_SE.esp"))
 		If(Popup)
-			self.Util.PopupError("SkyUI SE 5.2 or newer must be installed.")
+			Util.PopupError(Util.StringLookup("MsgUpdateSkyUI"))
 		EndIf
 		Return FALSE
 	EndIf
@@ -177,7 +177,7 @@ Bool Function CheckForDeps_SexLab(Bool Popup)
 
 	If(self.SexLab == NONE)
 		If(Popup)
-			self.Util.PopupError("SexLab SE 1.63 Beta 2 or newer must be installed.")
+			Util.PopupError(Util.StringLookup("MsgUpdateSexLab"))
 		EndIf
 
 		Return FALSE
@@ -232,7 +232,7 @@ the one that comes in sexlab with an old version.}
 
 	If(PapyrusUtil.GetScriptVersion() < 34)
 		If(Popup)
-			self.Util.PopupError("Your PapyrusUtil is out of date. It is likely some other mod overwrote the version that came in SexLab.")
+			Util.PopupError(Util.StringLookup("MsgUpdatePapyrusUtil"))
 			Return FALSE
 		EndIf
 	EndIf
@@ -249,14 +249,14 @@ Bool Function CheckForDeps_RaceMenu(Bool Popup)
 
 	If(!Game.IsPluginInstalled("RaceMenu.esp"))
 		If(Popup)
-			self.Util.PopupError("RaceMenu SE 0.2.4 or newer must be installed.")
+			Util.PopupError(Util.StringLookup("MsgUpdateRaceMenu"))
 		EndIf
 		Output = FALSE
 	EndIf
 
 	If(NiOverride.GetScriptVersion() < 6)
 		If(Popup)
-			self.Util.PopupError("NiOverride is out of date. Install Racemenu SE 0.2.4 newer and make sure nothing has overwritten it with older versions.")
+			Util.PopupError(Util.StringLookup("MsgUpdateNIO"))
 		EndIf
 		Output = FALSE
 	EndIf
@@ -269,7 +269,7 @@ Bool Function CheckForDeps_UIExtensions(Bool Popup)
 
 	If(!Game.IsPluginInstalled("UIExtensions.esp"))
 		If(Popup)
-			self.Util.PopupError("UI Extensions 1.2.0+ must be installed.")
+			Util.PopupError(Util.StringLookup("MsgUpdateUIExt"))
 		EndIf
 		Return FALSE
 	EndIf
@@ -282,7 +282,7 @@ Bool Function CheckForDeps_ConsoleUtil(Bool Popup)
 
 	If(SKSE.GetPluginVersion("ConsoleUtilSSE") < 0)
 		If(Popup)
-			self.Util.PopupError("ConsoleUtilSSE 1.0.4+ is not installed.")
+			Util.PopupError(Util.StringLookup("MsgUpdateConsoleUtil"))
 		EndIf
 		self.HasConsoleUtil = FALSE
 		Return FALSE
@@ -323,7 +323,7 @@ Function InstallVendorItems()
 	;;;;;;;;
 
 	;;If(CountAdds > 0)
-		Util.PrintDebug(CountAdds + " items added to lists.")
+		Util.PrintDebug("InstallVendorItems: " + CountAdds + " items added to lists.")
 	;;EndIf
 
 	Return
@@ -381,7 +381,7 @@ Int Function MenuDeviceSelect(Actor Who=None)
 	Result = Menu.GetResultInt()
 
 	If(Result < 0)
-		self.Util.PrintDebug("MenuSelectPose Canceled")
+		self.Util.PrintDebug("MenuSelectPose: Canceled")
 		Return -1
 	EndIf
 

@@ -84,7 +84,7 @@ Function Prepare()
 
 	;;;;;;;;
 
-	Main.Util.Print(self.DeviceID + " is ready.")
+	Main.Util.PrintDebug(self.DeviceID + " is ready.")
 	Return
 EndFunction
 
@@ -356,7 +356,7 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 		Slot = self.GetNextSlot(Who)
 	Else
 		If(!self.IsEmptySlot(Slot,Who))
-			Main.Util.Print(self.DeviceID + " slot " + Slot + " is not empty.")
+			Main.Util.PrintDebug("ActivateByActor: " + self.DeviceID + " slot " + Slot + " is not empty.")
 			Return
 		EndIf
 	EndIf
@@ -364,7 +364,7 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 	;; bail if we don't have any free slots.
 
 	If(Slot == -1)
-		Main.Util.Print(self.DeviceID + " has no empty actor slots.")
+		Main.Util.PrintDebug("ActivateByActor: " + self.DeviceID + " has no empty actor slots.")
 		Return
 	EndIf
 
@@ -393,7 +393,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; make sure its empty (unless its the same actor to allow reapply)
 
 	If(!self.IsEmptySlot(Slot,Who))
-		Main.Util.Print(self.DeviceID + " " + Slot + " " + SlotName + " is not empty.")
+		Main.Util.PrintDebug("MountActor: " + self.DeviceID + " " + Slot + " " + SlotName + " is not empty.")
 		Return
 	EndIf
 
@@ -422,7 +422,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Task = Main.Devices.GetDeviceActorSlotPackage(self.File,Slot)
 
 	If(Task == None)
-		Main.Util.PrintDebug("MountActor no package found for " + self.DeviceID + " " + Slot)
+		Main.Util.PrintDebug("MountActor: no package found for " + self.DeviceID + " " + Slot)
 		Return
 	EndIf
 
@@ -511,7 +511,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		self.PrintUpdateInfo(Who)
 	EndIf
 
-	Main.Util.PrintDebug(Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
+	Main.Util.PrintDebug("MountActor: " + Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
 EndFunction
 
@@ -535,7 +535,7 @@ Function ReleaseActor(Actor Who)
 	EndWhile
 
 	If(!Found)
-		Main.Util.PrintDebug(self.DeviceID + " ReleaseActor " + Who.GetDisplayName() + " not found on device.")
+		Main.Util.PrintDebug("ReleaseActor: " + self.DeviceID + " " + Who.GetDisplayName() + " not found on device.")
 	EndIf
 
 	Return
@@ -547,7 +547,7 @@ Function ReleaseActorSlot(Int Slot)
 	Float[] Pos = Main.Util.GetPositionAtDistance(self,50)
 
 	If(Slot < 0 || Slot >= self.Actors.Length)
-		Main.Util.PrintDebug(self.DeviceID + " ReleaseSlot " + Slot + " out of range.")
+		Main.Util.PrintDebug("ReleaseActorSlot: " + self.DeviceID + " " + Slot + " out of range.")
 		Return
 	EndIf
 
@@ -588,9 +588,8 @@ works you should only use it on devices that only hold one at a time.}
 
 	While(Slot < self.Actors.Length)
 		If(self.Actors[Slot] != None)
-			Main.Util.PrintDebug("Attempting To Random Slot " + self.Actors[Slot].GetDisplayName())
 			If(self.Actors[Slot].IsInFaction(Main.FactionActorRandomSlotOnLoad))
-				Main.Util.PrintDebug("Random Slot Faction Enabled " + self.Actors[Slot].GetDisplayName())
+				Main.Util.PrintDebug("RandomiseMountedActor: " + self.Actors[Slot].GetDisplayName())
 				self.MountActor(self.Actors[Slot],Utility.RandomInt(0,(self.Actors.Length - 1)))
 			EndIf
 			Return
@@ -613,7 +612,7 @@ to be doing.}
 
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] != None)
-			Main.Util.PrintDebug(self.DeviceID + " refresh actor " + Iter + " " + self.Actors[Iter].GetDisplayName())
+			Main.Util.PrintDebug("Refresh: " + self.DeviceID + " " + Iter + " " + self.Actors[Iter].GetDisplayName())
 			self.MountActor(self.Actors[Iter],Iter,ForceObjects)
 		EndIf
 		Iter += 1
@@ -639,12 +638,12 @@ Function ClearActorObjects(Actor Who, Int Slot=-1)
 	EndIf
 
 	If(Slot == -1)
-		Main.Util.PrintDebug("ClearActorObjects no slot to clean was specified.")
+		Main.Util.PrintDebug("ClearActorObjects: no slot to clean was specified.")
 		Return
 	EndIf
 
 	If(self.Actors[Slot] != Who)
-		Main.Util.PrintDebug("ClearActorObjects " + Who.GetDisplayName() + " is not " + self.DeviceID + " " + Slot)
+		Main.Util.PrintDebug("ClearActorObjects: " + Who.GetDisplayName() + " is not " + self.DeviceID + " " + Slot)
 		Return
 	EndIf
 
@@ -654,7 +653,7 @@ Function ClearActorObjects(Actor Who, Int Slot=-1)
 
 	DeviceKey = "DM3.DeviceObjects." + self.DeviceID 
 	ItemCount = StorageUtil.FormListCount(Who,DeviceKey)
-	Main.Util.PrintDebug("ClearActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " objects")
+	Main.Util.PrintDebug("ClearActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " objects")
 
 	;; and delete them.
 
@@ -665,7 +664,7 @@ Function ClearActorObjects(Actor Who, Int Slot=-1)
 		If(Item != None)
 			Item.Disable()
 			Item.Delete()
-			Main.Util.PrintDebug("ClearActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter)
+			Main.Util.PrintDebug("ClearActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter)
 		EndIf
 
 		Iter += 1
@@ -708,7 +707,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	ConfigLightFace = Main.Config.GetBool(".DeviceActorLightFace")
 	ToggleLightFace = Who.IsInFaction(Main.FactionActorToggleLightFace)
 	CurrentScale = self.GetScaleOverride()
-	Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
+	Main.Util.PrintDebug("SpawnActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " objects")
 
 	;;;;;;;;
 
@@ -744,9 +743,9 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 
 			;; make note of the object that belongs to this actor.
 			StorageUtil.FormListAdd(Who,DeviceKey,Item)
-			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " (" + ItemPos[0] + "," + ItemPos[1] + "," + ItemPos[2] + ")")
+			Main.Util.PrintDebug("SpawnActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " (" + ItemPos[0] + "," + ItemPos[1] + "," + ItemPos[2] + ")")
 		Else
-			Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
+			Main.Util.PrintDebug("SpawnActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
 		EndIf
 
 		Iter += 1
@@ -756,7 +755,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 
 	If((ConfigLightFace && !ToggleLightFace) || (!ConfigLightFace && ToggleLightFace))
 		Utility.Wait(2.0)
-		Main.Util.PrintDebug("SpawnActorObjects " + Who.GetDisplayName() + " " + DeviceKey + " adding face light")
+		Main.Util.PrintDebug("SpawnActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " adding face light")
 
 		;; place a marker and align it to a node on the skeleton.
 		Marker = self.PlaceAtMe(MarkerForm,1,TRUE,FALSE)
@@ -842,7 +841,7 @@ Function EquipActorEquips(Actor Who, Int Slot)
 
 	DeviceKey = "DM3.DeviceEquips." + self.DeviceID
 	ItemCount = Main.Devices.GetDeviceActorSlotEquipCount(self.File,Slot)
-	Main.Util.PrintDebug("EquipActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " equips")
+	Main.Util.PrintDebug("EquipActorEquips: " + Who.GetDisplayName() + " " + DeviceKey + " needs " + ItemCount + " equips")
 
 	;;;;;;;;
 
@@ -856,9 +855,9 @@ Function EquipActorEquips(Actor Who, Int Slot)
 		If(ItemForm != None)
 			Who.EquipItem(ItemForm,TRUE,TRUE)
 			StorageUtil.FormListAdd(Who,DeviceKey,ItemForm)
-			Main.Util.PrintDebug("EquipActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter )
+			Main.Util.PrintDebug("EquipActorEquips: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter )
 		Else
-			Main.Util.PrintDebug("EquipActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
+			Main.Util.PrintDebug("EquipActorEquips: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
 		EndIf
 
 		Iter += 1
@@ -884,12 +883,12 @@ Function RemoveActorEquips(Actor Who, Int Slot=-1)
 	EndIf
 
 	If(Slot == -1)
-		Main.Util.PrintDebug("RemoveActorEquips no slot to clean was specified.")
+		Main.Util.PrintDebug("RemoveActorEquips: no slot to clean was specified.")
 		Return
 	EndIf
 
 	If(self.Actors[Slot] != Who)
-		Main.Util.PrintDebug("RemoveActorEquips " + Who.GetDisplayName() + " is not " + self.DeviceID + " " + Slot)
+		Main.Util.PrintDebug("RemoveActorEquips: " + Who.GetDisplayName() + " is not " + self.DeviceID + " " + Slot)
 		Return
 	EndIf
 
@@ -899,7 +898,7 @@ Function RemoveActorEquips(Actor Who, Int Slot=-1)
 
 	DeviceKey = "DM3.DeviceEquips." + self.DeviceID 
 	ItemCount = StorageUtil.FormListCount(Who,DeviceKey)
-	Main.Util.PrintDebug("RemoveActorEquips " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " equips")
+	Main.Util.PrintDebug("RemoveActorEquips: " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " equips")
 
 	;; and delete them.
 
@@ -909,7 +908,7 @@ Function RemoveActorEquips(Actor Who, Int Slot=-1)
 
 		If(Item != None)
 			Who.RemoveItem(Item,99,TRUE)
-			Main.Util.PrintDebug("RemoveActorEquipos " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter)
+			Main.Util.PrintDebug("RemoveActorEquips: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter)
 		EndIf
 
 		Iter += 1
@@ -945,7 +944,7 @@ Function HandlePeriodicUpdates()
 	;; no actors nothing to do goodbye.
 
 	If(ActorCount == 0)
-		Main.Util.PrintDebug(self.GetName() + " skipped: no actors mounted.")
+		Main.Util.PrintDebug("HandlePeriodicUpdates: " + self.GetName() + " skipped - no actors mounted.")
 		Return 
 	EndIf
 
@@ -1033,7 +1032,7 @@ Function TryArousalRelease(Actor Who)
 	EndIf
 
 	If(Release)
-		Main.Util.PrintDebug(Who.GetDisplayName() + " released due empty arousal.")
+		Main.Util.PrintDebug("TryArousalRelease: " + Who.GetDisplayName() + " released due empty arousal.")
 		self.ReleaseActor(Who)
 	EndIf
 
@@ -1187,11 +1186,11 @@ Auto State Initial
 		self.Main = dse_dm_QuestController.GetAPI()
 		
 		If(self.DeviceID == "")
-			Debug.MessageBox("DeviceID was not set.")
+			Debug.MessageBox("OnLoad: DeviceID was not set.")
 			Return
 		EndIf
 
-		Main.Util.PrintDebug(self.DeviceID + " Load First Time")
+		Main.Util.PrintDebug("OnLoad: " + self.DeviceID + " Load First Time")
 		self.UnregisterForUpdate()
 		self.RegisterForSingleUpdate(0.25)
 		Return
@@ -1242,7 +1241,7 @@ State Idle
 			Stalling += 1
 		EndWhile
 
-		Main.Util.PrintDebug(self.DeviceID + " Load While Idle")
+		Main.Util.PrintDebug("OnLoad: " + self.DeviceID + " Load While Idle")
 		self.TimeAroused = Utility.GetCurrentRealTime()
 		self.Refresh()
 
@@ -1298,10 +1297,10 @@ State Idle
 			If(self.GetParentCell() != What.GetParentCell())
 				;; actor ran away.
 				What.MoveTo(self)
-				Main.Util.Print(What.GetDisplayName() + " had to be corrected via LOS Check")
+				Main.Util.PrintDebug("OnGainLOS: " + What.GetDisplayName() + " had to be corrected via LOS Check")
 			Else
 				;; re-enable actor ai while looking at them.
-				Main.Util.PrintDebug(What.GetDisplayName() + " Enabled By LOS")
+				Main.Util.PrintDebug("OnGainLOS: " + What.GetDisplayName() + " Enabled By LOS")
 				Main.Util.FreezeActor(What As Actor,FALSE)
 			EndIf
 		ElseIf((What As dse_dm_ActiPlaceableBase) != None)

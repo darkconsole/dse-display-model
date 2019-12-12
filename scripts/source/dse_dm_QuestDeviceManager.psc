@@ -244,7 +244,7 @@ Int Function GetDeviceActorCount(String Filename)
 {check if there is an override on how many actors this can hold. this is if some
 of the actor slots are actually being used for alternate animations.}
 
-	Return JsonUtil.GetPathIntValue(Filename,".Device.ActorCount",1)
+	Return JsonUtil.GetPathIntValue(Filename,".Device.ActorCount",self.GetDeviceActorSlotCount(Filename))
 EndFunction
 
 Int Function GetDeviceActorSlotCount(String Filename)

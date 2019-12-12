@@ -1080,7 +1080,10 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 	;; if this device only has one slot then auto select that slot as the slot
 	;; to use. else pop up the menu that will list them for selection.
 
-	If(Main.Devices.GetDeviceActorSlotCount(self.File) == 1)
+	If(self.GetMountedActorCount() >= Main.Devices.GetDeviceActorCount(self.File))
+		Debug.MessageBox("This device is already full.")
+		Return
+	ElseIf(Main.Devices.GetDeviceActorCount(self.File) == 1)
 		Selected = 0
 	Else
 		Main.Util.Print("Select a position on the device...")
@@ -1100,6 +1103,7 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 
 	If(self.Actors[Selected] != None)
 		Main.Util.PrintDebug("AssignNPC " + Selected + " is already occupied by " + self.Actors[Selected].GetDisplayName())
+		Debug.MessageBox("That slot is already occupied by " + self.Actors[Selected].GetDisplayName())
 		Return
 	EndIf
 

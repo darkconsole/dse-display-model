@@ -69,6 +69,7 @@ String Property NioKeyCancelScale = "DM3.CancelScale" AutoReadOnly Hidden
 String Property NioKeyOverrideScale = "DM3.OverrideScale" AutoReadOnly Hidden
 
 String Property KeyActorValueStamina = "Stamina" AutoReadOnly Hidden
+String Property KeyMenuWait = "Sleep/Wait Menu" AutoReadOnly Hidden
 
 String Property KeyActorMouthNormal = "normal" AutoReadOnly Hidden
 String Property KeyActorMouthOpen = "open" AutoReadOnly Hidden
@@ -332,8 +333,8 @@ EndFunction
 Function RegisterForThings()
 {indeed.}
 
-	self.UnregisterForMenu("Sleep/Wait Menu")
-	self.RegisterForMenu("Sleep/Wait Menu")
+	self.UnregisterForMenu(self.KeyMenuWait)
+	self.RegisterForMenu(self.KeyMenuWait)
 
 	Return
 EndFunction
@@ -459,7 +460,7 @@ EndFunction
 Event OnMenuOpen(String Name)
 {handler for our menu hack}
 
-	If(Name == "Sleep/Wait Menu")
+	If(Name == self.KeyMenuWait)
 		Util.PrintDebug("OnMenuOpen: Wait Menu Open")
 		Util.FreezeAllActors(TRUE,TRUE)
 	EndIf
@@ -470,7 +471,7 @@ EndEvent
 Event OnMenuClose(String Name)
 {handler for our menu hack}
 
-	If(Name == "Sleep/Wait Menu")
+	If(Name == self.KeyMenuWait)
 		Util.PrintDebug("OnMenuClose: Wait Menu Close")
 		Utility.Wait(0.25)
 		Util.FreezeAllActors(FALSE,TRUE)

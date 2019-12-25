@@ -157,3 +157,9 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A1 poses
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A2 poses\DSE-Pumpkin01-A2.hkx
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A3 poses\DSE-Pumpkin01-A3.hkx
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A4 poses\DSE-Pumpkin01-A4.hkx
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' SteelSword ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-SteelSword01-A1 poses\DSE-SteelSword01-A1.hkx

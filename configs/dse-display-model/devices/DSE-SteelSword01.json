@@ -1,0 +1,23 @@
+{
+	"Device": {
+		"ID": "DSE-SteelSword01",
+		"Activator": "50616|dse-display-model.esp",
+		"Ghost": "50617|dse-display-model.esp",
+		"Inventory": "50619|dse-display-model.esp",
+		"RandomSlotOnLoad": false,
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Standing Tall",
+				"HeadTracking": true,
+				"Package": "50615|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Moan": true,
+				"Equips": [],
+				"Objects": [
+					{ "Form": "50618|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

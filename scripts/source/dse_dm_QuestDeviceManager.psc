@@ -235,6 +235,41 @@ Bool Function GetDeviceRandomSlotOnLoad(String Filename)
 	Return JsonUtil.GetPathBoolValue(Filename,".Device.RandomSlotOnLoad",false)
 EndFunction
 
+Bool Function GetDeviceRaceAllowed(String Filename, Race What)
+{determine if this race is allowed on this device.}
+
+	Int RaceCount = JsonUtil.PathCount(Filename,".Device.Races")
+	Form RaceItem
+	Int RaceIter
+
+	;; if there is a list of races on the device root then check that
+	;; the race in question is inside it.
+
+	If(RaceCount > 0)
+		RaceIter = 0
+		While(RaceIter < RaceCount)
+			RaceItem = JsonUtil.GetPathFormValue(Filename,".Device.Races[" + RaceIter + "]") As Race
+
+			If(What == RaceItem)
+				Return TRUE
+			EndIf
+
+			RaceIter += 1
+		EndWhile
+
+		Return FALSE
+	EndIf
+
+	;; if there was no list of races on the device root then try to make it only
+	;; allow humanoids.
+
+	If(What.HasKeywordString("ActorTypeNPC"))
+		Return TRUE
+	EndIf
+
+	Return FALSE
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -328,6 +363,41 @@ String Function GetDeviceActorSlotMouth(String Filename, Int Slot)
 	String Path = ".Device.Actors[" + Slot + "].Mouth"
 
 	Return JsonUtil.GetPathStringValue(Filename,Path,"normal")
+EndFunction
+
+Bool Function GetDeviceActorSlotRaceAllowed(String Filename, Int Slot, Race What)
+{determine if this race is allowed on this device.}
+
+	Int RaceCount = JsonUtil.PathCount(Filename,".Device.Actors[" + Slot + "].Races")
+	Form RaceItem
+	Int RaceIter
+
+	;; if there is a list of races on this device slot then check that
+	;; the race in question is inside it.
+
+	If(RaceCount > 0)
+		RaceIter = 0
+		While(RaceIter < RaceCount)
+			RaceItem = JsonUtil.GetPathFormValue(Filename,".Device.Actors[" + Slot + "].Races[" + RaceIter + "]") As Race
+
+			If(What == RaceItem)
+				Return TRUE
+			EndIf
+
+			RaceIter += 1
+		EndWhile
+
+		Return FALSE
+	EndIf
+
+	;; if there was no list of races on the device root then try to make it only
+	;; allow humanoids.
+
+	If(What.HasKeywordString("ActorTypeNPC"))
+		Return TRUE
+	EndIf
+
+	Return FALSE
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

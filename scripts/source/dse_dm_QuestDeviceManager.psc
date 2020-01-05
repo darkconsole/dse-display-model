@@ -263,11 +263,11 @@ Bool Function GetDeviceRaceAllowed(String Filename, Race What)
 	;; if there was no list of races on the device root then try to make it only
 	;; allow humanoids.
 
-	If(What.HasKeywordString("ActorTypeNPC"))
-		Return TRUE
-	EndIf
+	;;If(What.HasKeywordString("ActorTypeNPC"))
+	;;	Return TRUE
+	;;EndIf
 
-	Return FALSE
+	Return TRUE
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -390,7 +390,7 @@ Bool Function GetDeviceActorSlotRaceAllowed(String Filename, Int Slot, Race What
 		Return FALSE
 	EndIf
 
-	;; if there was no list of races on the device root then try to make it only
+	;; if there was no list of races on this device slot then try to make it only
 	;; allow humanoids.
 
 	If(What.HasKeywordString("ActorTypeNPC"))

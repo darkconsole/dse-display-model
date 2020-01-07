@@ -397,6 +397,12 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		Return
 	EndIf
 
+	;; make sure this slot allows this race.
+
+	If(!Main.Devices.GetDeviceActorSlotRaceAllowed(self.File,Slot,Who.GetRace()))
+		Return
+	EndIf
+
 	;; handle attempting to slot actors already used by other devices.
 
 	OldDevice = Main.Devices.GetActorDevice(Who)
@@ -1125,6 +1131,8 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 		Debug.MessageBox(Main.Util.StringLookup("MsgDeviceSlotOccupiedBy",self.Actors[Selected].GetDisplayName()))
 		Return
 	EndIf
+
+	;; check that the race is allowed.
 
 	If(IsPlayer)
 		self.ActivateByActor(Main.Player,Selected)

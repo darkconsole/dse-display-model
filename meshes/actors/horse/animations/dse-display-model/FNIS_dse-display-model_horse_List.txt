@@ -1,0 +1,19 @@
+Version 100
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Display Model 3 (SE) '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' darkcee.legit@gmail.com ''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+'' b  = idle
+'' o  = idle+ao
+'' -k = hkx comes from another mod.
+'' -AVbHumanoidFootIKDisable = disable foot falls
+'' -AVIbHeadTrackSpine = keep torso locked if head tracking enabled
+'' -h = head tracking enabled
+'' -a = acyclic (don't loop)
+'' -ac = animated camera
+
+b -md,AVbFootIKDisable,B0.0 dse-dm-HorseRig01-A1 poses\DSE-HorseRig01-A1.hkx

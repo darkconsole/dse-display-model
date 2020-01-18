@@ -295,30 +295,36 @@ Float Function ActorArousalGetTick(Actor Who)
 		Tick = Main.Config.GetFloat(".ArousedTickFactor")
 	EndIF
 
-	If(!(Main.Aroused as slaFrameworkScr).IsActorExhibitionist(Who))
-		Tick *= -1.0
-	EndIf
-
 	Return Tick
 EndFunction
 
-Function ActorArousalUpdate(Actor Who, Bool Lower=TRUE)
+Function ActorArousalUpdate(Actor Who, Float Mult=1.0, Int Mode=0)
 {update an actors arousal based on time.}
 
-	Float Tick = self.ActorArousalGetTick(Who)
+	Float Tick = (self.ActorArousalGetTick(Who) * Mult)
 	Float TimeRate = 0.0
+	String Reason = ""
 
 	If(Main.Aroused == None)
 		Return
 	EndIf
 
-	If(!Lower)
-		Tick *= -1;
+	If(Mode != 0)
+		;; -1 = exhausting, +1 = arousing.
+		Tick *= Mode As Float
+		Reason = "DMSE Bondage: Arousing = " + Mode
+	Else
+		;; non-exhib = exhausting, exhib = arousing.
+		If(self.ActorArousalExhib(Who))
+			Reason = "DMSE Bondage: Exhibitionist"
+		Else
+			Tick *= -1.0
+			Reason = "DMSE Bondage: Exhausting"
+		EndIf
 	EndIf
 
 	If(Main.Config.GetBool(".ArousedTickExposure"))
-		;; exposure goes up or down based on exhibitionist status.
-		self.ActorArousalInc(Who,(Tick as Int),"DM3 Bound Arousal Mod")
+		self.ActorArousalInc(Who,(Tick as Int),Reason)
 	EndIf
 
 	If(Main.Config.GetBool(".ArousedTickTimeRate"))
@@ -352,6 +358,12 @@ Int Function ActorArousalGet(Actor Who)
 	EndIf
 
 	Return (Main.Aroused as slaFrameworkScr).GetActorExposure(Who)
+EndFunction
+
+Bool Function ActorArousalExhib(Actor Who)
+{ask sla if the actor is an exhibitionist.}
+
+	Return (Main.Aroused as slaFrameworkScr).IsActorExhibitionist(Who)
 EndFunction
 
 Function ActorToggleFaction(Actor Who, Faction What)

@@ -342,6 +342,23 @@ Bool Function GetDeviceActorSlotMoan(String Filename, Int Slot)
 	Return JsonUtil.GetPathBoolValue(Filename,Path)
 EndFunction
 
+Int Function GetDeviceActorSlotArousing(String Filename, Int Slot)
+{get if this slot has defined its arousal effect on an actor. 0 if
+auto based on actor, 1 always arousing, -1 always calming.}
+
+	String Path = ".Device.Actors[" + Slot + "].Arousing"
+
+	Return JsonUtil.GetPathIntValue(Filename,Path,0)
+EndFunction
+
+Float Function GetDeviceActorSlotArousalMult(String Filename, Int Slot)
+{get if this device should modify arousal faster or slower.}
+
+	String Path = ".Device.Actors[" + Slot + "].ArousalMult"
+
+	Return JsonUtil.GetPathFloatValue(Filename,Path,1.0)
+EndFunction
+
 String[] Function GetDeviceActorSlotNameList(String Filename)
 {get a list of all the actor slot names.}
 

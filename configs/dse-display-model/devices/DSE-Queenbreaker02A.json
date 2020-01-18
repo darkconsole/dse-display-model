@@ -11,6 +11,7 @@
 				"Package": "24195|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"HeadTracking": false,
+				"Arousing": 1,
 				"Equips": [],
 				"Objects": [
 					{ "Form": "24200|dse-display-model.esp" }

@@ -937,6 +937,8 @@ Function HandlePeriodicUpdates()
 	Float Now = Utility.GetCurrentRealTime()
 	Bool DoArousal = Main.Config.GetBool(".DeviceActorAroused")
 	Bool DoMoan = Main.Config.GetBool(".DeviceActorMoan")
+	Int ArousalMode = 0
+	Float ArousalMult = 1.0
 	Int Iter = 0
 
 	;; handle the case where the game has been restarted and that real time
@@ -965,7 +967,9 @@ Function HandlePeriodicUpdates()
 		While(Iter < self.Actors.Length)
 			If(self.Actors[Iter] != None)
 				If(DoArousal)
-					Main.Util.ActorArousalUpdate(self.Actors[Iter],TRUE)
+					ArousalMode = Main.Devices.GetDeviceActorSlotArousing(self.File,Iter)
+					ArousalMult = Main.Devices.GetDeviceActorSlotArousalMult(self.File,Iter)
+					Main.Util.ActorArousalUpdate(self.Actors[Iter],ArousalMult,ArousalMode)
 				EndIf
 
 				self.PrintUpdateInfo(self.Actors[Iter])

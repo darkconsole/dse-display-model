@@ -276,6 +276,41 @@ Function SetScaleOverride(Float Scale)
 	Return
 EndFunction
 
+Function MatchToActorSubscale(Actor Who)
+{set this device to match a non-breaking scale override.}
+
+	Float Scale = NetImmerse.GetNodeScale(Who,"NPC Root [Root]",FALSE) * self.GetScaleOverride()
+
+	;; we used NetImmerse on purpose because it basically always sees the final result of all the
+	;; things that have been done without having to care what mod it came from.
+
+	;; so we will match the device to that scale.
+
+	self.SetScale(Scale)
+
+	;; and then set the override so all addons get scaled.
+
+	self.SetScaleOverride(Scale)
+
+	Return
+EndFunction
+
+Function RestoreFromActorSubscale(Actor Who)
+{restore this device to match a non-breaking scale override.}
+
+	Float Scale = NetImmerse.GetNodeScale(Who,"NPC Root [Root]",FALSE) / self.GetScaleOverride()
+
+	;; restore the device scale.
+
+	self.SetScale(Scale)
+
+	;; and restore the override.
+
+	self.SetScaleOverride(Scale)
+
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -448,10 +483,14 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	ConfigHeadTracking = Main.Config.GetBool(".DeviceActorHeadTracking")
 	ToggleHeadTracking = Who.IsInFaction(Main.FactionActorToggleHeadTracking)
 
-	;; scale actor to device.
+	;; first scale the actor to the device scale override.
 
 	Main.Util.ScaleCancel(Who)
 	Main.Util.ScaleOverride(Who,self.GetScaleOverride())
+
+	;; then scale the device to the actor's non-breaking scale.
+
+	self.MatchToActorSubscale(Who)
 
 	;; the infamous slomoroto anti-collision hack. this will put the actor
 	;; above the device in a state where they have no collision for a long
@@ -566,6 +605,7 @@ Function ReleaseActorSlot(Int Slot)
 
 	self.ClearActorObjects(self.Actors[Slot],Slot)
 	self.RemoveActorEquips(self.Actors[Slot],Slot)
+	self.RestoreFromActorSubscale(self.Actors[Slot])
 
 	;; let the actor behave normal again.
 

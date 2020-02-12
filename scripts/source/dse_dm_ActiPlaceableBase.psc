@@ -279,17 +279,23 @@ EndFunction
 Function MatchToActorSubscale(Actor Who)
 {set this device to match a non-breaking scale override.}
 
-	Float Scale = NetImmerse.GetNodeScale(Who,"NPC Root [Root]",FALSE) * self.GetScaleOverride()
+	Float Scale = NetImmerse.GetNodeScale(Who,"NPC Root [Root]",FALSE)
 
-	;; we used NetImmerse on purpose because it basically always sees the final result of all the
-	;; things that have been done without having to care what mod it came from.
+	;; we used NetImmerse on purpose here because it basically always sees the final result
+	;; of all the things that have been done without having to care what mod it came from.
+
+	;; just in case something doesn't have this bone and it returns 0 or was just so gd small
+	;; that it is impossible to see and click on.
+
+	If(Scale < 0.1)
+		Return
+	EndIf
 
 	;; so we will match the device to that scale.
-
-	self.SetScale(Scale)
-
 	;; and then set the override so all addons get scaled.
 
+	Scale *= self.GetScaleOverride()
+	self.SetScale(Scale)
 	self.SetScaleOverride(Scale)
 
 	Return

@@ -73,9 +73,9 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheVigilant01-A1 p
 '' Queenbreaker ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A1 poses\DSE-Queenbreaker01-A1.hkx
-b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01A-A1 poses\DSE-Queenbreaker01A-A1.hkx
-b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker02-A1 poses\DSE-Queenbreaker02-A1.hkx
-b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker02A-A1 poses\DSE-Queenbreaker02A-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A2 poses\DSE-Queenbreaker01-A2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A3 poses\DSE-Queenbreaker01-A3.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Queenbreaker01-A4 poses\DSE-Queenbreaker01-A4.hkx
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Cage ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

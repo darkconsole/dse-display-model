@@ -9,7 +9,6 @@
 			{
 				"Name": "Dignified",
 				"Package": "24184|dse-display-model.esp",
-				"Pos": [ 0.0, 0.0, 0.0 ],
 				"HeadTracking": false,
 				"Equips": [],
 				"Objects": [
@@ -18,9 +17,8 @@
 				]
 			},
 			{
-				"Name": "Dignified, Powered",
+				"Name": "Dignified, Low Powered",
 				"Package": "24191|dse-display-model.esp",
-				"Pos": [ 0.0, 0.0, 0.0 ],
 				"HeadTracking": false,
 				"Equips": [],
 				"Objects": [
@@ -29,9 +27,28 @@
 				]
 			},
 			{
+				"Name": "Dignified, Medium Powered",
+				"Package": "24191|dse-display-model.esp",
+				"HeadTracking": false,
+				"Equips": [],
+				"Objects": [
+					{ "Form": "24187|dse-display-model.esp" },
+					{ "Form": "52007|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Dignified, High Powered",
+				"Package": "24191|dse-display-model.esp",
+				"HeadTracking": false,
+				"Equips": [],
+				"Objects": [
+					{ "Form": "24187|dse-display-model.esp" },
+					{ "Form": "52008|dse-display-model.esp" }
+				]
+			},
+			{
 				"Name": "Ruined",
 				"Package": "24194|dse-display-model.esp",
-				"Pos": [ 0.0, 0.0, 0.0 ],
 				"HeadTracking": false,
 				"Equips": [],
 				"Objects": [
@@ -40,7 +57,7 @@
 				]
 			},
 			{
-				"Name": "Ruined, Powered",
+				"Name": "Ruined, Low Powered",
 				"Package": "24195|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
 				"HeadTracking": false,
@@ -48,6 +65,28 @@
 				"Objects": [
 					{ "Form": "24200|dse-display-model.esp" },
 					{ "Form": "52006|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Ruined, Medium Powered",
+				"Package": "24195|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"HeadTracking": false,
+				"Equips": [],
+				"Objects": [
+					{ "Form": "24200|dse-display-model.esp" },
+					{ "Form": "52007|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Ruined, High Powered",
+				"Package": "24195|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"HeadTracking": false,
+				"Equips": [],
+				"Objects": [
+					{ "Form": "24200|dse-display-model.esp" },
+					{ "Form": "52008|dse-display-model.esp" }
 				]
 			}
 		]

@@ -4,20 +4,29 @@
 		"Activator": "11717|dse-display-model.esp",
 		"Ghost": "29792|dse-display-model.esp",
 		"Inventory": "11721|dse-display-model.esp",
+		"ActorCount": 1,
 		"Actors": [
 			{
-				"Name": "Riding The Pony",
+				"Name": "Straddle The Pony",
 				"Package": "11716|dse-display-model.esp",
-				"Pos": [ 0.0, 0.0, 0.0 ],
-				"Equips": [],
-				"Objects": []
+				"Objects": [
+					{ "Form": "52009|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Standing in the Stirrups",
+				"Package": "13101|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "52010|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Along For The Ride",
+				"Package": "13107|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "52011|dse-display-model.esp" }
+				]
 			}
-		],
-		"ObjectsIdle": [
-
-		],
-		"ObjectsUsed": [
-
 		]
 	}
 }

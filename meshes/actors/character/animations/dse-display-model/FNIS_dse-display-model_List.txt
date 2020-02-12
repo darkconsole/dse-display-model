@@ -33,8 +33,8 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-DoubleDollstand01-
 '' Rope and Wooden Pony '''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope01-A1 poses\DSE-PonyRope01-A1.hkx
-b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope02-A1 poses\DSE-PonyRope02-A1.hkx
-b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope03-A1 poses\DSE-PonyRope03-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope01-A2 poses\DSE-PonyRope01-A2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-PonyRope01-A3 poses\DSE-PonyRope01-A3.hkx
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Alokzaam '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

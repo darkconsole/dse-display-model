@@ -1,0 +1,9 @@
+{
+	"Device": {
+		"ID": "DSE-Clutter-DogBowlFood",
+		"Activator": "52015|dse-display-model.esp",
+		"Ghost": "52015|dse-display-model.esp",
+		"Inventory": "52016|dse-display-model.esp",
+		"Actors": [ ]
+	}
+}

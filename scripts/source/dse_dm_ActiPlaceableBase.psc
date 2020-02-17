@@ -323,6 +323,7 @@ EndFunction
 Function Move()
 {kick in the grab object system on this thing.}
 
+	Game.ForceFirstPerson()
 	StorageUtil.SetFormValue(Main.Player,Main.DataKeyGrabObjectTarget,self)
 	Main.Player.AddSpell(Main.SpellGrabObject)
 

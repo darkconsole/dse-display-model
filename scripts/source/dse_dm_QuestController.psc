@@ -29,6 +29,7 @@ Faction Property FactionActorToggleHeadTracking Auto
 Faction Property FactionActorRandomSlotOnLoad Auto
 Faction Property FactionActorOutfit Auto
 Faction Property FactionFollow Auto
+Furniture Property InvisibleBed Auto
 ImageSpaceModifier Property ImodModeAssign Auto
 ImageSpaceModifier Property ImodModeMove Auto
 Outfit Property OutfitNone Auto
@@ -475,6 +476,11 @@ Event OnMenuClose(String Name)
 		Util.PrintDebug("OnMenuClose: Wait Menu Close")
 		Utility.Wait(0.25)
 		Util.FreezeAllActors(FALSE,TRUE)
+
+		If(self.Player.IsInFaction(self.FactionActorUsingDevice) && self.Aroused != None)
+			Util.PrintDebug("Trigger Arousal Update On Player")
+			(self.Aroused as slaFrameworkScr).GetActorArousal(self.Player)
+		EndIf
 	EndIf
 
 	Return

@@ -558,7 +558,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	If(Who == Main.Player)
 		self.RegisterForControl("Jump")
-		Game.DisablePlayerControls(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,0)
+		Game.DisablePlayerControls(FALSE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,0)
 		Game.ForceThirdPerson()
 		self.PrintUpdateInfo(Who)
 	EndIf
@@ -1357,8 +1357,8 @@ State Idle
 				Main.Util.PrintDebug("OnGainLOS: " + What.GetDisplayName() + " had to be corrected via LOS Check")
 			Else
 				;; re-enable actor ai while looking at them.
-				Main.Util.PrintDebug("OnGainLOS: " + What.GetDisplayName() + " Enabled By LOS")
-				Main.Util.FreezeActor(What As Actor,FALSE)
+				;;Main.Util.PrintDebug("OnGainLOS: " + What.GetDisplayName() + " Enabled By LOS")
+				;;Main.Util.FreezeActor(What As Actor,FALSE)
 			EndIf
 		ElseIf((What As dse_dm_ActiPlaceableBase) != None)
 			;; idea, check its actors are aligned.
@@ -1393,12 +1393,20 @@ State Idle
 
 	Event OnControlUp(String What, Float Len)
 
-		If(What == "Jump")
-			If(Main.Util.ActorEscapeAttempt(Main.Player))
-				self.ReleaseActor(Main.Player)
-			EndIf
+		ObjectReference Bed
 
-			self.PrintUpdateInfo(Main.Player)
+		If(What == "Jump")
+			If(Len < 2.0)
+				If(Main.Util.ActorEscapeAttempt(Main.Player))
+					self.ReleaseActor(Main.Player)
+				EndIf
+
+				self.PrintUpdateInfo(Main.Player)
+			Else
+				Bed = Main.Player.PlaceAtMe(Main.InvisibleBed,1,TRUE,FALSE)
+				Bed.Activate(Main.Player)
+				Bed.Delete()
+			EndIf
 		EndIf
 
 	EndEvent

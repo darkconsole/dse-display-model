@@ -4,6 +4,7 @@
 		"Activator": "24185|dse-display-model.esp",
 		"Ghost": "29798|dse-display-model.esp",
 		"Inventory": "24186|dse-display-model.esp",
+		"GrabOffset": 64.0,
 		"ActorCount": 1,
 		"Actors": [
 			{

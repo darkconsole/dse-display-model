@@ -4,6 +4,7 @@
 		"Activator": "50593|dse-display-model.esp",
 		"Ghost": "50596|dse-display-model.esp",
 		"Inventory": "50594|dse-display-model.esp",
+		"GrabOffset": 64.0,
 		"RandomSlotOnLoad": false,
 		"ActorCount": 1,
 		"Actors": [

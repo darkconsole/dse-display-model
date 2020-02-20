@@ -4,6 +4,7 @@
 		"Activator": "21398|dse-display-model.esp",
 		"Ghost": "29786|dse-display-model.esp",
 		"Inventory": "21400|dse-display-model.esp",
+		"GrabOffset": 64.0,
 		"Actors": [
 			{
 				"Name": "Prideful Slave",

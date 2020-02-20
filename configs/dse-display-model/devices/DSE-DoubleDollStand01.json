@@ -4,6 +4,7 @@
 		"Activator": "11712|dse-display-model.esp",
 		"Ghost": "29791|dse-display-model.esp",
 		"Inventory": "11720|dse-display-model.esp",
+		"GrabOffset": 64.0,
 		"Actors": [
 			{
 				"Name": "Doll On Front",

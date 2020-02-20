@@ -4,6 +4,7 @@
 		"Activator": "21397|dse-display-model.esp",
 		"Ghost": "29785|dse-display-model.esp",
 		"Inventory": "21399|dse-display-model.esp",
+		"GrabOffset": 64.0,
 		"Actors": [
 			{
 				"Name": "Shamed Slave",

@@ -150,6 +150,16 @@ Form Function GetGhostForm()
 	Return Main.Devices.GetDeviceGhost(self.File)
 EndFunction
 
+Float Function GetGrabOffset()
+
+	Return Main.Devices.GetDeviceGrabOffset(self.File) * self.GetScaleOverride()
+EndFunction
+
+Float Function GetHeightOffset(Actor Who)
+
+	Return self.Z - Who.Z
+EndFunction
+
 Int Function GetNextSlot(Actor Who=None)
 {get the next empty slot on the device. if an actor is provided then it will
 also return the slot that actor is in if they are already.}
@@ -323,7 +333,30 @@ EndFunction
 Function Move()
 {kick in the grab object system on this thing.}
 
+	Float RotateMeMan = Main.Player.GetAngleZ() + Main.Player.GetHeadingAngle(self)
+	Float LookMeDownMan = 90 - (Math.atan( self.GetDistance(Main.Player) / (Main.Util.GetPlayerHeight() - self.GetHeightOffset(Main.Player) - self.GetGrabOffset()) ))
+
 	Game.ForceFirstPerson()
+
+	;; this did not work. and i found people who could confirm that it won't ever
+	;; change pitch in first person. just looks left or right.
+	;;Game.DisablePlayerControls()
+	;;Game.SetPlayerAiDriven(TRUE)
+	;;Main.Player.SetHeadTracking(TRUE)
+	;;Main.Player.SetLookAt(self,TRUE)
+	;;Utility.Wait(0.5)
+	;;Main.Player.ClearLookAt()
+	;;Main.Player.SetHeadTracking(FALSE)
+	;;Game.SetPlayerAiDriven(FALSE)
+	;;Game.EnablePlayerControls()
+
+	;; this did not work. no matter what you give it, the game always sets the x (pitch) to 0 when done from scripting.
+	;;Main.Player.SetAngle(LookMeDownMan,Main.Player.GetAngleY(),RotateMeMan)
+
+	;; so here we are, yet again, another gd ConsoleUtil hack because wtf.
+	ConsoleUtil.ExecuteCommand("player.setangle z " + RotateMeMan)
+	ConsoleUtil.ExecuteCommand("player.setangle x " + LookMeDownMan)
+
 	StorageUtil.SetFormValue(Main.Player,Main.DataKeyGrabObjectTarget,self)
 	Main.Player.AddSpell(Main.SpellGrabObject)
 
@@ -1405,6 +1438,7 @@ State Idle
 			Else
 				Bed = Main.Player.PlaceAtMe(Main.InvisibleBed,1,TRUE,FALSE)
 				Bed.Activate(Main.Player)
+				Utility.Wait(0.1)
 				Bed.Delete()
 			EndIf
 		EndIf

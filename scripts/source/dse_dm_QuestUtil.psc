@@ -207,6 +207,11 @@ String Function ReadableTimeDelta(Float Time, Bool RealLife=FALSE)
 	Return Output	
 EndFunction
 
+Float Function GetPlayerHeight()
+
+	Return 128 * Main.Player.GetScale()
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

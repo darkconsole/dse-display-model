@@ -199,6 +199,12 @@ String Function GetDeviceName(String Filename)
 	Return Object.GetName()
 EndFunction
 
+Float Function GetDeviceGrabOffset(String Filename)
+{read the look offset property of a device file.}
+
+	Return JsonUtil.GetPathFloatValue(Filename,".Device.GrabOffset",0.0)
+EndFunction
+
 Activator Function GetDeviceActivator(String Filename)
 {read the activator property out of a device file.}
 

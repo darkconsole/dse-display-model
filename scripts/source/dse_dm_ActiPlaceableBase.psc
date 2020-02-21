@@ -333,10 +333,8 @@ EndFunction
 Function Move()
 {kick in the grab object system on this thing.}
 
-	Float RotateMeMan = Main.Player.GetAngleZ() + Main.Player.GetHeadingAngle(self)
-	Float LookMeDownMan = 90 - (Math.atan( self.GetDistance(Main.Player) / (Main.Util.GetPlayerHeight() - self.GetHeightOffset(Main.Player) - self.GetGrabOffset()) ))
-
-	Game.ForceFirstPerson()
+	Float RotateMeMan
+	Float LookMeDownMan
 
 	;; this did not work. and i found people who could confirm that it won't ever
 	;; change pitch in first person. just looks left or right.
@@ -350,12 +348,18 @@ Function Move()
 	;;Game.SetPlayerAiDriven(FALSE)
 	;;Game.EnablePlayerControls()
 
-	;; this did not work. no matter what you give it, the game always sets the x (pitch) to 0 when done from scripting.
-	;;Main.Player.SetAngle(LookMeDownMan,Main.Player.GetAngleY(),RotateMeMan)
+	If(Main.Config.GetBool(".DeviceMoveAimCamera"))
+		Game.ForceFirstPerson()
+		RotateMeMan = Main.Player.GetAngleZ() + Main.Player.GetHeadingAngle(self)
+		LookMeDownMan = 90 - (Math.atan( self.GetDistance(Main.Player) / (Main.Util.GetPlayerHeight() - self.GetHeightOffset(Main.Player) - self.GetGrabOffset()) ))
 
-	;; so here we are, yet again, another gd ConsoleUtil hack because wtf.
-	ConsoleUtil.ExecuteCommand("player.setangle z " + RotateMeMan)
-	ConsoleUtil.ExecuteCommand("player.setangle x " + LookMeDownMan)
+		;; this did not work. no matter what you give it, the game always sets the x (pitch) to 0 when done from scripting.
+		;; Main.Player.SetAngle(LookMeDownMan,Main.Player.GetAngleY(),RotateMeMan)
+
+		;; so here we are, yet again, another gd ConsoleUtil hack because wtf.
+		ConsoleUtil.ExecuteCommand("player.setangle z " + RotateMeMan)
+		ConsoleUtil.ExecuteCommand("player.setangle x " + LookMeDownMan)
+	EndIf
 
 	StorageUtil.SetFormValue(Main.Player,Main.DataKeyGrabObjectTarget,self)
 	Main.Player.AddSpell(Main.SpellGrabObject)

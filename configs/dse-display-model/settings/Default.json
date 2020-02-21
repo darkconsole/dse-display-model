@@ -9,6 +9,7 @@
 	"DeviceActorLightFace": false,
 	"DeviceActorMoan": true,
 	"DeviceDropDistance": 75.0,
+	"DeviceMoveAimCamera": true,
 	"BondagePlayer": true,
 	"BondageEscapeChancePlayer": 15.0,
 	"BondageEscapeStaminaMinimum": 35.0,

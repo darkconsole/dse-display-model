@@ -304,6 +304,8 @@ Function MatchToActorSubscale(Actor Who)
 	;; so we will match the device to that scale.
 	;; and then set the override so all addons get scaled.
 
+	Main.Util.PrintDebug("MatchToActorSubscale: " + self.GetScaleOverride() + " * " + Scale + " = " + (Scale * self.GetScaleOverride()))
+
 	Scale *= self.GetScaleOverride()
 	self.SetScale(Scale)
 	self.SetScaleOverride(Scale)
@@ -314,15 +316,17 @@ EndFunction
 Function RestoreFromActorSubscale(Actor Who)
 {restore this device to match a non-breaking scale override.}
 
-	Float Scale = NetImmerse.GetNodeScale(Who,"NPC Root [Root]",FALSE) / self.GetScaleOverride()
+	Float Scale = NetImmerse.GetNodeScale(Who,"NPC Root [Root]",FALSE)
+
+	Main.Util.PrintDebug("RestoreFromActorSubscale: " + self.GetScaleOverride() + " / " + Scale + " = " + (self.GetScaleOverride() / Scale))
 
 	;; restore the device scale.
 
-	self.SetScale(Scale)
+	self.SetScale(self.GetScaleOverride() / Scale)
 
 	;; and restore the override.
 
-	self.SetScaleOverride(Scale)
+	self.SetScaleOverride(self.GetScaleOverride() / Scale)
 
 	Return
 EndFunction
@@ -400,6 +404,7 @@ Function ActivateByPlayer()
 	Int PlayersChoice = Main.MenuDeviceIdleActivate()
 	Int Value
 	Int Iter
+	Actor[] ActorList
 
 	If(PlayersChoice == 1)
 		self.Move()
@@ -412,8 +417,18 @@ Function ActivateByPlayer()
 	ElseIf(PlayersChoice == 5)
 		Value = self.ShowScaleMenu()
 		If(Value > 0)
+
+			;; force the scale we selected.
 			self.SetScaleOverride((Value as Float) / 20.0)
-			Main.Util.ScaleOverride(self,self.GetScaleOverride())
+
+			;; but then re-balance it with actor subscales.
+			If(self.GetMountedActorCount() == 1)
+				ActorList = self.GetMountedActors()
+				self.MatchToActorSubscale(ActorList[0])
+			Else
+				Main.Util.ScaleOverride(self,self.GetScaleOverride())
+			EndIf
+
 			self.Disable()
 			self.Enable(FALSE)
 			self.ScaleActorObjects()
@@ -534,7 +549,9 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	;; then scale the device to the actor's non-breaking scale.
 
-	self.MatchToActorSubscale(Who)
+	If(self.GetMountedActorCount() == 0)
+		self.MatchToActorSubscale(Who)
+	EndIf
 
 	;; the infamous slomoroto anti-collision hack. this will put the actor
 	;; above the device in a state where they have no collision for a long
@@ -649,7 +666,10 @@ Function ReleaseActorSlot(Int Slot)
 
 	self.ClearActorObjects(self.Actors[Slot],Slot)
 	self.RemoveActorEquips(self.Actors[Slot],Slot)
-	self.RestoreFromActorSubscale(self.Actors[Slot])
+
+	If(self.GetMountedActorCount() == 1)
+		self.RestoreFromActorSubscale(self.Actors[Slot])
+	EndIf
 
 	;; let the actor behave normal again.
 

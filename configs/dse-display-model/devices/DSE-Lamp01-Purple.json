@@ -1,0 +1,66 @@
+{
+	"Device": {
+		"ID": "DSE-Lamp01-Red",
+		"Activator": "54783|dse-display-model.esp",
+		"Inventory": "54782|dse-display-model.esp",
+		"Ghost": "45056|dse-display-model.esp",
+		"GrabOffset": 64.0,
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Warm: Dim",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "45061|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			},
+			{
+				"Name": "Warm: Normal",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "45057|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			},
+			{
+				"Name": "Warm: High",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "45060|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			},
+			{
+				"Name": "Purple: Dim",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "54786|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			},
+			{
+				"Name": "Purple: Normal",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "54785|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			},
+			{
+				"Name": "Purple: High",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [
+					{ "Form": "54784|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+				]
+			}
+		]
+	}
+}

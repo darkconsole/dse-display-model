@@ -10,7 +10,10 @@ dse_dm_QuestController Main = dse_dm_QuestController.GetAPI()
 dse_dm_ActiPlaceableBase Device = Main.Devices.GetActorDevice(akSpeaker)
 
 If(Device != None)
-Device.ReleaseActor(akSpeaker)
+	Device.ReleaseActor(akSpeaker)
+
+	Main.Util.BehaviourSet(akSpeaker,Main.PackageFollow)
+	akSpeaker.AddToFaction(Main.FactionFollow)
 EndIf
 ;END CODE
 EndFunction

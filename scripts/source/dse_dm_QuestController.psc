@@ -36,7 +36,9 @@ Outfit Property OutfitNone Auto
 Package Property PackageFollow Auto
 FormList Property ListBookVendors Auto
 Book Property BookDialogue Auto
+
 GlobalVariable Property Timescale Auto
+Faction Property GameCurrentFollowerFaction Auto
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,0 +1,19 @@
+{
+	"Device": {
+		"ID": "DSE-Frame01",
+		"Activator": "56167|dse-display-model.esp",
+		"Ghost": "56168|dse-display-model.esp",
+		"Inventory": "56169|dse-display-model.esp",
+		"GrabOffset": 64.0,
+		"Actors": [
+			{
+				"Name": "Stretched Leather",
+				"Package": "56166|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Objects": [
+					{ "Form": "56170|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

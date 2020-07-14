@@ -142,6 +142,12 @@ Bool Function IsUsed()
 	Return FALSE
 EndFunction
 
+String Function GetDeviceStorageKey()
+{get the storageutil key for this device.}
+
+	Return "DM3.DeviceObjects." + self.DeviceID
+EndFunction
+
 Form Function GetGhostForm()
 {get the ghost object for use during move mode}
 
@@ -617,6 +623,8 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		self.PrintUpdateInfo(Who)
 	EndIf
 
+	self.NotifyActorObjectsActorMounted(Who,Slot)
+
 	Main.Util.PrintDebug("MountActor: " + Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
 EndFunction
@@ -686,6 +694,7 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.ActorMouthClear(self.Actors[Slot])
 	Main.Util.ActorBondageTimerUpdate(self.Actors[Slot])
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
+	self.NotifyActorObjectsActorReleased(self.Actors[Slot],Slot)
 
 	Return
 EndFunction
@@ -801,6 +810,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 	ObjectReference Marker
 	Bool ConfigLightFace
 	Bool ToggleLightFace
+	dse_dm_ActiConnectedObject ItemCx
 
 	;; we use the place-at-marker system to avoid some lag with the object fade-in
 	;; when used with MoveTo and such. just place it in the final spot and be done.
@@ -840,6 +850,14 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			Marker = self.PlaceAtMe(MarkerForm,1,TRUE,FALSE)
 			Marker.MoveTo(self,ItemPos[0],ItemPos[1],ItemPos[2],TRUE)
 
+			;; does this item have extra features
+			If((Item As dse_dm_ActiConnectedObject) != None)
+				Main.Util.PrintDebug("SpawnActorObjects: " + DeviceKey + " " + Iter + " is Connected Object")
+				ItemCx = Item As dse_dm_ActiConnectedObject
+				ItemCx.Device = self
+				ItemCx.Slot = Slot
+			EndIf
+
 			;; spawn the item on the location.
 			Item = Marker.PlaceAtMe(ItemForm,1,TRUE,TRUE)
 			Item.Enable(FALSE)
@@ -858,6 +876,7 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			Main.Util.PrintDebug("SpawnActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
 		EndIf
 
+		ItemCx = None
 		Iter += 1
 	EndWhile
 
@@ -902,6 +921,120 @@ so that it will get cleaned up later when the actor is dismounted.}
 
 	Main.Util.ScaleOverride(Item,Scale)
 	StorageUtil.FormListAdd(Who,DeviceKey,Item)
+
+	Return
+EndFunction
+
+Function NotifyActorObjectsActorMounted(Actor Who, Int Slot)
+{notify any connected objects that an actor was mounted.}
+
+	String DeviceKey = self.GetDeviceStorageKey() 
+	dse_dm_ActiConnectedObject Item
+	Int ItemCount = 0
+	Int Ater = 0
+	Int Iter = 0
+
+	;;;;;;;;
+
+	Item = ((self As ObjectReference) As dse_dm_ActiConnectedObject)
+	If(Item != None)
+		Item.OnActorMounted(Who,Slot)
+	EndIf
+
+	While(Ater < self.Actors.Length)
+		If(self.Actors[Ater] != None)
+			Iter = 0
+			ItemCount = StorageUtil.FormListCount(self.Actors[Ater],DeviceKey)
+
+			While(Iter < ItemCount)
+				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
+
+				If(Item != None)
+					Item.OnActorMounted(Who,Slot)
+				EndIf
+
+				Iter += 1
+			EndWhile
+		EndIf
+
+		Ater += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function NotifyActorObjectsActorReleased(Actor Who, Int Slot)
+{notify any connected objects that an actor was mounted.}
+
+	String DeviceKey = self.GetDeviceStorageKey() 
+	dse_dm_ActiConnectedObject Item
+	Int ItemCount = 0
+	Int Ater = 0
+	Int Iter = 0
+
+	;;;;;;;;
+
+	Item = ((self As ObjectReference) As dse_dm_ActiConnectedObject)
+	If(Item != None)
+		Item.OnActorReleased(Who,Slot)
+	EndIf
+
+	While(Ater < self.Actors.Length)
+		If(self.Actors[Ater] != None)
+			Iter = 0
+			ItemCount = StorageUtil.FormListCount(self.Actors[Ater],DeviceKey)
+
+			While(Iter < ItemCount)
+				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
+
+				If(Item != None)
+					Item.OnActorReleased(Who,Slot)
+				EndIf
+
+				Iter += 1
+			EndWhile
+		EndIf
+
+		Ater += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function NotifyActorObjectsDeviceUpdate()
+{notify any connected objects that a periodic update has happened.}
+
+	String DeviceKey = self.GetDeviceStorageKey() 
+	dse_dm_ActiConnectedObject Item
+	Int ItemCount = 0
+	Int Ater = 0
+	Int Iter = 0
+
+	;;;;;;;;
+
+	Item = ((self As ObjectReference) As dse_dm_ActiConnectedObject)
+	If(Item != None)
+		Item.OnDeviceUpdate()
+	EndIf
+
+	While(Ater < self.Actors.Length)
+		If(self.Actors[Ater] != None)
+			Iter = 0
+			ItemCount = StorageUtil.FormListCount(self.Actors[Ater],DeviceKey)
+
+			While(Iter < ItemCount)
+				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
+
+				If(Item != None)
+					Item.OnDeviceUpdate()
+				EndIf
+
+				Iter += 1
+			EndWhile
+		EndIf
+
+		Ater += 1
+	EndWhile
 
 	Return
 EndFunction
@@ -1090,6 +1223,7 @@ Function HandlePeriodicUpdates()
 		self.Moan()
 	EndIf
 
+	self.NotifyActorObjectsDeviceUpdate()
 	Return
 EndFunction
 

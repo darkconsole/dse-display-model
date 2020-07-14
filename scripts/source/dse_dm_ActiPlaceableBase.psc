@@ -1188,6 +1188,7 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 	String[] Names
 	Int Selected
 	Int NameIter
+	Int DeviceActorMax = Main.Devices.GetDeviceActorCount(self.File)
 
 	;; make sure this device even has enough open free spots.
 
@@ -1199,7 +1200,7 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 	;; if this device only has one slot then auto select that slot as the slot
 	;; to use. else pop up the menu that will list them for selection.	
 
-	If(Main.Devices.GetDeviceActorCount(self.File) == 1 && Main.Devices.GetDeviceActorSlotCount(self.File) == 1)
+	If(DeviceActorMax == 1 && Main.Devices.GetDeviceActorSlotCount(self.File) == 1)
 		Selected = 0
 	Else
 		Main.Util.Print(Main.Util.StringLookup("MsgDeviceSelectSlot"))
@@ -1212,7 +1213,9 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 			If(self.Actors[NameIter] != None)
 				Names[NameIter] = Main.Util.StringLookup("LabelSlotOccupied",(Names[NameIter] + "|" + self.Actors[NameIter].GetDisplayName()))
 			Else
-				Names[NameIter] = Main.Util.StringLookup("LabelSlotEmpty",Names[NameIter])
+				If(DeviceActorMax > 1)
+					Names[NameIter] = Main.Util.StringLookup("LabelSlotEmpty",Names[NameIter])
+				EndIf
 			EndIf
 			NameIter += 1
 		EndWhile

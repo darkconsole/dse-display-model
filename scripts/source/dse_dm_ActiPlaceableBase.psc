@@ -72,6 +72,8 @@ Function Prepare()
 	self.UpdateFreqIdle = Main.Devices.GetDeviceUpdateFreqIdle(self.File)
 	self.UpdateFreqUsed = Main.Devices.GetDeviceUpdateFreqUsed(self.File)
 
+	self.SpawnDeviceObjects()
+
 	;;;;;;;;
 
 	;; register this device as placed in the world.
@@ -394,6 +396,8 @@ Function PickUp()
 		Slot += 1
 	EndWhile
 
+	self.ClearDeviceObjects()
+
 	;; and pick up the device.
 
 	Main.Player.AddItem(DeviceItem,1)
@@ -565,6 +569,8 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; device by like a long long time (the 0.000001 rotation speed). this
 	;; is the same trick sexlab uses during scenes.
 
+	self.NotifyActorObjectsActorMounted(Who,Slot)
+
 	Who.SetAngle(0.0,0.0,self.GetAngleZ())
 	Who.TranslateTo(               \
 		self.GetPositionX(),       \
@@ -622,8 +628,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		Game.ForceThirdPerson()
 		self.PrintUpdateInfo(Who)
 	EndIf
-
-	self.NotifyActorObjectsActorMounted(Who,Slot)
 
 	Main.Util.PrintDebug("MountActor: " + Who.GetDisplayName() + " is now mounted to " + DeviceName + ": " + SlotName)
 	Return
@@ -729,11 +733,73 @@ to be doing.}
 
 	Int Iter
 
+	self.SpawnDeviceObjects()
+
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] != None)
 			Main.Util.PrintDebug("Refresh: " + self.DeviceID + " " + Iter + " " + self.Actors[Iter].GetDisplayName())
 			self.MountActor(self.Actors[Iter],Iter,ForceObjects)
 		EndIf
+		Iter += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function ClearDeviceObjects()
+{clear the additional decoration objects for this furniture.}
+
+	String DeviceKey = self.GetDeviceStorageKey()
+	Int ItemCount = StorageUtil.FormListCount(self,DeviceKey)
+	Int Iter
+	ObjectReference Obj
+
+	Iter = 0
+	While(Iter < ItemCount)
+		Obj = Storageutil.FormListGet(self,DeviceKey,Iter) As ObjectReference
+
+		If(Obj != NONE)
+			Obj.Disable()
+			Obj.Delete()
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	StorageUtil.FormListClear(self,DeviceKey)
+	Return
+EndFunction
+
+Function SpawnDeviceObjects()
+{place the additional decoration objects this furniture needs.}
+
+	Int Iter
+	ObjectReference Obj
+
+	String DeviceKey = self.GetDeviceStorageKey()
+	Int ItemCount = Main.Devices.GetDeviceObjectCount(self.File)
+	Form ItemForm
+	dse_dm_ActiConnectedObject ItemCx
+
+	self.ClearDeviceObjects()
+
+	Iter = 0
+	While(Iter < ItemCount)
+		ItemForm = Main.Devices.GetDeviceObjectForm(self.File,Iter)
+
+		If(ItemForm != NONE)
+			Obj = self.PlaceAtMe(ItemForm)
+		EndIf
+
+		;; does this item have extra features
+		If((Obj As dse_dm_ActiConnectedObject) != None)
+			Main.Util.PrintDebug("SpawnDeviceObjects: " + DeviceKey + " " + Iter + " is Connected Object")
+			ItemCx = Obj As dse_dm_ActiConnectedObject
+			ItemCx.Device = self
+			ItemCx.Slot = -69
+		EndIf
+
+		StorageUtil.FormListAdd(self,DeviceKey,Obj)
 		Iter += 1
 	EndWhile
 

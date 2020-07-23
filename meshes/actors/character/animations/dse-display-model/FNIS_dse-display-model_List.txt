@@ -137,7 +137,8 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Chair01-A1 poses\D
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rocking Horse '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-RockingHorse01-A1 poses\DSE-RockingHorse01-A1.hkx
+o -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-RockingHorse01-A1 poses\DSE-RockingHorse01-A1.hkx dse_dm_AObjRockingHorse01
+o -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-RockingHorse01-A2 poses\DSE-RockingHorse01-A2.hkx dse_dm_AObjRockingHorse01
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Lamp 01 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

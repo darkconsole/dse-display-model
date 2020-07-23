@@ -7,14 +7,18 @@
 		"ActorCount": 1,
 		"Actors": [
 			{
-				"Name": "Ride The Horse",
+				"Name": "Straddle The Horse",
 				"HeadTracking": false,
-				"Package": "42293|dse-display-model.esp",
-				"Equips": [],
-				"Objects": [
-					{ "Form": "42296|dse-display-model.esp" }
-				]
+				"Package": "42293|dse-display-model.esp"
+			},
+			{
+				"Name": "Rock The Horse",
+				"HeadTracking": false,
+				"Package": "58929|dse-display-model.esp"
 			}
+		],
+		"Objects": [
+			{ "Form": "57549|dse-display-model.esp" }
 		]
 	}
 }

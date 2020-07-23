@@ -276,6 +276,34 @@ Bool Function GetDeviceRaceAllowed(String Filename, Race What)
 	Return TRUE
 EndFunction
 
+Int Function GetDeviceObjectCount(String Filename)
+{get the package for a specific actor slot.}
+
+	String Path = ".Device.Objects"
+
+	Return PapyrusUtil.ClampInt(JsonUtil.PathCount(Filename,Path),0,9001)
+EndFunction
+
+Form Function GetDeviceObjectForm(String Filename, Int ItemSlot)
+{get the package for a specific actor slot.}
+
+	String Path = ".Device.Objects[" + ItemSlot + "].Form"
+
+	Return JsonUtil.GetPathFormValue(Filename,Path)
+EndFunction
+
+Float[] Function GetDeviceObjectPosition(String Filename, Int ItemSlot)
+{get the positional data for a specific actor slot.}
+
+	Float[] Output = new Float[3]
+
+	Output[0] = JsonUtil.GetPathFloatValue(Filename,".Device.Objects[" + ItemSlot + "].Pos[0]")
+	Output[1] = JsonUtil.GetPathFloatValue(Filename,".Device.Objects[" + ItemSlot + "].Pos[1]")
+	Output[2] = JsonUtil.GetPathFloatValue(Filename,".Device.Objects[" + ItemSlot + "].Pos[2]")
+
+	Return Output
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

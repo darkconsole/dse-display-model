@@ -10,9 +10,14 @@
 				"Name": "On That Chair",
 				"HeadTracking": false,
 				"Package": "42286|dse-display-model.esp",
-				"Equips": [],
-				"Objects": [
-					{ "Form": "42291|dse-display-model.esp" }
+				"Objects": [ { "Form": "42291|dse-display-model.esp" } ],
+				"Interactions": [
+					{ "Package": "58936|dse-display-model.esp", "Name": "Sit and Finger" },
+					{ "Package": "58937|dse-display-model.esp", "Name": "Sitting On Upside Down For Some Reason" },
+					{ "Package": "58938|dse-display-model.esp", "Name": "Fisting" },
+					{ "Package": "58939|dse-display-model.esp", "Name": "Licking" },
+					{ "Package": "58940|dse-display-model.esp", "Name": "Sit" },
+					{ "Package": "58941|dse-display-model.esp", "Name": "Sit and Wiggle" }
 				]
 			}
 		]

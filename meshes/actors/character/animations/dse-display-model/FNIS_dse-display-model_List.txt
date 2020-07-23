@@ -132,7 +132,17 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan07-A1 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Chair '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Chair01-A1 poses\DSE-Chair01-A1.hkx
+'' the chairee
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-A1 poses\DSE-Chair01-A1.hkx
+
+'' the chairer
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-B1 poses\DSE-Chair01-B1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-B2 poses\DSE-Chair01-B2.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-B3 poses\DSE-Chair01-B3.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-B4 poses\DSE-Chair01-B4.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-B5 poses\DSE-Chair01-B5.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-B6 poses\DSE-Chair01-B6.hkx
+
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Rocking Horse '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

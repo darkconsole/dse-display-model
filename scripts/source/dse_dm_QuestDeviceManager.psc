@@ -173,7 +173,7 @@ EndFunction
 Int Function GetActorSlot(Actor Who)
 {fetch the slot on a device this actor has been registered to.}
 
-	Return StorageUtil.GetIntValue(Who,Main.DataKeyActorDevice)
+	Return StorageUtil.GetIntValue(Who,Main.DataKeyActorDevice,-1)
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -498,6 +498,31 @@ Float[] Function GetDeviceActorSlotObjectPosition(String Filename, Int Slot, Int
 	Output[2] = JsonUtil.GetPathFloatValue(Filename,".Device.Actors[" + Slot + "].Objects[" + ItemSlot + "].Pos[2]")
 
 	Return Output
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Int Function GetDeviceActorSlotInteractionCount(String Filename, Int Slot)
+{count how many actors this can hold out of a device file.}
+
+	Return JsonUtil.PathCount(Filename,".Device.Actors[" + Slot + "].Interactions")
+EndFunction
+
+String Function GetDeviceActorSlotInteractionName(String Filename, Int Slot, Int Ilot)
+{count how many actors this can hold out of a device file.}
+
+	String Path = ".Device.Actors[" + Slot + "].Interactions[" + Ilot + "].Name"
+
+	Return JsonUtil.GetPathStringValue(Filename,Path)
+EndFunction
+
+Package Function GetDeviceActorSlotInteractionPackage(String Filename, Int Slot, Int Ilot)
+{count how many actors this can hold out of a device file.}
+
+	String Path = ".Device.Actors[" + Slot + "].Interactions[" + Ilot + "].Package"
+
+	Return JsonUtil.GetPathFormValue(Filename,Path) As Package
 EndFunction
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

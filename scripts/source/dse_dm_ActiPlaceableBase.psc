@@ -479,6 +479,19 @@ Function ActivateByActor(Actor Who, Int Slot=-1)
 	Return
 EndFunction
 
+Function InteractByPlayer(Int Slot)
+{when the player tries to interact with a slotted npc.}
+
+	Int PlayersChoice = self.ShowInteractMenu(Slot)
+
+	If(PlayersChoice < 0)
+		Return
+	EndIf
+
+	self.InteractActor(Main.Player,Slot,PlayersChoice)
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -721,6 +734,85 @@ works you should only use it on devices that only hold one at a time.}
 		Slot += 1
 	EndWhile
 
+	Return
+EndFunction
+
+Function InteractActor(Actor Who, Int Slot, Int Ilot)
+{force an actor to use this device and slot.}
+
+	Package Task
+	String DeviceName = Main.Devices.GetDeviceName(self.File)
+	String SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
+
+	;; make sure we know what to do.
+
+	Task = Main.Devices.GetDeviceActorSlotInteractionPackage(self.File,Slot,Ilot)
+
+	If(Task == None)
+		Main.Util.PrintDebug("InteractActor: no package found for " + self.DeviceID + " " + Slot + " " + Ilot)
+		Return
+	EndIf
+
+	Who.SetHeadTracking(FALSE)
+	Main.Util.ScaleCancel(Who)
+	Main.Util.ScaleOverride(Who,self.GetScaleOverride())
+
+	;;self.NotifyActorObjectsActorInteracting(Who,Slot,Ilot)
+
+	Who.SetAngle(0.0,0.0,self.GetAngleZ())
+	Who.TranslateTo(               \
+		self.GetPositionX(),       \
+		self.GetPositionY(),       \
+		self.GetPositionZ(),       \
+		self.GetAngleX(),          \
+		self.GetAngleY(),          \
+		(self.GetAngleZ() + 0.01), \
+		10000,0.000001             \
+	)
+
+	Main.Util.HighHeelsCancel(Who)
+	Main.Util.BehaviourSet(Who,Task)
+	Main.Util.ImmersiveExpression(Who,FALSE)
+	Main.Util.ActorMouthApply(Who)
+
+	Who.MoveTo(self)
+
+	If(Who == Main.Player)
+		self.RegisterForControl("Jump")
+		Game.DisablePlayerControls(FALSE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,0)
+		Game.ForceThirdPerson()
+		self.PrintUpdateInfo(Who)
+	EndIf
+
+	Main.Util.PrintDebug("InteractActor: " + Who.GetDisplayName() + " is now interacting with " + DeviceName + ": " + SlotName + " " + Ilot)
+	Return
+EndFunction
+
+Function DetractActor(Actor Who)
+{force an actor to use this device and slot.}
+
+	Float[] Pos = Main.Util.GetPositionAtDistance(self,50)
+
+	;; move them away.
+
+	Who.SetPosition(Pos[1],Pos[2],Pos[3])
+	Who.StopTranslation()
+
+	;; let the actor behave normal again.
+
+	If(Who == Main.Player)
+		self.UnregisterForControl("Jump")
+		Game.EnablePlayerControls()
+	EndIf
+
+	Main.Util.BehaviourSet(Who,None)
+	Main.Util.HighHeelsResume(Who)
+	Main.Util.ScaleResume(Who)
+	Main.Util.ScaleOverride(Who,1.0)
+	Main.Util.ImmersiveExpression(Who,FALSE)
+	Main.Util.ActorMouthClear(Who)
+
+	;;self.NotifyActorObjectsActorDetracted(Who,Slot,Ilot)
 	Return
 EndFunction
 
@@ -1487,6 +1579,44 @@ Int Function ShowScaleMenu()
 	Return Value
 EndFunction
 
+Int Function ShowInteractMenu(Int Slot)
+{open slot interaction menu}
+
+	UIListMenu Menu = UIExtensions.GetMenu("UIListMenu",TRUE) as UIListMenu
+	Int NoParent = -1
+	Int Result
+
+	Int ICount
+	String IName
+	Int Iter
+
+	;;;;;;;;
+
+	Menu.AddEntryItem(Main.Util.StringLookup("LabelDeviceMenuCancel"),NoParent)
+
+	ICount = Main.Devices.GetDeviceActorSlotInteractionCount(self.File,Slot)
+	Iter = 0
+
+	While(Iter < ICount)
+		IName = Main.Devices.GetDeviceActorSlotInteractionName(self.File,Slot,Iter)
+		Menu.AddEntryitem(IName,NoParent)
+		Iter += 1
+	EndWhile
+
+	;;;;;;;;
+
+	Menu.OpenMenu()
+	Result = Menu.GetResultInt() - 1
+
+	If(Result < 0)
+		Main.Util.PrintDebug("ShowInteractMenu: Canceled")
+		Return -1
+	EndIf
+
+	Main.Util.PrintDebug("ShowInteractMenu: Selected " + Result)
+	Return Result
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1656,17 +1786,23 @@ State Idle
 		ObjectReference Bed
 
 		If(What == "Jump")
-			If(Len < 2.0)
-				If(Main.Util.ActorEscapeAttempt(Main.Player))
-					self.ReleaseActor(Main.Player)
-				EndIf
-
-				self.PrintUpdateInfo(Main.Player)
+			If(Main.Devices.GetActorSlot(Main.Player) < 0)
+				;; player is interacting
+				self.DetractActor(Main.Player)
 			Else
-				Bed = Main.Player.PlaceAtMe(Main.InvisibleBed,1,TRUE,FALSE)
-				Bed.Activate(Main.Player)
-				Utility.Wait(0.1)
-				Bed.Delete()
+				;; player is bondaged
+				If(Len < 2.0)
+					If(Main.Util.ActorEscapeAttempt(Main.Player))
+						self.ReleaseActor(Main.Player)
+					EndIf
+
+					self.PrintUpdateInfo(Main.Player)
+				Else
+					Bed = Main.Player.PlaceAtMe(Main.InvisibleBed,1,TRUE,FALSE)
+					Bed.Activate(Main.Player)
+					Utility.Wait(0.1)
+					Bed.Delete()
+				EndIf
 			EndIf
 		EndIf
 

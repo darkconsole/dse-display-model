@@ -27,7 +27,7 @@ ScriptName dse_dm_FurnSingleMountDisableDeco extends dse_dm_ActiConnectedObject
 Activator Property ObjectToFind Auto
 ObjectReference Property ObjectFound Auto Hidden
 
-Function OnActorMounted(Actor Who, Int Slot)
+Event OnActorMounted(Actor Who, Int Slot)
 
 	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
 	
@@ -40,9 +40,9 @@ Function OnActorMounted(Actor Who, Int Slot)
 
 	self.ObjectFound.Disable()
 	Return
-EndFunction
+EndEvent
 
-Function OnActorReleased(Actor Who, Int Slot)
+Event OnActorReleased(Actor Who, Int Slot)
 
 	If(self.ObjectFound != NONE)
 		self.ObjectFound.Enable()
@@ -50,4 +50,4 @@ Function OnActorReleased(Actor Who, Int Slot)
 	EndIf
 
 	Return
-EndFunction
+EndEvent

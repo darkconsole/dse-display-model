@@ -1,0 +1,91 @@
+{
+	"Device": {
+		"ID": "DSE-Tank01",
+		"Activator": "60329|dse-display-model.esp",
+		"Ghost": "60331|dse-display-model.esp",
+		"Inventory": "60330|dse-display-model.esp",
+		"Objects": [
+			{ "Form": "60341|dse-display-model.esp" }
+		],
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Fill 0%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+				]
+			},
+			{
+				"Name": "Fill 10%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60340|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 20%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60339|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 30%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60338|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 40%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60337|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 50%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60336|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 60%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60335|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 70%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60334|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 80%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60333|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 90%",
+				"Package": "60327|dse-display-model.esp",
+				"Headtracking": false,
+				"Objects": [
+					{ "Form": "60332|dse-display-model.esp" }
+				]
+			},
+			{
+				"Name": "Fill 100%",
+				"Package": "60327|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "60328|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

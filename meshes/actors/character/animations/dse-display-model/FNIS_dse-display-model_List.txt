@@ -179,3 +179,9 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-SteelSword01-A1 po
 '' Tanning Rack ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Frame01-A1 poses\DSE-Frame01-A1.hkx
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Tank 01 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Tank01-A1 poses\DSE-Tank01-A1.hkx
+

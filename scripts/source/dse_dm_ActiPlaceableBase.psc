@@ -846,9 +846,12 @@ Function ClearDeviceObjects()
 	Int Iter
 	ObjectReference Obj
 
+	Main.Util.PrintDebug("ClearDeviceObjects: " + ItemCount + " items")
+
 	Iter = 0
 	While(Iter < ItemCount)
-		Obj = Storageutil.FormListGet(self,DeviceKey,Iter) As ObjectReference
+		Obj = StorageUtil.FormListGet(self,DeviceKey,Iter) As ObjectReference
+		Main.Util.PrintDebug("ClearDeviceObjects: " + Obj)
 
 		If(Obj != NONE)
 			Obj.Disable()
@@ -865,15 +868,20 @@ EndFunction
 Function SpawnDeviceObjects()
 {place the additional decoration objects this furniture needs.}
 
-	Int Iter
-	ObjectReference Obj
-
 	String DeviceKey = self.GetDeviceStorageKey()
 	Int ItemCount = Main.Devices.GetDeviceObjectCount(self.File)
+	Int Iter
+	ObjectReference Obj
 	Form ItemForm
 	dse_dm_ActiConnectedObject ItemCx
 
+	;;;;;;;;
+
 	self.ClearDeviceObjects()
+
+	;;;;;;;;
+
+	Main.Util.PrintDebug("SpawnDeviceObjects: " + ItemCount + " items")
 
 	Iter = 0
 	While(Iter < ItemCount)
@@ -1099,6 +1107,22 @@ Function NotifyActorObjectsActorMounted(Actor Who, Int Slot)
 		Item.OnActorMounted(Who,Slot)
 	EndIf
 
+	Iter = 0
+	ItemCount = StorageUtil.FormListCount(self,DeviceKey)
+
+	While(Iter < ItemCount)
+		Item = StorageUtil.FormListGet(self,DeviceKey,Iter) As dse_dm_ActiConnectedObject
+
+		If(Item != None)
+			Main.Util.PrintDebug("NotifyActorMounted: " + DeviceKey + " " + Iter + " is Connected Object")
+			Item.OnActorMounted(Who,Slot)
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	;;;;;;;;
+
 	While(Ater < self.Actors.Length)
 		If(self.Actors[Ater] != None)
 			Iter = 0
@@ -1108,6 +1132,7 @@ Function NotifyActorObjectsActorMounted(Actor Who, Int Slot)
 				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
 
 				If(Item != None)
+					Main.Util.PrintDebug("NotifyActorMounted: " + DeviceKey + " " + Ater + " " + Iter + " is Connected Object")
 					Item.OnActorMounted(Who,Slot)
 				EndIf
 
@@ -1137,6 +1162,22 @@ Function NotifyActorObjectsActorReleased(Actor Who, Int Slot)
 		Item.OnActorReleased(Who,Slot)
 	EndIf
 
+	Iter = 0
+	ItemCount = StorageUtil.FormListCount(self,DeviceKey)
+
+	While(Iter < ItemCount)
+		Item = StorageUtil.FormlistGet(self,DeviceKey,Iter) As dse_dm_ActiConnectedObject
+
+		If(Item != None)
+			Main.Util.PrintDebug("NotifyActorRelease: " + DeviceKey + " " + Iter + " is Connected Object")
+			Item.OnActorReleased(Who,Slot)
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	;;;;;;;;
+
 	While(Ater < self.Actors.Length)
 		If(self.Actors[Ater] != None)
 			Iter = 0
@@ -1146,6 +1187,7 @@ Function NotifyActorObjectsActorReleased(Actor Who, Int Slot)
 				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
 
 				If(Item != None)
+					Main.Util.PrintDebug("NotifyActorRelease: " + DeviceKey + " " + Ater + " " + Iter + " is Connected Object")
 					Item.OnActorReleased(Who,Slot)
 				EndIf
 
@@ -1174,6 +1216,21 @@ Function NotifyActorObjectsDeviceUpdate()
 	If(Item != None)
 		Item.OnDeviceUpdate()
 	EndIf
+
+	Iter = 0
+	ItemCount = StorageUtil.FormListCount(self,DeviceKey)
+
+	While(Iter < ItemCount)
+		Item = StorageUtil.FormlistGet(self,DeviceKey,Iter) As dse_dm_ActiConnectedObject
+
+		If(Item != None)
+			Item.OnDeviceUpdate()
+		EndIf
+
+		Iter += 1
+	EndWhile
+
+	;;;;;;;;
 
 	While(Ater < self.Actors.Length)
 		If(self.Actors[Ater] != None)

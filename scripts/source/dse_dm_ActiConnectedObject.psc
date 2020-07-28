@@ -15,17 +15,17 @@ Event OnLoad()
 	Return
 EndEvent
 
-Function OnActorMounted(Actor Who, Int Slot)
+Event OnActorMounted(Actor Who, Int SlotNum)
 
 	Return
-EndFunction
+EndEvent
 
-Function OnActorReleased(Actor Who, Int Slot)
-
-	Return
-EndFunction
-
-Function OnDeviceUpdate()
+Event OnActorReleased(Actor Who, Int SlotNum)
 
 	Return
-EndFunction
+EndEvent
+
+Event OnDeviceUpdate()
+
+	Return
+EndEvent

@@ -1,4 +1,19 @@
-export the animation to xml tagfile.
-use 1-build.bat.
-use 2-install.bat or copy from hkx to mod.
-configure fnis.
+exporting poses:
+
+* export the animation to xml tagfile.
+* use 1-build.bat.
+* use 2-install.bat or copy from hkx to mod.
+* configure fnis.
+
+custom collision shapes for usable furniture:
+
+* make basic shape in max
+* export as oldrim nif named shape.nif
+* overwrite shape.nif in chunkmerge
+* chunkmerge:
+	- nif-file output.nif (which started as a nif with no shapes)
+	- collision-file shape.nif
+	- template template-clutter.nif
+	- mesh data
+	- copy the bhkMoppBvTreeShape into final sse nif's bhkCollisionObject
+	- make sure the chunks layers are clutter

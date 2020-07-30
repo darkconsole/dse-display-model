@@ -504,6 +504,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	Bool SameDeviceSameSlot = FALSE
 	Bool SameDeviceDiffSlot = FALSE
 	dse_dm_ActiPlaceableBase OldDevice
+	Int OldSlot
 	String DeviceName = Main.Devices.GetDeviceName(self.File)
 	String SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
 
@@ -523,11 +524,12 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; handle attempting to slot actors already used by other devices.
 
 	OldDevice = Main.Devices.GetActorDevice(Who)
+	OldSlot = Main.Devices.GetActorSlot(Who)
 
 	;; if they are already on this device take some notes.
 
 	If(OldDevice == self)
-		If(self.Actors[Slot] == Who)
+		If(OldSlot == Slot)
 			SameDeviceSameSlot = TRUE
 		Else
 			SameDeviceDiffSlot = TRUE
@@ -552,6 +554,8 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	If(SameDeviceDiffSlot)
 		Main.Devices.UnregisterActor(Who,self)
 	EndIf
+
+	Main.Devices.RegisterActor(Who,self,Slot)
 
 	;; disable headtracking on the actor by default early on just to give
 	;; processing this rest of this script time for the head to start turning
@@ -582,8 +586,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; device by like a long long time (the 0.000001 rotation speed). this
 	;; is the same trick sexlab uses during scenes.
 
-	self.NotifyActorObjectsActorMounted(Who,Slot)
-
 	Who.SetAngle(0.0,0.0,self.GetAngleZ())
 	Who.TranslateTo(               \
 		self.GetPositionX(),       \
@@ -597,7 +599,6 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	;; assuming direct control
 
-	Main.Devices.RegisterActor(Who,self,Slot)	
 	Main.Util.HighHeelsCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
 	Main.Util.ImmersiveExpression(Who,FALSE)
@@ -606,15 +607,18 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 	;; if the actor was already on this device and in this slot then we can
 	;; skip spawning its objects as they should already be there.
 
-	If(SameDeviceDiffSlot || ForceObjects)
-		self.RemoveActorEquips(Who,Slot)
-	EndIf
-
 	If(!SameDeviceSameSlot || ForceObjects)
+		If(SameDeviceDiffSlot)
+			self.NotifyActorObjectsActorReleased(Who,OldSlot)
+		EndIf
 		self.SpawnActorObjects(Who,Slot)
+		self.NotifyActorObjectsActorMounted(Who,Slot)
 	EndIf
 
-	self.EquipActorEquips(Who,Slot)
+	;;If(SameDeviceDiffSlot || ForceObjects)
+	;;	self.RemoveActorEquips(Who,Slot)
+	;;EndIf
+	;;self.EquipActorEquips(Who,Slot)
 
 	;; determine if we should turn headtracking back on. if globally
 	;; headtracking is disabled then if they are in the faction they will
@@ -1016,17 +1020,17 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			Marker = self.PlaceAtMe(MarkerForm,1,TRUE,FALSE)
 			Marker.MoveTo(self,ItemPos[0],ItemPos[1],ItemPos[2],TRUE)
 
+			;; spawn the item on the location.
+			Item = Marker.PlaceAtMe(ItemForm,1,TRUE,TRUE)
+			Item.Enable(FALSE)
+
 			;; does this item have extra features
 			If((Item As dse_dm_ActiConnectedObject) != None)
-				Main.Util.PrintDebug("SpawnActorObjects: " + DeviceKey + " " + Iter + " is Connected Object")
+				Main.Util.PrintDebug("SpawnActorObjects: " + DeviceKey + " " + Item + " is Connected Object")
 				ItemCx = Item As dse_dm_ActiConnectedObject
 				ItemCx.Device = self
 				ItemCx.Slot = Slot
 			EndIf
-
-			;; spawn the item on the location.
-			Item = Marker.PlaceAtMe(ItemForm,1,TRUE,TRUE)
-			Item.Enable(FALSE)
 
 			;; clean up the placement marker.
 			Marker.Disable()
@@ -1042,7 +1046,6 @@ Function SpawnActorObjects(Actor Who, Int Slot)
 			Main.Util.PrintDebug("SpawnActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " " + Iter + " not found")
 		EndIf
 
-		ItemCx = None
 		Iter += 1
 	EndWhile
 

@@ -5,60 +5,77 @@
 		"Inventory": "45055|dse-display-model.esp",
 		"Ghost": "45056|dse-display-model.esp",
 		"GrabOffset": 64.0,
+		"Objects":[
+			{ "Form": "0x00FBE0|dse-display-model.esp", "Name": "Lamp Shade Off" }
+		],
 		"ActorCount": 1,
 		"Actors": [
+			{
+				"Name": "Lamp Off",
+				"HeadTracking": false,
+				"Package": "45059|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "0x00F67A|dse-display-model.esp", "Name": "Pull Chain" }
+				]
+			},
 			{
 				"Name": "Warm: Dim",
 				"HeadTracking": false,
 				"Package": "45059|dse-display-model.esp",
-				"Equips": [],
 				"Objects": [
-					{ "Form": "45061|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+					{ "Form": "0x00FBE3|dse-display-model.esp" },
+					{ "Form": "45061|dse-display-model.esp", "Pos": [ 0.0, 15.0, 135.0] },
+					{ "Form": "0x00F67A|dse-display-model.esp", "Name": "Pull Chain" }
 				]
 			},
 			{
 				"Name": "Warm: Normal",
 				"HeadTracking": false,
 				"Package": "45059|dse-display-model.esp",
-				"Equips": [],
 				"Objects": [
-					{ "Form": "45057|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+					{ "Form": "0x00FBE3|dse-display-model.esp" },
+					{ "Form": "45057|dse-display-model.esp", "Pos": [ 0.0, 15.0, 135.0] },
+					{ "Form": "0x00F67A|dse-display-model.esp", "Name": "Pull Chain" }
 				]
 			},
 			{
 				"Name": "Warm: High",
 				"HeadTracking": false,
 				"Package": "45059|dse-display-model.esp",
-				"Equips": [],
 				"Objects": [
-					{ "Form": "45060|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+					{ "Form": "0x00FBE3|dse-display-model.esp" },
+					{ "Form": "45060|dse-display-model.esp", "Pos": [ 0.0, 15.0, 135.0] },
+					{ "Form": "0x00F67A|dse-display-model.esp", "Name": "Pull Chain" }
 				]
 			},
 			{
 				"Name": "Red: Dim",
 				"HeadTracking": false,
 				"Package": "45059|dse-display-model.esp",
-				"Equips": [],
 				"Objects": [
-					{ "Form": "45062|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+					{ "Form": "0x00FBE3|dse-display-model.esp" },
+					{ "Form": "45062|dse-display-model.esp", "Pos": [ 0.0, 15.0, 135.0] },
+					{ "Form": "0x00F67A|dse-display-model.esp", "Name": "Pull Chain" }
 				]
 			},
 			{
 				"Name": "Red: Normal",
 				"HeadTracking": false,
 				"Package": "45059|dse-display-model.esp",
-				"Equips": [],
 				"Objects": [
-					{ "Form": "45063|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+					{ "Form": "0x00FBE3|dse-display-model.esp" },
+					{ "Form": "45063|dse-display-model.esp", "Pos": [ 0.0, 15.0, 135.0] },
+					{ "Form": "0x00F67A|dse-display-model.esp", "Name": "Pull Chain" }
 				]
 			},
 			{
 				"Name": "Red: High",
 				"HeadTracking": false,
 				"Package": "45059|dse-display-model.esp",
-				"Equips": [],
 				"Objects": [
-					{ "Form": "45064|dse-display-model.esp", "Pos": [ -4.5, 0.0, 135.0 ] }
+					{ "Form": "0x00FBE3|dse-display-model.esp" },
+					{ "Form": "45064|dse-display-model.esp", "Pos": [ 0.0, 15.0, 135.0] },
+					{ "Form": "0x00F67A|dse-display-model.esp", "Name": "Pull Chain" }
 				]
 			}
 		]

@@ -8,7 +8,7 @@ dse_dm_QuestDeviceManager Property Devices Auto
 dse_dm_QuestUtil Property Util Auto
 
 SexLabFramework Property SexLab = None Auto Hidden
-Quest Property Aroused = None Auto Hidden ;; slaFrameworkScr
+Quest Property Aroused = None Auto Hidden
 Bool Property HasConsoleUtil = TRUE Auto Hidden
 Bool Property OptValidateActor = TRUE Auto Hidden
 
@@ -481,7 +481,7 @@ Event OnMenuClose(String Name)
 
 		If(self.Player.IsInFaction(self.FactionActorUsingDevice) && self.Aroused != None)
 			Util.PrintDebug("Trigger Arousal Update On Player")
-			(self.Aroused as slaFrameworkScr).GetActorArousal(self.Player)
+			dse_dm_ExternSexlabAroused.ActorArousalGet(self,self.Player)
 		EndIf
 	EndIf
 

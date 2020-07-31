@@ -351,7 +351,7 @@ Function ActorArousalInc(Actor Who, Int Exposure, String Reason="DM3 Arousal Mod
 		Return
 	EndIf
 
-	(Main.Aroused as slaFrameworkScr).UpdateActorExposure(Who,Exposure,Reason)
+	dse_dm_ExternSexlabAroused.ActorArousalUpdate(Main,Who,Exposure,Reason)
 	Return
 EndFunction
 
@@ -362,13 +362,17 @@ Int Function ActorArousalGet(Actor Who)
 		Return 0
 	EndIf
 
-	Return (Main.Aroused as slaFrameworkScr).GetActorExposure(Who)
+	Return dse_dm_ExternSexlabAroused.ActorArousalGet(Main,Who)
 EndFunction
 
 Bool Function ActorArousalExhib(Actor Who)
 {ask sla if the actor is an exhibitionist.}
 
-	Return (Main.Aroused as slaFrameworkScr).IsActorExhibitionist(Who)
+	If(Main.Aroused == None)
+		Return FALSE
+	EndIf
+
+	Return dse_dm_ExternSexlabAroused.ActorArousalExhib(Main,Who)
 EndFunction
 
 Function ActorToggleFaction(Actor Who, Faction What)

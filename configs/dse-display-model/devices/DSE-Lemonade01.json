@@ -1,0 +1,21 @@
+{
+	"Device": {
+		"ID": "DSE-Lemonade01",
+		"Activator": "0x0106AE|dse-display-model.esp",
+		"Ghost": "0x0106AD|dse-display-model.esp",
+		"Inventory": "0x0106AC|dse-display-model.esp",
+		"GrabOffset": 64.0,
+		"Objects": [
+			{ "Form":"0x0106A8|dse-display-model.esp", "Name":"Lemonade Storage" }
+		],
+		"Actors": [
+			{
+				"Name": "Artisan Brewer",
+				"Package": "0x0106AB|dse-display-model.esp",
+				"Equips": [
+					{ "Form":"0x0106B0|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

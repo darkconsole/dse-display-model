@@ -185,3 +185,7 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Frame01-A1 poses\D
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Tank01-A1 poses\DSE-Tank01-A1.hkx
 
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Lemonade Stand ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Lemonade01-A1 poses\DSE-Lemonade01-A1.hkx

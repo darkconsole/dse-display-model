@@ -615,10 +615,10 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		self.NotifyActorObjectsActorMounted(Who,Slot)
 	EndIf
 
-	;;If(SameDeviceDiffSlot || ForceObjects)
-	;;	self.RemoveActorEquips(Who,Slot)
-	;;EndIf
-	;;self.EquipActorEquips(Who,Slot)
+	If(SameDeviceDiffSlot || ForceObjects)
+		self.RemoveActorEquips(Who,Slot)
+	EndIf
+	self.EquipActorEquips(Who,Slot)
 
 	;; determine if we should turn headtracking back on. if globally
 	;; headtracking is disabled then if they are in the faction they will

@@ -20,6 +20,27 @@ Event OnLoad()
 	Return
 EndEvent
 
+Event OnDevicePickup()
+
+	Int ItemTypeIter = self.GetNumItems()
+	Form Thing
+	Int ThingCount
+
+	;; take everything from the container and give it to the player
+	;; before we delete it.
+
+	While(ItemTypeIter > 0) 
+		ItemTypeIter -= 1
+
+		Thing = self.GetNthForm(ItemTypeIter)
+		ThingCount = self.GetItemCount(Thing)
+
+		self.RemoveItem(Thing,ThingCount,FALSE,self.Device.Main.Player)
+	EndWhile
+
+	Return
+EndEvent
+
 Event OnActorMounted(Actor Who, Int SlotNum)
 	self.MountedActor = Who
 	Return

@@ -33,6 +33,7 @@ Furniture Property InvisibleBed Auto
 ImageSpaceModifier Property ImodModeAssign Auto
 ImageSpaceModifier Property ImodModeMove Auto
 Outfit Property OutfitNone Auto
+Package Property PackageDoNothing Auto
 Package Property PackageFollow Auto
 FormList Property ListBookVendors Auto
 Book Property BookDialogue Auto

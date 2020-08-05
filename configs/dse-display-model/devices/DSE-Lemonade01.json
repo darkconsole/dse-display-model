@@ -12,6 +12,9 @@
 			{
 				"Name": "Artisan Brewer",
 				"Package": "0x0106AB|dse-display-model.esp",
+				"Objects": [
+					{ "Form":"0x010C13|dse-display-model.esp", "Name":"Lemonade Tap NPC Marker" }
+				],
 				"Equips": [
 					{ "Form":"0x0106B0|dse-display-model.esp" }
 				]

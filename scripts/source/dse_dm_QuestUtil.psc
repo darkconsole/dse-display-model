@@ -501,11 +501,15 @@ sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
 	sslBaseExpression E
 
 	If(!Who.Is3dLoaded())
-		Return None
+		Return NONE
 	EndIf
 
 	If(self.ActorIsMouthControlled(Who))
-		Return None
+		Return NONE
+	EndIf
+
+	If(!Who.GetRace().HasKeywordString("ActorTypeNPC"))
+		Return NONE
 	EndIf
 
 	If(Enable)
@@ -523,7 +527,7 @@ sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
 		sslBaseExpression.ClearMFG(Who)
 	EndIf
 
-	Return None
+	Return NONE
 EndFunction
 
 Function ImmersiveSoundMoan(Actor Who, Bool Hard=FALSE)

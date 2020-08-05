@@ -9,11 +9,8 @@ Int Property FuckOffFactor=2 Auto
 Int Property Price=1 Auto
 {how much gold to take from npcs.}
 
-MiscObject Property Gold Auto
-{currency form from ck.}
-
-Container Property DepositBox Auto
-{type of depositbox container from ck.}
+Container Property StorageType Auto
+{type of StorageType container from ck.}
 
 Keyword Property KeywordLocationTown Auto
 {location keyword for open locations like riverwood.}
@@ -42,7 +39,7 @@ Bool Function FindTheStorageBox()
 {try to find a storage box for the lemonade.}
 
 	If(self.Storage == NONE)
-		self.Storage = Game.FindClosestReferenceOfType(self.DepositBox,self.X,self.Y,self.Z,69)
+		self.Storage = Game.FindClosestReferenceOfType(self.StorageType,self.X,self.Y,self.Z,69)
 	EndIf
 
 	If(Storage == NONE)
@@ -97,8 +94,37 @@ Event OnActorMounted(Actor Who, Int SlotNum)
 	Return
 EndEvent
 
+Event OnActivate(ObjectReference Whom)
+{sell some fukken lemonade.}
+
+	Actor Who = Whom As Actor
+
+	;;;;;;;;
+
+	If(Who == NONE)
+		self.Device.Main.Util.PrintDebug("Lemonade Stand " + self + " not activated by an actor.")
+		Return
+	EndIf
+
+	If(!self.FindTheStorageBox())
+		self.Device.Main.Util.PrintDebug("Lemonade Stand " + self + " cannot find a deposit box.")
+		self.FuckOffMate(Who)
+		Return
+	EndIf
+
+	;;;;;;;;
+
+	;; give us the money we earned.
+
+	self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " sold some lemonade.")
+	self.Storage.AddItem(self.Device.Main.ItemGold,self.Price)
+	self.FuckOffMate(Who)
+
+	Return
+EndEvent
+
 Event OnDeviceUpdate()
-{handle making money passively while out of town.}
+{continue selling some fukken lemonade.}
 
 	Float Now = Utility.GetCurrentRealTime()
 	Int Earning = 0
@@ -126,40 +152,11 @@ Event OnDeviceUpdate()
 		If(Earning > 0)
 			;; if we have earned some money give it to us.
 			self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + "'s lemonade stand earned some money while you were out.")
-			self.Storage.AddItem(self.Gold,Earning)
+			self.Storage.AddItem(self.Device.Main.ItemGold,Earning)
 		EndIf
 
 		self.LastTime = Now
 	EndIf
-
-	Return
-EndEvent
-
-Event OnActivate(ObjectReference Whom)
-{sell some fukken lemonade.}
-
-	Actor Who = Whom As Actor
-
-	;;;;;;;;
-
-	If(Who == NONE)
-		self.Device.Main.Util.PrintDebug("Lemonade Stand " + self + " not activated by an actor.")
-		Return
-	EndIf
-
-	If(!self.FindTheStorageBox())
-		self.Device.Main.Util.PrintDebug("Lemonade Stand " + self + " cannot find a deposit box.")
-		self.FuckOffMate(Who)
-		Return
-	EndIf
-
-	;;;;;;;;
-
-	;; give us the money we earned.
-
-	self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " sold some lemonade.")
-	self.Storage.AddItem(self.Gold,self.Price)
-	self.FuckOffMate(Who)
 
 	Return
 EndEvent

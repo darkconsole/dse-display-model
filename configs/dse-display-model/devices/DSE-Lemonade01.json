@@ -6,14 +6,14 @@
 		"Inventory": "0x0106AC|dse-display-model.esp",
 		"GrabOffset": 64.0,
 		"Objects": [
-			{ "Form":"0x0106A8|dse-display-model.esp", "Name":"Lemonade Storage" }
+			{ "Form":"0x0106A8|dse-display-model.esp", "Name":"Tap Container (Storage)" }
 		],
 		"Actors": [
 			{
 				"Name": "Artisan Brewer",
 				"Package": "0x0106AB|dse-display-model.esp",
 				"Objects": [
-					{ "Form":"0x010C13|dse-display-model.esp", "Name":"Lemonade Tap NPC Marker" }
+					{ "Form":"0x010C13|dse-display-model.esp", "Name":"Tap Marker (NPC Magnet)" }
 				],
 				"Equips": [
 					{ "Form":"0x0106B0|dse-display-model.esp" }

@@ -1,10 +1,10 @@
-ScriptName dse_dm_FurnLemonade01_Controls extends dse_dm_ActiConnectedObject
+ScriptName dse_dm_FurnLemonade01_TapContainer extends dse_dm_ActiConnectedObject
 
 Potion Property PotionToAdd Auto
 Int Property TimeToAdd=1200 Auto ;; 1200 = 20 minutes
 Int Property PotionPrice=1 Auto  ;; gold to take from npcs
 
-Actor Property MountedActor Auto Hidden
+Actor Property Seller Auto Hidden
 Float Property LastTime=0.0 Auto Hidden
 
 Event OnLoad()
@@ -42,7 +42,7 @@ Event OnDevicePickup()
 EndEvent
 
 Event OnActorMounted(Actor Who, Int SlotNum)
-	self.MountedActor = Who
+	self.Seller = Who
 	Return
 EndEvent
 
@@ -51,7 +51,7 @@ Event OnDeviceUpdate()
 	Float Now = Utility.GetCurrentRealTime()
 
 	If((Now - self.LastTime) >= self.TimeToAdd)
-		self.Device.Main.Util.PrintDebug(self.MountedActor + " has produced a bottle of lemonade")
+		self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " has produced a bottle of lemonade")
 		self.AddItem(self.PotionToAdd,1)
 		self.LastTime = Now
 	EndIf

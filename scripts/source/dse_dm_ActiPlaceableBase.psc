@@ -552,6 +552,8 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 		Return
 	EndIf
 
+	;; if we changed slots re-register.
+
 	If(SameDeviceDiffSlot)
 		Main.Devices.UnregisterActor(Who,self)
 	EndIf
@@ -637,8 +639,9 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	self.RegisterForSingleUpdate(self.UpdateFreqUsed)
 	Who.MoveTo(self)
-	Who.RemoveFromFaction(Main.FactionFollow)
 	Main.Util.ActorBondageTimerStart(Who)
+
+	;; make note of self-bondage
 
 	If(Who == Main.Player)
 		self.RegisterForControl("Jump")
@@ -681,6 +684,7 @@ Function ReleaseActorSlot(Int Slot)
 {release the specified slot from this device.}
 
 	Float[] Pos = Main.Util.GetPositionAtDistance(self,50)
+	Bool DeviceReleaseFollow = Main.Config.GetBool(".DeviceActorReleaseFollow")
 
 	If(Slot < 0 || Slot >= self.Actors.Length)
 		Main.Util.PrintDebug("ReleaseActorSlot: " + self.DeviceID + " " + Slot + " out of range.")
@@ -712,15 +716,10 @@ Function ReleaseActorSlot(Int Slot)
 		Game.EnablePlayerControls()
 	EndIf
 
-	If(Main.Config.GetBool(".DeviceActorReleaseFollow"))
-		If(!self.Actors[Slot].IsInFaction(Main.GameCurrentFollowerFaction))
-			Main.Util.BehaviourSet(self.Actors[Slot],Main.PackageFollow)
-			self.Actors[Slot].AddToFaction(Main.FactionFollow)
-		Else
-			Main.Util.BehaviourSet(self.Actors[Slot],None)
-		EndIf
-	Else
-		Main.Util.BehaviourSet(self.Actors[Slot],None)
+	Main.Util.BehaviourSet(self.Actors[Slot],NONE)
+
+	If(DeviceReleaseFollow && !self.Actors[Slot].IsInFaction(Main.GameCurrentFollowerFaction))
+		Main.Util.BehaviourSet(self.Actors[Slot],Main.PackageFollow)
 	EndIf
 	
 	Main.Util.HighHeelsResume(self.Actors[Slot])

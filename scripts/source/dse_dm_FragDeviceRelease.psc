@@ -11,15 +11,6 @@ dse_dm_ActiPlaceableBase Device = Main.Devices.GetActorDevice(akSpeaker)
 
 If(Device != None)
 	Device.ReleaseActor(akSpeaker)
-
-	;; if it was not a current follower then apply the dm follow.
-	If(Main.Config.GetBool(".DeviceActorReleaseFollow"))
-		If(!akSpeaker.IsInFaction(Main.GameCurrentFollowerFaction))
-			Main.Util.BehaviourSet(akSpeaker,Main.PackageFollow)
-			akSpeaker.AddToFaction(Main.FactionFollow)
-		EndIf
-	EndIf
-
 EndIf
 ;END CODE
 EndFunction

@@ -23,6 +23,7 @@ Spell Property SpellGrabObject Auto
 Static Property MarkerGhost Auto
 Static Property MarkerActive Auto
 Keyword Property KeywordFurniture Auto
+Faction Property FactionActorInteractable Auto
 Faction Property FactionActorUsingDevice Auto
 Faction Property FactionActorToggleLightFace Auto
 Faction Property FactionActorToggleHeadTracking Auto

@@ -120,6 +120,10 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 
 	Who.AddToFaction(Main.FactionActorUsingDevice)
 
+	If(self.GetDeviceActorSlotInteractionCount(Device.File,Slot) > 0)
+		Who.AddToFaction(Main.FactionActorInteractable)
+	EndIf
+
 	;; see how a los based error check works out.
 
 	Device.RegisterForLOS(Main.Player,Who)
@@ -148,6 +152,7 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Sl
 	;; remove actor factions.
 
 	Who.RemoveFromFaction(Main.FactionActorUsingDevice)
+	Who.RemoveFromFaction(Main.FactionActorInteractable)
 
 	;; make the device forget this actor.
 

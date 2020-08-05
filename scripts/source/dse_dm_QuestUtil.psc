@@ -756,6 +756,7 @@ Function BehaviourSet(Actor Who, Package Task)
 	Package OldTask = StorageUtil.GetFormValue(Who,Main.DataKeyActorOverride) As Package
 
 	If(OldTask != None)
+		Who.RemoveFromFaction(Main.FactionFollow)
 		ActorUtil.RemovePackageOverride(Who,OldTask)
 		ActorUtil.ClearPackageOverride(Who)
 		StorageUtil.UnsetFormValue(Who,Main.DataKeyActorOverride)
@@ -769,7 +770,9 @@ Function BehaviourSet(Actor Who, Package Task)
 		If(Who == Main.Player)
 			Game.SetPlayerAIDriven(TRUE)
 		Else
-			If(Task != Main.PackageFollow)
+			If(Task == Main.PackageFollow)
+				Who.AddToFaction(Main.FactionFollow)
+			Else
 				Who.SetDontMove(TRUE)
 				Who.SetRestrained(TRUE)
 			EndIf

@@ -6,9 +6,6 @@ Int Property Level=0 Auto Hidden
 
 Event OnActorMounted(Actor Who, Int SlotNum)
 
-	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
-	DM.Util.PrintDebug("FurnTank01.OnActorMounted: " + Who + " " + SlotNum)
-
 	self.MountedActor = Who
 	self.Level = SlotNum
 	Return
@@ -16,10 +13,7 @@ EndEvent
 
 Event OnActivate(ObjectReference What)
 
-	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
 	Int Choice = self.MessageBox.Show()
-
-	DM.Util.PrintDebug("FurnTank01.Activate: " + What)
 
 	;;;;;;;;
 

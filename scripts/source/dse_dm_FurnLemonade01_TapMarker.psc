@@ -62,16 +62,14 @@ EndFunction
 Function FuckOffMate(Actor Who)
 {leave some for the rest of us.}
 
-	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
-
 	;; trick the actor who got some lemonade to fuck off, or else they will stand
 	;; there for literally ever never stopping to drink.
 
 	If(Utility.RandomInt(0,self.FuckOffFactor) > 0)
 		self.Disable()
-		DM.Util.BehaviourSet(Who,DM.PackageDoNothing)
+		self.Device.Main.Util.BehaviourSet(Who,self.Device.Main.PackageDoNothing)
 		Utility.Wait(0.35)
-		DM.Util.BehaviourSet(Who,NONE)
+		self.Device.Main.Util.BehaviourSet(Who,NONE)
 		Utility.Wait(6.00)
 		self.Enable()
 	EndIf
@@ -102,7 +100,6 @@ EndEvent
 Event OnDeviceUpdate()
 {handle making money passively while out of town.}
 
-	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
 	Float Now = Utility.GetCurrentRealTime()
 	Int Earning = 0
 
@@ -128,8 +125,7 @@ Event OnDeviceUpdate()
 
 		If(Earning > 0)
 			;; if we have earned some money give it to us.
-			Debug.Notification(self.Seller.GetDisplayName() + "'s lemonade stand earned some money while you were out.")
-			DM.Util.PrintDebug(self.Seller.GetDisplayName() + "'s lemonade stand earned some money while you were out.")
+			self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + "'s lemonade stand earned some money while you were out.")
 			self.Storage.AddItem(self.Gold,Earning)
 		EndIf
 
@@ -142,18 +138,17 @@ EndEvent
 Event OnActivate(ObjectReference Whom)
 {sell some fukken lemonade.}
 
-	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
 	Actor Who = Whom As Actor
 
 	;;;;;;;;
 
 	If(Who == NONE)
-		DM.Util.PrintDebug("Lemonade Stand " + self + " not activated by an actor.")
+		self.Device.Main.Util.PrintDebug("Lemonade Stand " + self + " not activated by an actor.")
 		Return
 	EndIf
 
 	If(!self.FindTheStorageBox())
-		DM.Util.PrintDebug("Lemonade Stand " + self + " cannot find a deposit box.")
+		self.Device.Main.Util.PrintDebug("Lemonade Stand " + self + " cannot find a deposit box.")
 		self.FuckOffMate(Who)
 		Return
 	EndIf
@@ -162,7 +157,7 @@ Event OnActivate(ObjectReference Whom)
 
 	;; give us the money we earned.
 
-	DM.Util.PrintDebug(self.Seller.GetDisplayName() + " sold some lemonade.")
+	self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " sold some lemonade.")
 	self.Storage.AddItem(self.Gold,self.Price)
 	self.FuckOffMate(Who)
 

@@ -29,12 +29,10 @@ ObjectReference Property ObjectFound Auto Hidden
 
 Event OnActorMounted(Actor Who, Int Slot)
 
-	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
-	
 	self.ObjectFound = Game.FindClosestReferenceOfType(self.ObjectToFind,self.X,self.Y,self.Z,69)
 
 	If(self.ObjectFound == NONE)
-		DM.Util.Print("Couldn't Find Shit Yo")
+		self.Device.Main.Util.Print("Couldn't Find Shit Yo")
 		Return
 	EndIf
 

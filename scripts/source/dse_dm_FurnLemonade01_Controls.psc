@@ -28,10 +28,9 @@ EndEvent
 Event OnDeviceUpdate()
 
 	Float Now = Utility.GetCurrentRealTime()
-	dse_dm_QuestController DM = dse_dm_QuestController.GetAPI()
 
 	If((Now - self.LastTime) >= self.TimeToAdd)
-		DM.Util.PrintDebug(self.MountedActor + " has produced a bottle of lemonade")
+		self.Device.Main.Util.PrintDebug(self.MountedActor + " has produced a bottle of lemonade")
 		self.AddItem(self.PotionToAdd,1)
 		self.LastTime = Now
 	EndIf

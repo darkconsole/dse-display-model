@@ -707,7 +707,17 @@ Function ReleaseActorSlot(Int Slot)
 		Game.EnablePlayerControls()
 	EndIf
 
-	Main.Util.BehaviourSet(self.Actors[Slot],None)
+	If(Main.Config.GetBool(".DeviceActorReleaseFollow"))
+		If(!self.Actors[Slot].IsInFaction(Main.GameCurrentFollowerFaction))
+			Main.Util.BehaviourSet(self.Actors[Slot],Main.PackageFollow)
+			self.Actors[Slot].AddToFaction(Main.FactionFollow)
+		Else
+			Main.Util.BehaviourSet(self.Actors[Slot],None)
+		EndIf
+	Else
+		Main.Util.BehaviourSet(self.Actors[Slot],None)
+	EndIf
+	
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
@@ -829,7 +839,9 @@ to be doing.}
 
 	Int Iter
 
-	self.SpawnDeviceObjects()
+	If(ForceObjects)
+		self.SpawnDeviceObjects()
+	EndIf
 
 	While(Iter < self.Actors.Length)
 		If(self.Actors[Iter] != None)

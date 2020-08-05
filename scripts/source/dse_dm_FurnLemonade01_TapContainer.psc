@@ -13,7 +13,7 @@ Event OnLoad()
 
 	If(self.LastTime > Now)
 		;; this means the game was rebooted.
-		self.LastTime = Now
+		self.LastTime = Now - self.LastTime
 	EndIf
 
 	self.SetActorOwner(Game.GetPlayer().GetActorBase())
@@ -21,13 +21,11 @@ Event OnLoad()
 EndEvent
 
 Event OnDevicePickup()
+{when this device is picked up transfer the contents of this container to the player.}
 
 	Int ItemTypeIter = self.GetNumItems()
 	Form Thing
 	Int ThingCount
-
-	;; take everything from the container and give it to the player
-	;; before we delete it.
 
 	While(ItemTypeIter > 0) 
 		ItemTypeIter -= 1
@@ -42,13 +40,28 @@ Event OnDevicePickup()
 EndEvent
 
 Event OnActorMounted(Actor Who, Int SlotNum)
+{notice when an actor is added to this device.}
+
 	self.Seller = Who
+	self.LastTime = Utility.GetCurrentRealTime()
 	Return
 EndEvent
 
 Event OnDeviceUpdate()
+{periodic checks if we generate lemonade or not.}
 
 	Float Now = Utility.GetCurrentRealTime()
+
+	;; nobody on this device don't generate lemonade.
+	;; technically we shouldn't even be getting device update events
+	;; if nobody is mounted, but.
+
+	If(self.Seller == None)
+		self.LastTime = Now
+		Return
+	EndIf
+
+	;; if enough time has passed then give us some 'nade.
 
 	If((Now - self.LastTime) >= self.TimeToAdd)
 		self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " has produced a bottle of lemonade")

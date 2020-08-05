@@ -80,6 +80,13 @@ EndFunction
 Event OnLoad()
 {helo moto.}
 
+	Float Now = Utility.GetCurrentRealTime()
+
+	If(self.LastTime > Now)
+		;; this means the game was rebooted.
+		self.LastTime = Now - self.LastTime
+	EndIf
+
 	self.FindTheStorageBox()
 	self.FindTheLocation()
 	Return
@@ -89,6 +96,7 @@ Event OnActorMounted(Actor Who, Int SlotNum)
 {keep track of who is brewing lemonade.}
 
 	self.Seller = Who
+	self.LastTime = Utility.GetCurrentRealTime()
 	self.FindTheStorageBox()
 	self.FindTheLocation()
 	Return
@@ -135,7 +143,7 @@ Event OnDeviceUpdate()
 		Return
 	EndIf
 
-	If((self.LastTime > Now) || ((Now - self.LastTime) >= self.PassiveTime))
+	If((Now - self.LastTime) >= self.PassiveTime)
 		;; enough time has passed lets try to earn some gold.
 
 		If(self.Here.HasKeyword(self.KeywordLocationInn))

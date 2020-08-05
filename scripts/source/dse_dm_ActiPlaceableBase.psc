@@ -396,7 +396,7 @@ Function PickUp()
 		Slot += 1
 	EndWhile
 
-	self.NotifyActorObjectsDevicePickup()
+	self.NotifyConnectedObjectsDevicePickup()
 	self.ClearDeviceObjects()
 
 	;; and pick up the device.
@@ -612,10 +612,10 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	If(!SameDeviceSameSlot || ForceObjects)
 		If(SameDeviceDiffSlot)
-			self.NotifyActorObjectsActorReleased(Who,OldSlot)
+			self.NotifyConnectedObjectsActorReleased(Who,OldSlot)
 		EndIf
 		self.SpawnActorObjects(Who,Slot)
-		self.NotifyActorObjectsActorMounted(Who,Slot)
+		self.NotifyConnectedObjectsActorMounted(Who,Slot)
 	EndIf
 
 	If(SameDeviceDiffSlot || ForceObjects)
@@ -693,7 +693,7 @@ Function ReleaseActorSlot(Int Slot)
 
 	;; notify objects first so they can clean up if they need.
 
-	self.NotifyActorObjectsActorReleased(self.Actors[Slot],Slot)
+	self.NotifyConnectedObjectsActorReleased(self.Actors[Slot],Slot)
 
 	;; move them away.
 
@@ -773,7 +773,7 @@ Function InteractActor(Actor Who, Int Slot, Int Ilot)
 	Main.Util.ScaleCancel(Who)
 	Main.Util.ScaleOverride(Who,self.GetScaleOverride())
 
-	;;self.NotifyActorObjectsActorInteracting(Who,Slot,Ilot)
+	;;self.NotifyConnectedObjectsActorInteracting(Who,Slot,Ilot)
 
 	Who.SetAngle(0.0,0.0,self.GetAngleZ())
 	Who.TranslateTo(               \
@@ -828,7 +828,7 @@ Function DetractActor(Actor Who)
 	Main.Util.ImmersiveExpression(Who,FALSE)
 	Main.Util.ActorMouthClear(Who)
 
-	;;self.NotifyActorObjectsActorDetracted(Who,Slot,Ilot)
+	;;self.NotifyConnectedObjectsActorDetracted(Who,Slot,Ilot)
 	Return
 EndFunction
 
@@ -1108,170 +1108,145 @@ so that it will get cleaned up later when the actor is dismounted.}
 	Return
 EndFunction
 
-Function NotifyActorObjectsActorMounted(Actor Who, Int Slot)
+Function NotifyConnectedObjectsActorMounted(Actor Who, Int Slot)
 {notify any connected objects that an actor was mounted.}
 
 	String DeviceKey = self.GetDeviceStorageKey() 
 	dse_dm_ActiConnectedObject Item
 	Int ItemCount = 0
-	Int Ater = 0
-	Int Iter = 0
+	Int ActorCount = 0
 
-	;;;;;;;;
+	;; notify yourself if you needed to know.
 
 	Item = ((self As ObjectReference) As dse_dm_ActiConnectedObject)
 	If(Item != None)
 		Item.OnActorMounted(Who,Slot)
 	EndIf
 
-	Iter = 0
+	;; notify device objects that need to know.
+
 	ItemCount = StorageUtil.FormListCount(self,DeviceKey)
-
-	While(Iter < ItemCount)
-		Item = StorageUtil.FormListGet(self,DeviceKey,Iter) As dse_dm_ActiConnectedObject
-
+	While(ItemCount > 0)
+		ItemCount -= 1
+		Item = StorageUtil.FormlistGet(self,DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
 		If(Item != None)
-			Main.Util.PrintDebug("NotifyActorMounted: " + DeviceKey + " " + Iter + " is Connected Object")
 			Item.OnActorMounted(Who,Slot)
 		EndIf
-
-		Iter += 1
 	EndWhile
 
-	;;;;;;;;
+	;; notify actor objects that need to know.
 
-	While(Ater < self.Actors.Length)
-		If(self.Actors[Ater] != None)
-			Iter = 0
-			ItemCount = StorageUtil.FormListCount(self.Actors[Ater],DeviceKey)
-
-			While(Iter < ItemCount)
-				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
-
+	ActorCount = self.Actors.Length
+	While(ActorCount > 0)
+		ActorCount -= 1
+		If(self.Actors[ActorCount] != None)
+			ItemCount = StorageUtil.FormListCount(self.Actors[ActorCount],DeviceKey)
+			While(ItemCount > 0)
+				ItemCount -= 1
+				Item = StorageUtil.FormlistGet(self.Actors[ActorCount],DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
 				If(Item != None)
-					Main.Util.PrintDebug("NotifyActorMounted: " + DeviceKey + " " + Ater + " " + Iter + " is Connected Object")
 					Item.OnActorMounted(Who,Slot)
 				EndIf
-
-				Iter += 1
 			EndWhile
 		EndIf
-
-		Ater += 1
 	EndWhile
 
 	Return
 EndFunction
 
-Function NotifyActorObjectsActorReleased(Actor Who, Int Slot)
+Function NotifyConnectedObjectsActorReleased(Actor Who, Int Slot)
 {notify any connected objects that an actor was mounted.}
 
 	String DeviceKey = self.GetDeviceStorageKey() 
 	dse_dm_ActiConnectedObject Item
 	Int ItemCount = 0
-	Int Ater = 0
-	Int Iter = 0
+	Int ActorCount = 0
 
-	;;;;;;;;
+	;; notify yourself if you needed to know.
 
 	Item = ((self As ObjectReference) As dse_dm_ActiConnectedObject)
 	If(Item != None)
 		Item.OnActorReleased(Who,Slot)
 	EndIf
 
-	Iter = 0
+	;; notify device objects that need to know.
+
 	ItemCount = StorageUtil.FormListCount(self,DeviceKey)
-
-	While(Iter < ItemCount)
-		Item = StorageUtil.FormlistGet(self,DeviceKey,Iter) As dse_dm_ActiConnectedObject
-
+	While(ItemCount > 0)
+		ItemCount -= 1
+		Item = StorageUtil.FormlistGet(self,DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
 		If(Item != None)
-			Main.Util.PrintDebug("NotifyActorRelease: " + DeviceKey + " " + Iter + " is Connected Object")
 			Item.OnActorReleased(Who,Slot)
 		EndIf
-
-		Iter += 1
 	EndWhile
 
-	;;;;;;;;
+	;; notify actor objects that need to know.
 
-	While(Ater < self.Actors.Length)
-		If(self.Actors[Ater] != None)
-			Iter = 0
-			ItemCount = StorageUtil.FormListCount(self.Actors[Ater],DeviceKey)
-
-			While(Iter < ItemCount)
-				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
-
+	ActorCount = self.Actors.Length
+	While(ActorCount > 0)
+		ActorCount -= 1
+		If(self.Actors[ActorCount] != None)
+			ItemCount = StorageUtil.FormListCount(self.Actors[ActorCount],DeviceKey)
+			While(ItemCount > 0)
+				ItemCount -= 1
+				Item = StorageUtil.FormlistGet(self.Actors[ActorCount],DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
 				If(Item != None)
-					Main.Util.PrintDebug("NotifyActorRelease: " + DeviceKey + " " + Ater + " " + Iter + " is Connected Object")
 					Item.OnActorReleased(Who,Slot)
 				EndIf
-
-				Iter += 1
 			EndWhile
 		EndIf
-
-		Ater += 1
 	EndWhile
 
 	Return
 EndFunction
 
-Function NotifyActorObjectsDeviceUpdate()
+Function NotifyConnectedObjectsDeviceUpdate()
 {notify any connected objects that a periodic update has happened.}
 
 	String DeviceKey = self.GetDeviceStorageKey() 
 	dse_dm_ActiConnectedObject Item
 	Int ItemCount = 0
-	Int Ater = 0
-	Int Iter = 0
+	Int ActorCount = 0
 
-	;;;;;;;;
+	;; notify yourself if you needed to know.
 
 	Item = ((self As ObjectReference) As dse_dm_ActiConnectedObject)
 	If(Item != None)
 		Item.OnDeviceUpdate()
 	EndIf
 
-	Iter = 0
+	;; notify device objects that need to know.
+
 	ItemCount = StorageUtil.FormListCount(self,DeviceKey)
-
-	While(Iter < ItemCount)
-		Item = StorageUtil.FormlistGet(self,DeviceKey,Iter) As dse_dm_ActiConnectedObject
-
+	While(ItemCount > 0)
+		ItemCount -= 1
+		Item = StorageUtil.FormlistGet(self,DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
 		If(Item != None)
 			Item.OnDeviceUpdate()
 		EndIf
-
-		Iter += 1
 	EndWhile
 
-	;;;;;;;;
+	;; notify actor objects that need to know.
 
-	While(Ater < self.Actors.Length)
-		If(self.Actors[Ater] != None)
-			Iter = 0
-			ItemCount = StorageUtil.FormListCount(self.Actors[Ater],DeviceKey)
-
-			While(Iter < ItemCount)
-				Item = StorageUtil.FormlistGet(self.Actors[Ater],DeviceKey,Iter) As dse_dm_ActiConnectedObject
-
+	ActorCount = self.Actors.Length
+	While(ActorCount > 0)
+		ActorCount -= 1
+		If(self.Actors[ActorCount] != None)
+			ItemCount = StorageUtil.FormListCount(self.Actors[ActorCount],DeviceKey)
+			While(ItemCount > 0)
+				ItemCount -= 1
+				Item = StorageUtil.FormlistGet(self.Actors[ActorCount],DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
 				If(Item != None)
 					Item.OnDeviceUpdate()
 				EndIf
-
-				Iter += 1
 			EndWhile
 		EndIf
-
-		Ater += 1
 	EndWhile
 
 	Return
 EndFunction
 
-Function NotifyActorObjectsDevicePickup()
+Function NotifyConnectedObjectsDevicePickup()
 {notify any connected objects that a device has been picked up.}
 
 	String DeviceKey = self.GetDeviceStorageKey() 
@@ -1501,7 +1476,7 @@ Function HandlePeriodicUpdates()
 		self.Moan()
 	EndIf
 
-	self.NotifyActorObjectsDeviceUpdate()
+	self.NotifyConnectedObjectsDeviceUpdate()
 	Return
 EndFunction
 

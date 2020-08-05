@@ -396,6 +396,7 @@ Function PickUp()
 		Slot += 1
 	EndWhile
 
+	self.NotifyActorObjectsDevicePickup()
 	self.ClearDeviceObjects()
 
 	;; and pick up the device.
@@ -686,6 +687,10 @@ Function ReleaseActorSlot(Int Slot)
 		Return
 	EndIf
 
+	;; notify objects first so they can clean up if they need.
+
+	self.NotifyActorObjectsActorReleased(self.Actors[Slot],Slot)
+
 	;; move them away.
 
 	self.Actors[Slot].SetPosition(Pos[1],Pos[2],Pos[3])
@@ -725,8 +730,6 @@ Function ReleaseActorSlot(Int Slot)
 	Main.Util.ActorMouthClear(self.Actors[Slot])
 	Main.Util.ActorBondageTimerUpdate(self.Actors[Slot])
 	Main.Devices.UnregisterActor(self.Actors[Slot],self,Slot)
-	self.NotifyActorObjectsActorReleased(self.Actors[Slot],Slot)
-
 	Return
 EndFunction
 
@@ -1264,6 +1267,52 @@ Function NotifyActorObjectsDeviceUpdate()
 		EndIf
 
 		Ater += 1
+	EndWhile
+
+	Return
+EndFunction
+
+Function NotifyActorObjectsDevicePickup()
+{notify any connected objects that a device has been picked up.}
+
+	String DeviceKey = self.GetDeviceStorageKey() 
+	dse_dm_ActiConnectedObject Item
+	Int ItemCount = 0
+	Int ActorCount = 0
+
+	;; notify yourself if you needed to know.
+
+	Item = ((self As ObjectReference) As dse_dm_ActiConnectedObject)
+	If(Item != None)
+		Item.OnDeviceUpdate()
+	EndIf
+
+	;; notify device objects that need to know.
+
+	ItemCount = StorageUtil.FormListCount(self,DeviceKey)
+	While(ItemCount > 0)
+		ItemCount -= 1
+		Item = StorageUtil.FormlistGet(self,DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
+		If(Item != None)
+			Item.OnDevicePickup()
+		EndIf
+	EndWhile
+
+	;; notify actor objects that need to know.
+
+	ActorCount = self.Actors.Length
+	While(ActorCount > 0)
+		ActorCount -= 1
+		If(self.Actors[ActorCount] != None)
+			ItemCount = StorageUtil.FormListCount(self.Actors[ActorCount],DeviceKey)
+			While(ItemCount > 0)
+				ItemCount -= 1
+				Item = StorageUtil.FormlistGet(self.Actors[ActorCount],DeviceKey,ItemCount) As dse_dm_ActiConnectedObject
+				If(Item != None)
+					Item.OnDevicePickup()
+				EndIf
+			EndWhile
+		EndIf
 	EndWhile
 
 	Return

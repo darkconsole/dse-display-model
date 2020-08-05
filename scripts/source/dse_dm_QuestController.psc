@@ -29,6 +29,7 @@ Faction Property FactionActorToggleHeadTracking Auto
 Faction Property FactionActorRandomSlotOnLoad Auto
 Faction Property FactionActorOutfit Auto
 Faction Property FactionFollow Auto
+MiscObject Property ItemGold Auto
 Furniture Property InvisibleBed Auto
 ImageSpaceModifier Property ImodModeAssign Auto
 ImageSpaceModifier Property ImodModeMove Auto

@@ -29,3 +29,8 @@ Event OnDeviceUpdate()
 
 	Return
 EndEvent
+
+Event OnDevicePickup()
+
+	Return
+EndEvent

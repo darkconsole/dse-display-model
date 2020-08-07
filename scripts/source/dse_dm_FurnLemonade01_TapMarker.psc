@@ -137,7 +137,7 @@ Event OnDeviceUpdate()
 	Float Now = Utility.GetCurrentRealTime()
 	Int Earning = 0
 
-	If(self.Is3dLoaded())
+	If(self.Device.Is3dLoaded())
 		;; if the 3d is loaded we're close enough for passive ai to sandbox
 		;; to the device.
 		Return

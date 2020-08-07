@@ -56,6 +56,23 @@ Function FindTheLocation()
 	Return
 EndFunction
 
+Float Function FindTimeSinceLastTime(Float Now=0.0)
+{find how long its been since our last check.}
+
+	If(Now == 0.0)
+		Now = Utility.GetCurrentRealTime()
+	EndIf
+
+	;; first handle a condition where the game has been
+	;; rebooted since last time the device was checked.
+
+	If(self.LastTime > Now)
+		self.LastTime = Now - self.LastTime
+	EndIf
+
+	Return Now - self.LastTime
+EndFunction
+
 Function FuckOffMate(Actor Who)
 {leave some for the rest of us.}
 
@@ -79,13 +96,6 @@ EndFunction
 
 Event OnLoad()
 {helo moto.}
-
-	Float Now = Utility.GetCurrentRealTime()
-
-	If(self.LastTime > Now)
-		;; this means the game was rebooted.
-		self.LastTime = Now - self.LastTime
-	EndIf
 
 	self.FindTheStorageBox()
 	self.FindTheLocation()
@@ -143,7 +153,7 @@ Event OnDeviceUpdate()
 		Return
 	EndIf
 
-	If((Now - self.LastTime) >= self.PassiveTime)
+	If(self.FindTimeSinceLastTime(Now) >= self.PassiveTime)
 		;; enough time has passed lets try to earn some gold.
 
 		If(self.Here.HasKeyword(self.KeywordLocationInn))

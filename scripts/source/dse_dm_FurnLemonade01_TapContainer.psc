@@ -7,6 +7,30 @@ Int Property PotionPrice=1 Auto  ;; gold to take from npcs
 Actor Property Seller Auto Hidden
 Float Property LastTime=0.0 Auto Hidden
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Float Function FindTimeSinceLastTime(Float Now=0.0)
+{find how long its been since our last check.}
+
+	If(Now == 0.0)
+		Now = Utility.GetCurrentRealTime()
+	EndIf
+
+	;; first handle a condition where the game has been
+	;; rebooted since last time the device was checked.
+
+	If(self.LastTime > Now)
+		self.LastTime = Now - self.LastTime
+	EndIf
+
+	Return Now - self.LastTime
+EndFunction
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 Event OnLoad()
 
 	Float Now = Utility.GetCurrentRealTime()
@@ -63,7 +87,7 @@ Event OnDeviceUpdate()
 
 	;; if enough time has passed then give us some 'nade.
 
-	If((Now - self.LastTime) >= self.TimeToAdd)
+	If(self.FindTimeSinceLastTime(Now) >= self.TimeToAdd)
 		self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " has produced a bottle of lemonade")
 		self.AddItem(self.PotionToAdd,1)
 		self.LastTime = Now

@@ -6,7 +6,8 @@
 		"Inventory": "0x0106AC|dse-display-model.esp",
 		"GrabOffset": 64.0,
 		"Objects": [
-			{ "Form":"0x0106A8|dse-display-model.esp", "Name":"Tap Container (Storage)" }
+			{ "Form":"0x0106A8|dse-display-model.esp", "Name":"Tap Container" },
+			{ "Form":"0x01219A|dse-display-model.esp", "Name":"Tip Container" }
 		],
 		"Actors": [
 			{

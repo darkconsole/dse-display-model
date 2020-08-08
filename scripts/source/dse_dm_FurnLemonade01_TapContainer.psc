@@ -1,11 +1,15 @@
 ScriptName dse_dm_FurnLemonade01_TapContainer extends dse_dm_ActiConnectedObject
+{script for the main cointainer of the lemonade stand. it handles the passive
+generation of bottles of lemonade and stores them in itself. it also handles
+dumping anything inside itself to the player when a display model furniture is
+picked up.}
 
 Potion Property PotionToAdd Auto
 Int Property TimeToAdd=1200 Auto ;; 1200 = 20 minutes
-Int Property PotionPrice=1 Auto  ;; gold to take from npcs
 
 Actor Property Seller Auto Hidden
 Float Property LastTime=0.0 Auto Hidden
+ObjectReference Property GoldStorage Auto Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -27,18 +31,10 @@ Float Function FindTimeSinceLastTime(Float Now=0.0)
 	Return Now - self.LastTime
 EndFunction
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event OnLoad()
-
-	Float Now = Utility.GetCurrentRealTime()
-
-	If(self.LastTime > Now)
-		;; this means the game was rebooted.
-		self.LastTime = Now - self.LastTime
-	EndIf
 
 	self.SetActorOwner(Game.GetPlayer().GetActorBase())
 	Return
@@ -75,6 +71,7 @@ Event OnDeviceUpdate()
 {periodic checks if we generate lemonade or not.}
 
 	Float Now = Utility.GetCurrentRealTime()
+	Int HowMany = 1
 
 	;; nobody on this device don't generate lemonade.
 	;; technically we shouldn't even be getting device update events
@@ -88,8 +85,9 @@ Event OnDeviceUpdate()
 	;; if enough time has passed then give us some 'nade.
 
 	If(self.FindTimeSinceLastTime(Now) >= self.TimeToAdd)
+		StorageUtil.AdjustIntValue(self.Seller,"DMSE.LemonadeStand.Bottles",HowMany)
 		self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " has produced a bottle of lemonade")
-		self.AddItem(self.PotionToAdd,1)
+		self.AddItem(self.PotionToAdd,HowMany)
 		self.LastTime = Now
 	EndIf
 

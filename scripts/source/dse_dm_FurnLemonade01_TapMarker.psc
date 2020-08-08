@@ -1,4 +1,7 @@
 ScriptName dse_dm_FurnLemonade01_TapMarker extends dse_dm_ActiConnectedObject
+{script for the furniture marker that attracts npcs to buy lemonade. it will handle
+taking the npc's money as well as simulation of earning money while you are away
+from the city.}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -116,6 +119,7 @@ Event OnActivate(ObjectReference Whom)
 {sell some fukken lemonade.}
 
 	Actor Who = Whom As Actor
+	Int Earning = self.Price
 
 	;;;;;;;;
 
@@ -134,8 +138,8 @@ Event OnActivate(ObjectReference Whom)
 
 	;; give us the money we earned.
 
-	self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " sold some lemonade.")
-	self.Storage.AddItem(self.Device.Main.ItemGold,self.Price)
+	self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " sold a lemonade for " + Earning + "g.")
+	self.Storage.AddItem(self.Device.Main.ItemGold,Earning)
 	self.FuckOffMate(Who)
 
 	Return
@@ -145,7 +149,9 @@ Event OnDeviceUpdate()
 {continue selling some fukken lemonade.}
 
 	Float Now = Utility.GetCurrentRealTime()
-	Int Earning = 0
+	Int Earn = 0
+	Int EarnMult = 1
+	Int Earning
 
 	If(self.Device.Is3dLoaded())
 		;; if the 3d is loaded we're close enough for passive ai to sandbox
@@ -157,19 +163,32 @@ Event OnDeviceUpdate()
 		;; enough time has passed lets try to earn some gold.
 
 		If(self.Here.HasKeyword(self.KeywordLocationInn))
-			;; inns are high traffic areas, they will earn double.
-			Earning = self.Price * 2
+			;; inns are high traffic areas and have a chance to earn double.
+			;; but there is also chance innkeepers will steal from you since
+			;; you put that shit up in their business and left it. you probably
+			;; didn't even ask them so its your own fault.
+			Earn = self.Price
+			EarnMult = Utility.RandomInt(0,2)
 		ElseIf(self.Here.HasKeyword(self.KeywordLocationCity))
-			;; cities are very busy and will earn double.
-			Earning = self.Price * 2
+			;; cities have lots of foot traffic and have a chance to earn more
+			;; but there is also a chance people are staying home to not get
+			;; the coronavirus.
+			Earn = self.Price
+			EarnMult = Utility.RandomInt(0,3)
 		ElseIf(self.Here.HasKeyword(self.KeywordLocationTown))
 			;; towns are low traffic areas, they will earn the base amount.
-			Earning = self.Price
+			;; but the people there appreciate your attempt to stimulate their
+			;; economy so while it earns less, it earns it consistently.
+			Earn = self.Price
+			EarnMult = 1
 		EndIf
 
-		If(Earning > 0)
+		If(Earn > 0)
 			;; if we have earned some money give it to us.
-			self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + "'s lemonade stand earned some money while you were out.")
+			Earning = Earn * EarnMult
+			StorageUtil.AdjustIntValue(self.Seller,"DMSE.LemonadeStand.Gold",Earning)
+
+			self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + "'s lemonade stand earned " + Earning + "g while you were out.")
 			self.Storage.AddItem(self.Device.Main.ItemGold,Earning)
 		EndIf
 

@@ -129,6 +129,14 @@ Event OnOptionSelect(Int Item)
 	ElseIf(Item == DeviceMoveAimCamera)
 		Val = !GetBool(".DeviceMoveAimCamera")
 		Main.Config.SetBool(".DeviceMoveAimCamera",Val)
+	ElseIf(Item == DeviceActorLeakLemonade)
+		Data = Math.LogicalXor(GetInt(".DeviceActorLeak"),Main.KeyActorLeakLemonade)
+		Main.Config.SetInt(".DeviceActorLeak",Data)
+		Val = Main.Util.AndAll(Data,Main.KeyActorLeakLemonade)
+	ElseIf(Item == DeviceActorLeakJuice)
+		Data = Math.LogicalXor(GetInt(".DeviceActorLeak"),Main.KeyActorLeakJuice)
+		Main.Config.SetInt(".DeviceActorLeak",Data)
+		Val = Main.Util.AndAll(Data,Main.KeyActorLeakJuice)
 	EndIf
 
 	;;;;;;;;
@@ -292,6 +300,10 @@ Event OnOptionHighlight(Int Item)
 		Txt = "$DM3_MenuTip_DeviceActorExpression"
 	ElseIf(Item == DeviceMoveAimCamera)
 		Txt = "$DM3_MenuTip_DeviceMoveAimCamera"
+	ElseIf(Item == DeviceActorLeakLemonade)
+		Txt = "$DM3_MenuTip_DeviceActorLeakLemonade"
+	ElseIf(Item == DeviceActorLeakJuice)
+		Txt = "$DM3_MenuTip_DeviceActorLeakJuice"
 	EndIf
 
 	self.SetInfoText(Txt)
@@ -326,6 +338,8 @@ Int DeviceDropDistance
 Int DeviceMoveAimCamera
 Int DeviceActorMoan
 Int DeviceActorExpression
+Int DeviceActorLeakLemonade
+Int DeviceActorLeakJuice
 
 Int DeviceActorAroused
 Int ArousedTickExposure
@@ -357,6 +371,8 @@ Function ShowPageGeneral()
 	DeviceMoveAimCamera = self.AddToggleOption("$DM3_MenuOpt_DeviceMoveAimCamera",GetBool(".DeviceMoveAimCamera"))
 	DeviceActorMoan = self.AddToggleOption("$DM3_MenuOpt_DeviceActorMoan",GetBool(".DeviceActorMoan"))
 	DeviceActorExpression = self.AddToggleOption("$DM3_MenuOpt_DeviceActorExpression",GetBool(".DeviceActorExpression"))
+	DeviceActorLeakLemonade = self.AddToggleOption("$DM3_MenuOpt_DeviceActorLeakLemonade",Main.Util.AndAll(GetInt(".DeviceActorLeak"),Main.KeyActorLeakLemonade))
+	DeviceActorLeakJuice = self.AddToggleOption("$DM3_MenuOpt_DeviceActorLeakJuice",Main.Util.AndAll(GetInt(".DeviceActorLeak"),Main.KeyActorLeakJuice))
 
 	self.AddHeaderOption("$DM3_MenuOpt_HeaderAroused")
 	DeviceActorAroused = self.AddToggleOption("$DM3_MenuOpt_DeviceActorAroused",GetBool(".DeviceActorAroused"))

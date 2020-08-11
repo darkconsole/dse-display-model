@@ -115,6 +115,20 @@ Event OnActorMounted(Actor Who, Int SlotNum)
 	Return
 EndEvent
 
+Event OnActorReleased(Actor Who, Int SlotNum)
+{just a simple way to get the career totals for now.}
+
+	Int Earned = StorageUtil.GetIntValue(Who,"DMSE.LemonadeStand.Gold")
+	Int Produced = StorageUtil.GetIntValue(Who,"DMSE.LemonadeStand.Bottles")
+	String Msg = Who.GetDisplayName()
+
+	Msg += " has produced " + Produced + " bottles"
+	Msg += " and earned " + Earned + "g in their lemonade career." 
+
+	self.Device.Main.Util.Print(Msg)
+	Return
+EndEvent
+
 Event OnActivate(ObjectReference Whom)
 {sell some fukken lemonade.}
 
@@ -186,8 +200,8 @@ Event OnDeviceUpdate()
 		If(Earn > 0)
 			;; if we have earned some money give it to us.
 			Earning = Earn * EarnMult
-			StorageUtil.AdjustIntValue(self.Seller,"DMSE.LemonadeStand.Gold",Earning)
 
+			StorageUtil.AdjustIntValue(self.Seller,"DMSE.LemonadeStand.Gold",Earning)
 			self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + "'s lemonade stand earned " + Earning + "g while you were out.")
 			self.Storage.AddItem(self.Device.Main.ItemGold,Earning)
 		EndIf

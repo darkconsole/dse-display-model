@@ -212,6 +212,22 @@ Float Function GetPlayerHeight()
 	Return 128 * Main.Player.GetScale()
 EndFunction
 
+Bool Function AndAll(Int Flagset, Int Needs)
+{check that a set of flags has all the values we want.}
+
+	Bool Result = Math.LogicalAnd(Flagset,Needs) == Needs
+
+	Return Result
+EndFunction
+
+Bool Function AndAny(Int Flagset, Int Needs)
+{check that a set of flags has any the values we want.}
+
+	Bool Result = Math.LogicalAnd(Flagset,Needs) != 0
+
+	Return Result
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

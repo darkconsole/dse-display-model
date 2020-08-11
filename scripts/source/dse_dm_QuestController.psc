@@ -16,13 +16,20 @@ Bool Property OptValidateActor = TRUE Auto Hidden
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Actor Property Player Auto
+Armor Property ArmorLemonadeLeak01 Auto
+Armor Property ArmorLemonadeLeak02 Auto
 Light Property LightFace Auto
+Spell Property SpellActorLeakLemonade Auto
+Spell Property SpellActorLeakJuice Auto
 Spell Property SpellActorMoan Auto
 Spell Property SpellAssignNPC Auto
 Spell Property SpellGrabObject Auto
 Static Property MarkerGhost Auto
 Static Property MarkerActive Auto
 Keyword Property KeywordFurniture Auto
+Keyword Property KeywordDeviceLeaksLemonade Auto
+Keyword Property KeywordDeviceLeaksJuice Auto
+Keyword Property KeywordDeviceLeaksMilk Auto
 Faction Property FactionActorInteractable Auto
 Faction Property FactionActorUsingDevice Auto
 Faction Property FactionActorToggleLightFace Auto
@@ -79,6 +86,11 @@ String Property KeyMenuWait = "Sleep/Wait Menu" AutoReadOnly Hidden
 
 String Property KeyActorMouthNormal = "normal" AutoReadOnly Hidden
 String Property KeyActorMouthOpen = "open" AutoReadOnly Hidden
+
+Int Property KeyActorLeakLemonade = 1 AutoReadOnly Hidden
+Int Property KeyActorLeakJuice = 2 AutoReadOnly Hidden
+Int Property KeyActorLeakMilk = 4 AutoReadOnly Hidden
+Int Property KeyActorLeakAny = 0xFFFF AutoReadOnly Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

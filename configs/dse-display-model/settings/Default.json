@@ -8,6 +8,7 @@
 	"DeviceActorHeadTracking": true,
 	"DeviceActorLightFace": false,
 	"DeviceActorMoan": true,
+	"DeviceActorLeak": 0,
 	"DeviceActorReleaseFollow": true,
 	"DeviceDropDistance": 75.0,
 	"DeviceMoveAimCamera": true,

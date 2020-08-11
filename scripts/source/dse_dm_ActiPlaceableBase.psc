@@ -227,6 +227,33 @@ Actor[] Function GetMountedActors()
 	Return Result
 EndFunction
 
+Actor Function GetRandomActor(Bool DistReq=TRUE)
+{pick us an actor at random that is using this device.}
+
+	Actor[] ActorList = self.GetMountedActors()
+	Int Iter = 0
+	Int Slot = Utility.RandomInt(0,(ActorList.Length - 1))
+
+	;; just in case handle a case where somehow an actor might have
+	;; been invalidated between then and now. almost always this loop
+	;; should never actually spin.
+
+	While(ActorList[Slot] == NONE && Iter < 10)
+		Slot = Utility.RandomInt(0,(ActorList.Length - 1))
+		Iter += 1
+	EndWhile
+
+	If(ActorList[Slot] == NONE || !self.Is3dLoaded())
+		Return NONE
+	EndIf
+
+	If(DistReq && self.GetDistance(Main.Player) > 1024)
+		Return NONE
+	EndIf
+
+	Return ActorList[Slot]
+EndFunction
+
 Bool Function AreActorsLoaded()
 {check if all the actors currently attached are loaded.}
 
@@ -579,7 +606,7 @@ Function MountActor(Actor Who, Int Slot, Bool ForceObjects=FALSE)
 
 	;; then scale the device to the actor's non-breaking scale.
 
-	If(self.GetMountedActorCount() == 0)
+	If(self.GetMountedActorCount() == 1)
 		self.MatchToActorSubscale(Who)
 	EndIf
 
@@ -1427,6 +1454,7 @@ Function HandlePeriodicUpdates()
 	Float Now = Utility.GetCurrentRealTime()
 	Bool DoArousal = Main.Config.GetBool(".DeviceActorAroused")
 	Bool DoMoan = Main.Config.GetBool(".DeviceActorMoan")
+	Int DoLeak = Main.Config.GetInt(".DeviceActorLeak")
 	Int ArousalMode = 0
 	Float ArousalMult = 1.0
 	Int Iter = 0
@@ -1476,6 +1504,10 @@ Function HandlePeriodicUpdates()
 		self.Moan()
 	EndIf
 
+	If(DoLeak > 0)
+		self.Leak(DoLeak)
+	EndIf
+
 	self.NotifyConnectedObjectsDeviceUpdate()
 	Return
 EndFunction
@@ -1483,32 +1515,99 @@ EndFunction
 Function Moan()
 {do a moaning sound effect from one of the actors on the device.}
 
-	Int Iter = 0
-	Int Slot = -1
+	Actor Who = self.GetRandomActor()
 
-	;; choose a random slot to do the moan. will try up to 16 times until it
-	;; accidentally picks a slot that has an actor in it. there is technically
-	;; a chance it wont end up moaning at all but its super slim you'd think
-	;; given most devices will only have one slot lol.
-
-	If(!self.Is3dLoaded())
+	If(Who == NONE)
 		Return
 	EndIf
 
-	While(Iter < 16)
-		Slot = Utility.RandomInt(0,(self.Actors.Length - 1))
+	Main.SpellActorMoan.Cast(Who,Who)
 
-		If(self.Actors[Slot] != None)
-			If(StorageUtil.GetIntValue(self.Actors[Slot],Main.DataKeyActorMoan,1) == 1)
-				If(self.Actors[Slot].Is3dLoaded() && self.Actors[Slot].IsNearPlayer())
-					Main.SpellActorMoan.Cast(self.Actors[Slot],self.Actors[Slot])
-					Return
-				EndIf
+	Return
+EndFunction
+
+Function LeakAlt(Int LeakType=-1)
+{do a leaking effect from one of the actors on the device.}
+
+	Actor Who = self.GetRandomActor()
+	Int ChosenType
+
+	If(Who == NONE)
+		Return
+	EndIf
+
+	If(LeakType == -1)
+		LeakType = Main.Config.GetInt(".DeviceActorLeak")
+	EndIf
+
+	;; choose types of leaks at random.
+	;; milk is the currently highest value of the available leaks.
+	ChosenType = Math.LogicalAnd(LeakType,Utility.RandomInt(0,Main.KeyActorLeakLemonade))
+
+	If(Main.Util.AndAll(ChosenType,Main.KeyActorLeakLemonade))
+		If(!self.HasKeyword(Main.KeywordDeviceLeaksLemonade))
+			Main.SpellActorLeakLemonade.Cast(Who,Who)
+		EndIf
+	EndIf
+
+	If(Main.Util.AndAll(ChosenType,Main.KeyActorLeakJuice))
+		If(!self.HasKeyword(Main.KeywordDeviceLeaksJuice))
+			Main.SpellActorLeakJuice.Cast(Who,Who)
+		EndIf
+	EndIf
+
+	If(Main.Util.AndAll(ChosenType,Main.KeyActorLeakMilk))
+		If(!self.HasKeyword(Main.KeywordDeviceLeaksMilk))
+			;; todo
+		EndIf
+	EndIf
+
+	Return
+EndFunction
+
+Function Leak(Int LeakType=-1)
+{do a leaking effect from one of the actors on the device.}
+
+	;; this version of the func chooses a random actor for each 
+	;; of the randomly chosen leaks.
+
+	Actor Who 
+	Int ChosenType
+
+	If(LeakType == -1)
+		LeakType = Main.Config.GetInt(".DeviceActorLeak")
+	EndIf
+
+	;; choose types of leaks at random.
+	;; milk is the currently highest value of the available leaks.
+	ChosenType = Math.LogicalAnd(LeakType,Utility.RandomInt(0,Main.KeyActorLeakLemonade))
+
+	If(Main.Util.AndAll(ChosenType,Main.KeyActorLeakLemonade))
+		If(!self.HasKeyword(Main.KeywordDeviceLeaksLemonade))
+			Who = self.GetRandomActor()
+			If(Who != NONE)
+				Main.SpellActorLeakLemonade.Cast(Who,Who)
 			EndIf
 		EndIf
+	EndIf
 
-		Iter += 1
-	EndWhile
+	If(Main.Util.AndAll(ChosenType,Main.KeyActorLeakJuice))
+		If(!self.HasKeyword(Main.KeywordDeviceLeaksJuice))
+			Who = self.GetRandomActor()
+			If(Who != NONE)
+				Main.SpellActorLeakJuice.Cast(Who,Who)
+			EndIf
+		EndIf
+	EndIf
+
+	If(Main.Util.AndAll(ChosenType,Main.KeyActorLeakMilk))
+		If(!self.HasKeyword(Main.KeywordDeviceLeaksMilk))
+			Who = self.GetRandomActor()
+			If(Who != NONE)
+				;;Main.SpellActorLeakMilk.Cast(Who,Who)
+			EndIf
+		EndIf
+	EndIf
 
 	Return
 EndFunction

@@ -7,6 +7,7 @@ exporting poses:
 
 custom collision shapes for usable furniture:
 
+* copy a working bhk collision object from a working mesh into the final mesh you want to have collision.
 * make basic shape in max
 * export as oldrim nif named shape.nif
 * overwrite shape.nif in chunkmerge
@@ -17,3 +18,4 @@ custom collision shapes for usable furniture:
 	- mesh data
 	- copy the bhkMoppBvTreeShape into final sse nif's bhkCollisionObject
 	- make sure the chunks layers are clutter
+* run the reorder nodes command in nifskope on final nif.

@@ -9,7 +9,6 @@ Int Property TimeToAdd=1200 Auto ;; 1200 = 20 minutes
 
 Actor Property Seller Auto Hidden
 Float Property LastTime=0.0 Auto Hidden
-ObjectReference Property GoldStorage Auto Hidden
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

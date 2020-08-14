@@ -4,9 +4,6 @@
 		"Activator": "60322|dse-display-model.esp",
 		"Ghost": "60325|dse-display-model.esp",
 		"Inventory": "60323|dse-display-model.esp",
-		"Objects": [
-			{ "Form": "60324|dse-display-model.esp" }
-		],
 		"Actors": [
 			{
 				"Name": "In The Tank",

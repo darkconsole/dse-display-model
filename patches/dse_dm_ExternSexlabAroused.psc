@@ -1,6 +1,10 @@
 ScriptName dse_dm_ExternSexlabAroused extends Quest Conditional
 
-Bool Property PatchSexlabAroused = FALSE AutoReadOnly Hidden
+Bool Function GetPatchStatus() Global
+{status of patch.}
+
+	Return FALSE
+EndFunction
 
 Bool Function ActorArousalExhib(dse_dm_QuestController Main, Actor Who) Global
 {ask sla if the actor is an exhibitionist.}

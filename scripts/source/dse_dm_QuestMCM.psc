@@ -483,14 +483,23 @@ Function ShowPageInfo()
 
 	self.AddHeaderOption("$DM3_MenuOpt_DependencyCheck")
 	self.AddHeaderOption("")
+
 	self.AddToggleOption("$DM3_MenuOpt_SKSE",Main.CheckForDeps_SKSE(FALSE))
 	self.AddToggleOption("$DM3_MenuOpt_SkyUI",Main.CheckForDeps_SkyUI(FALSE))
+
 	self.AddToggleOption("$DM3_MenuOpt_SexLab",Main.CheckForDeps_SexLab(FALSE))
-	self.AddToggleOption("$DM3_MenuOpt_SexLab Aroused",Main.CheckForDeps_SexLabAroused(FALSE))
+	self.AddToggleOption("$DM3_MenuOpt_SexLabAroused",Main.CheckForDeps_SexLabAroused(FALSE))
+
 	self.AddToggleOption("$DM3_MenuOpt_PapyrusUtil",Main.CheckForDeps_PapyrusUtil(FALSE))
 	self.AddToggleOption("$DM3_MenuOpt_RaceMenu",Main.CheckForDeps_RaceMenu(FALSE))
+
 	self.AddToggleOption("$DM3_MenuOpt_UIExtensions",Main.CheckForDeps_UIExtensions(FALSE))
 	self.AddToggleOption("$DM3_MenuOpt_ConsoleUtil",Main.CheckForDeps_ConsoleUtil(FALSE))
+
+	self.AddHeaderOption("")
+	self.AddHeaderOption("")
+
+	self.AddToggleOption("$DM3_MenuOpt_DMSLAPatch",dse_dm_ExternSexlabAroused.GetPatchStatus())
 
 	Return
 EndFunction

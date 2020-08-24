@@ -799,12 +799,12 @@ Function BehaviourSet(Actor Who, Package Task)
 		ActorUtil.AddPackageOverride(Who,Task,100)
 		Main.Util.PrintDebug("BehaviourSet applied new package on " + Who.GetDisplayName())
 	Else
-		Who.SetHeadTracking(TRUE)
-		Who.SetDontMove(FALSE)
-		Who.SetRestrained(FALSE)
-
 		If(Who == Main.Player)
 			Game.SetPlayerAIDriven(FALSE)
+		Else
+			Who.SetHeadTracking(TRUE)
+			Who.SetDontMove(FALSE)
+			Who.SetRestrained(FALSE)
 		EndIf
 
 		Debug.SendAnimationEvent(Who,"IdleForceDefaultState")

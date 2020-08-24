@@ -741,12 +741,12 @@ Function ReleaseActorSlot(Int Slot)
 	If(self.Actors[Slot] == Main.Player)
 		self.UnregisterForControl("Jump")
 		Game.EnablePlayerControls()
-	EndIf
-
-	Main.Util.BehaviourSet(self.Actors[Slot],NONE)
-
-	If(DeviceReleaseFollow && !self.Actors[Slot].IsInFaction(Main.GameCurrentFollowerFaction))
-		Main.Util.BehaviourSet(self.Actors[Slot],Main.PackageFollow)
+		Main.Util.BehaviourSet(self.Actors[Slot],NONE)
+	Else
+		Main.Util.BehaviourSet(self.Actors[Slot],NONE)
+		If(DeviceReleaseFollow && !self.Actors[Slot].IsInFaction(Main.GameCurrentFollowerFaction))
+			Main.Util.BehaviourSet(self.Actors[Slot],Main.PackageFollow)
+		EndIf
 	EndIf
 	
 	Main.Util.HighHeelsResume(self.Actors[Slot])

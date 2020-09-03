@@ -18,6 +18,8 @@ Bool Property OptValidateActor = TRUE Auto Hidden
 Actor Property Player Auto
 Armor Property ArmorLemonadeLeak01 Auto
 Armor Property ArmorLemonadeLeak02 Auto
+Armor Property ArmorJuiceLeak01 Auto
+Armor Property ArmorJuiceLeak02 Auto
 Light Property LightFace Auto
 Spell Property SpellActorLeakLemonade Auto
 Spell Property SpellActorLeakJuice Auto

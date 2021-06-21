@@ -128,7 +128,10 @@ Event OnEffectStart(Actor Who, Actor From)
 
 	;; go go go
 
+	If(Main.Config.GetBool(".DeviceMoveTint"))
 		Main.ImodModeMove.Apply(1.0)
+	EndIf
+
 	self.GrabEnable(Object)
 
 	Return

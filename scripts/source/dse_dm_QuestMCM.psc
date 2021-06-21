@@ -129,6 +129,9 @@ Event OnOptionSelect(Int Item)
 	ElseIf(Item == DeviceMoveAimCamera)
 		Val = !GetBool(".DeviceMoveAimCamera")
 		Main.Config.SetBool(".DeviceMoveAimCamera",Val)
+	ElseIf(Item == DeviceMoveTint)
+		Val = !GetBool(".DeviceMoveTint")
+		Main.Config.Setbool(".DeviceMoveTint",Val)
 	ElseIf(Item == DeviceActorLeakLemonade)
 		Data = Math.LogicalXor(GetInt(".DeviceActorLeak"),Main.KeyActorLeakLemonade)
 		Main.Config.SetInt(".DeviceActorLeak",Data)
@@ -300,6 +303,8 @@ Event OnOptionHighlight(Int Item)
 		Txt = "$DM3_MenuTip_DeviceActorExpression"
 	ElseIf(Item == DeviceMoveAimCamera)
 		Txt = "$DM3_MenuTip_DeviceMoveAimCamera"
+	ElseIf(Item == DeviceMoveTint)
+		Txt = "$DM3_MenuTip_DeviceMoveTint"
 	ElseIf(Item == DeviceActorLeakLemonade)
 		Txt = "$DM3_MenuTip_DeviceActorLeakLemonade"
 	ElseIf(Item == DeviceActorLeakJuice)
@@ -336,6 +341,7 @@ EndFunction
 
 Int DeviceDropDistance
 Int DeviceMoveAimCamera
+Int DeviceMoveTint
 Int DeviceActorMoan
 Int DeviceActorExpression
 Int DeviceActorLeakLemonade
@@ -369,6 +375,7 @@ Function ShowPageGeneral()
 	self.AddHeaderOption("$DM3_MenuOpt_HeaderBasic")
 	DeviceDropDistance = self.AddSliderOption("$DM3_MenuOpt_DeviceDropDistance",GetFloat(".DeviceDropDistance"),"{0}")
 	DeviceMoveAimCamera = self.AddToggleOption("$DM3_MenuOpt_DeviceMoveAimCamera",GetBool(".DeviceMoveAimCamera"))
+	DeviceMoveTint = self.AddToggleOption("$DM3_MenuOpt_DeviceMoveTint",GetBool(".DeviceMoveTint"))
 	DeviceActorMoan = self.AddToggleOption("$DM3_MenuOpt_DeviceActorMoan",GetBool(".DeviceActorMoan"))
 	DeviceActorExpression = self.AddToggleOption("$DM3_MenuOpt_DeviceActorExpression",GetBool(".DeviceActorExpression"))
 	DeviceActorLeakLemonade = self.AddToggleOption("$DM3_MenuOpt_DeviceActorLeakLemonade",Main.Util.AndAll(GetInt(".DeviceActorLeak"),Main.KeyActorLeakLemonade))

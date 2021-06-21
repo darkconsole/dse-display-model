@@ -392,8 +392,14 @@ Function Move()
 		RotateMeMan = Main.Player.GetAngleZ() + Main.Player.GetHeadingAngle(self)
 		LookMeDownMan = 90 - (Math.atan( self.GetDistance(Main.Player) / (Main.Util.GetPlayerHeight() - self.GetHeightOffset(Main.Player) - self.GetGrabOffset()) ))
 
+		If(LookMeDownMan > 90)
+			LookMeDownMan = (180 - LookMeDownMan) * -1
+		EndIf
+
 		;; this did not work. no matter what you give it, the game always sets the x (pitch) to 0 when done from scripting.
-		;; Main.Player.SetAngle(LookMeDownMan,Main.Player.GetAngleY(),RotateMeMan)
+		;;Main.Player.SetAngle(LookMeDownMan,Main.Player.GetAngleY(),RotateMeMan)
+
+		Main.Util.PrintDebug("Rotate " + RotateMeMan + " Angle " + LookMeDownMan)
 
 		;; so here we are, yet again, another gd ConsoleUtil hack because wtf.
 		ConsoleUtil.ExecuteCommand("player.setangle z " + RotateMeMan)

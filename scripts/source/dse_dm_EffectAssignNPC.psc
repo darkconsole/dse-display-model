@@ -19,7 +19,10 @@ Event OnEffectStart(Actor Who, Actor Caster)
 
 	self.GimpUserControls()
 	self.RegisterForControlKeys()
-	Main.ImodModeAssign.Apply(1.0)
+
+	If(Main.Config.GetBool(".DeviceActorAssignTint"))
+		Main.ImodModeAssign.Apply(1.0)
+	EndIf
 
 	Return
 EndEvent

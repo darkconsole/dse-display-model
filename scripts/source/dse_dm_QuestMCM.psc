@@ -140,6 +140,9 @@ Event OnOptionSelect(Int Item)
 		Data = Math.LogicalXor(GetInt(".DeviceActorLeak"),Main.KeyActorLeakJuice)
 		Main.Config.SetInt(".DeviceActorLeak",Data)
 		Val = Main.Util.AndAll(Data,Main.KeyActorLeakJuice)
+	ElseIf(Item == DeviceActorAssignTint)
+		Val = !GetBool(".DeviceActorAssignTint")
+		Main.Config.Setbool(".DeviceActorAssignTint",Val)
 	EndIf
 
 	;;;;;;;;
@@ -309,6 +312,8 @@ Event OnOptionHighlight(Int Item)
 		Txt = "$DM3_MenuTip_DeviceActorLeakLemonade"
 	ElseIf(Item == DeviceActorLeakJuice)
 		Txt = "$DM3_MenuTip_DeviceActorLeakJuice"
+	ElseIf(Item == DeviceActorAssignTint)
+		Txt = "$DM3_MenuTip_DeviceActorAssignTint"
 	EndIf
 
 	self.SetInfoText(Txt)
@@ -346,6 +351,7 @@ Int DeviceActorMoan
 Int DeviceActorExpression
 Int DeviceActorLeakLemonade
 Int DeviceActorLeakJuice
+Int DeviceActorAssignTint
 
 Int DeviceActorAroused
 Int ArousedTickExposure
@@ -375,11 +381,12 @@ Function ShowPageGeneral()
 	self.AddHeaderOption("$DM3_MenuOpt_HeaderBasic")
 	DeviceDropDistance = self.AddSliderOption("$DM3_MenuOpt_DeviceDropDistance",GetFloat(".DeviceDropDistance"),"{0}")
 	DeviceMoveAimCamera = self.AddToggleOption("$DM3_MenuOpt_DeviceMoveAimCamera",GetBool(".DeviceMoveAimCamera"))
-	DeviceMoveTint = self.AddToggleOption("$DM3_MenuOpt_DeviceMoveTint",GetBool(".DeviceMoveTint"))
 	DeviceActorMoan = self.AddToggleOption("$DM3_MenuOpt_DeviceActorMoan",GetBool(".DeviceActorMoan"))
 	DeviceActorExpression = self.AddToggleOption("$DM3_MenuOpt_DeviceActorExpression",GetBool(".DeviceActorExpression"))
 	DeviceActorLeakLemonade = self.AddToggleOption("$DM3_MenuOpt_DeviceActorLeakLemonade",Main.Util.AndAll(GetInt(".DeviceActorLeak"),Main.KeyActorLeakLemonade))
 	DeviceActorLeakJuice = self.AddToggleOption("$DM3_MenuOpt_DeviceActorLeakJuice",Main.Util.AndAll(GetInt(".DeviceActorLeak"),Main.KeyActorLeakJuice))
+	DeviceMoveTint = self.AddToggleOption("$DM3_MenuOpt_DeviceMoveTint",GetBool(".DeviceMoveTint"))
+	DeviceActorAssignTint = self.AddToggleOption("$DM3_MenuOpt_DeviceActorAssignTint",GetBool(".DeviceActorAssignTint"))
 
 	self.AddHeaderOption("$DM3_MenuOpt_HeaderAroused")
 	DeviceActorAroused = self.AddToggleOption("$DM3_MenuOpt_DeviceActorAroused",GetBool(".DeviceActorAroused"))

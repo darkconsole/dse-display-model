@@ -16,8 +16,8 @@
 					{ "Package": "58938|dse-display-model.esp", "Reaction": "0x0141F5|dse-display-model.esp", "Name": "Fisting" },
 					{ "Package": "58939|dse-display-model.esp", "Reaction": "0x0141F5|dse-display-model.esp", "Name": "Licking" },
 					{ "Package": "58941|dse-display-model.esp", "Reaction": "0x0141F5|dse-display-model.esp", "Name": "Sit and Wiggle" },
-					{ "Package": "58937|dse-display-model.esp", "Name": "Sitting On Upside Down For Some Reason" },
-					{ "Package": "58940|dse-display-model.esp", "Name": "Sit" }
+					{ "Package": "58937|dse-display-model.esp", "Reaction": "0x0141F5|dse-display-model.esp", "Name": "Sitting On Upside Down For Some Reason" },
+					{ "Package": "58940|dse-display-model.esp", "Reaction": "0x0141F5|dse-display-model.esp", "Name": "Sit" }
 				]
 			}
 		]

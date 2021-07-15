@@ -836,7 +836,6 @@ Function InteractActor(Actor Who, Int Slot, Int Ilot)
 		self.RegisterForControl("Jump")
 		Game.DisablePlayerControls(FALSE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,0)
 		Game.ForceThirdPerson()
-		self.PrintUpdateInfo(Who)
 	EndIf
 
 	Main.Util.PrintDebug("InteractActor: " + Who.GetDisplayName() + " is now interacting with " + DeviceName + ": " + SlotName + " " + Ilot)

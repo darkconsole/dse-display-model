@@ -17,6 +17,11 @@ Version 100
 ofa -AVbHumanoidFootIKDisable dse-dm-Follow01 poses\DSE-Follow01-A1.hkx
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TPose poses\DSE-TPose.hkx
 
+''aaprefix dm3
+''aaset _mt 1
+''aaset _mtx 1
+''aaset _mtturn 1
+
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '' Doll Stand '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
@@ -134,6 +139,7 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-MannequinMan07-A1 
 
 '' the chairee
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-A1 poses\DSE-Chair01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-A1R1 poses\DSE-Chair01-A1R1.hkx
 
 '' the chairer
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Chair01-B1 poses\DSE-Chair01-B1.hkx

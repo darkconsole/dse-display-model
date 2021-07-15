@@ -812,7 +812,7 @@ Function BehaviourSet(Actor Who, Package Task)
 		Main.Util.PrintDebug("BehaviourSet released " + Who.GetDisplayName())
 	EndIf
 
-	Utility.Wait(0.1)
+	;;Utility.Wait(0.1)
 	Who.EvaluatePackage()
 
 	Return

@@ -515,7 +515,7 @@ Int Function GetDeviceActorSlotInteractionCount(String Filename, Int Slot)
 EndFunction
 
 String Function GetDeviceActorSlotInteractionName(String Filename, Int Slot, Int Ilot)
-{count how many actors this can hold out of a device file.}
+{get the name of this specific interaction.}
 
 	String Path = ".Device.Actors[" + Slot + "].Interactions[" + Ilot + "].Name"
 
@@ -523,9 +523,17 @@ String Function GetDeviceActorSlotInteractionName(String Filename, Int Slot, Int
 EndFunction
 
 Package Function GetDeviceActorSlotInteractionPackage(String Filename, Int Slot, Int Ilot)
-{count how many actors this can hold out of a device file.}
+{get the interaction package for the actor performing an interaction.}
 
 	String Path = ".Device.Actors[" + Slot + "].Interactions[" + Ilot + "].Package"
+
+	Return JsonUtil.GetPathFormValue(Filename,Path) As Package
+EndFunction
+
+Package Function GetDeviceActorSlotInteractionReactionPackage(String Filename, Int Slot, Int Ilot)
+{get the interaction reaction package for the actor being interacted with.}
+
+	String Path = ".Device.Actors[" + Slot + "].Interactions[" + Ilot + "].Reaction"
 
 	Return JsonUtil.GetPathFormValue(Filename,Path) As Package
 EndFunction

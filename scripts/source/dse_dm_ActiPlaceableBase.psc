@@ -787,15 +787,17 @@ works you should only use it on devices that only hold one at a time.}
 EndFunction
 
 Function InteractActor(Actor Who, Int Slot, Int Ilot)
-{force an actor to use this device and slot.}
+{interact with an actor on a device.}
 
 	Package Task
+	Package React
 	String DeviceName = Main.Devices.GetDeviceName(self.File)
 	String SlotName = Main.Devices.GetDeviceActorSlotName(self.File,Slot)
 
 	;; make sure we know what to do.
 
 	Task = Main.Devices.GetDeviceActorSlotInteractionPackage(self.File,Slot,Ilot)
+	React = Main.Devices.GetDeviceActorSlotInteractionReactionPackage(self.File,Slot,Ilot)
 
 	If(Task == None)
 		Main.Util.PrintDebug("InteractActor: no package found for " + self.DeviceID + " " + Slot + " " + Ilot)
@@ -819,11 +821,15 @@ Function InteractActor(Actor Who, Int Slot, Int Ilot)
 		10000,0.000001             \
 	)
 
-	Main.Util.HighHeelsCancel(Who)
 	Main.Util.BehaviourSet(Who,Task)
+
+	If(React != NONE)
+		Main.Util.BehaviourSet(self.Actors[Slot],React)
+	EndIf
+
+	Main.Util.HighHeelsCancel(Who)
 	Main.Util.ImmersiveExpression(Who,FALSE)
 	Main.Util.ActorMouthApply(Who)
-
 	Who.MoveTo(self)
 
 	If(Who == Main.Player)
@@ -838,7 +844,7 @@ Function InteractActor(Actor Who, Int Slot, Int Ilot)
 EndFunction
 
 Function DetractActor(Actor Who)
-{force an actor to use this device and slot.}
+{stop an interaction.}
 
 	Float[] Pos = Main.Util.GetPositionAtDistance(self,50)
 
@@ -860,6 +866,7 @@ Function DetractActor(Actor Who)
 	Main.Util.ScaleOverride(Who,1.0)
 	Main.Util.ImmersiveExpression(Who,FALSE)
 	Main.Util.ActorMouthClear(Who)
+	self.Refresh()
 
 	;;self.NotifyConnectedObjectsActorDetracted(Who,Slot,Ilot)
 	Return

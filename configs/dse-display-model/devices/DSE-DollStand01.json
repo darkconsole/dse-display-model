@@ -1,24 +1,15 @@
 {
 	"Device": {
 		"ID": "DSE-DollStand01",
-		"Activator": "6186|dse-display-model.esp",
-		"Ghost": "7569|dse-display-model.esp",
-		"Inventory": "11719|dse-display-model.esp",
+		"Activator": "0x00182A|dse-display-model.esp",
+		"Ghost": "0x001D91|dse-display-model.esp",
+		"Inventory": "0x002DC7|dse-display-model.esp",
 		"GrabOffset": 64.0,
 		"Actors": [
 			{
 				"Name": "Doll On Display",
-				"Package": "7571|dse-display-model.esp",
-				"Pos": [ 0.0, 0.0, 0.0 ],
-				"Equips": [],
-				"Objects": []
+				"Package": "0x001D93|dse-display-model.esp",
 			}
-		],
-		"ObjectsIdle": [
-
-		],
-		"ObjectsUsed": [
-
 		]
 	}
 }

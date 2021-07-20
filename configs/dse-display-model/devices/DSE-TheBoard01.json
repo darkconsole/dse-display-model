@@ -1,0 +1,21 @@
+{
+	"Device": {
+		"ID": "DSE-TheBoard01",
+		"Activator": "0x0141F8|dse-display-model.esp",
+		"Ghost": "0x0141F9|dse-display-model.esp",
+		"Inventory": "0x0141FA|dse-display-model.esp",
+		"Objects": [
+			{ "Form": "0x0141FD|dse-display-model.esp" }
+		],
+		"Actors": [
+			{
+				"Name": "Member of the Board",
+				"HeadTracking": true,
+				"Package": "0x0141F7|dse-display-model.esp",
+				"Objects": [
+					{ "Form": "0x0141FC|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

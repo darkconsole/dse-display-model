@@ -177,7 +177,7 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Pumpkin01-A4 poses
 
 
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'' SteelSword ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Steel Sword '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-SteelSword01-A1 poses\DSE-SteelSword01-A1.hkx
 
@@ -195,3 +195,8 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Tank01-A1 poses\DS
 '' Lemonade Stand ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Lemonade01-A1 poses\DSE-Lemonade01-A1.hkx
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' The Board ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheBoard01-A1 poses\DSE-TheBoard01-A1.hkx

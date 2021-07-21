@@ -495,19 +495,38 @@ Function ActorMouthApply(Actor Who)
 
 	String Mouth = self.ActorMouthGet(Who)
 
+	;; prevents the game from allowing other things to mess
+	;; with the face.
+	Who.SetExpressionOverride(7,100)
+
 	If(Mouth == Main.KeyActorMouthNormal)
-		Who.ResetExpressionOverrides()
+		self.ActorMouthClear(Who,FALSE)
 	ElseIf(Mouth == Main.KeyActorMouthOpen)
 		Who.SetExpressionPhoneme(11,100)
 	EndIf
 
+	Main.Util.PrintDebug("[ActorMouthApply] " + Mouth + " on " + Who.GetDisplayName())
+
 	Return
 EndFunction
 
-Function ActorMouthClear(Actor Who)
+Function ActorMouthClear(Actor Who, Bool FullClear=TRUE)
 {reset the expression.}
 
-	Who.ResetExpressionOverrides()
+	If(FullClear)
+		;; allows game to control actor face.
+		;;Who.ClearExpressionOverride()
+		sslBaseExpression.ClearMFG(Who)
+	EndIf
+
+	;; this seems to do nothing...
+	;;Who.ResetExpressionOverrides()
+
+	;; so we shall brute force it.
+	Who.SetExpressionPhoneme(11,0)
+
+	Main.Util.PrintDebug("[ActorMouthClear] Reset Mouth on " + Who.GetDisplayName())
+
 	Return
 EndFunction
 

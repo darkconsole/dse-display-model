@@ -1,3 +1,5 @@
 #boff
 *.zip
+scripts/dse_dm_EffectTest.pex
+scripts/source/dse_dm_EffectTest.psc
 #eoff

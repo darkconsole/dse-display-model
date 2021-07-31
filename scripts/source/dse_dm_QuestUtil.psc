@@ -326,10 +326,6 @@ Function ActorArousalUpdate(Actor Who, Float Mult=1.0, Int Mode=0)
 	Float TimeRate = 0.0
 	String Reason = ""
 
-	If(Main.Aroused == None)
-		Return
-	EndIf
-
 	If(Mode != 0)
 		;; -1 = exhausting, +1 = arousing.
 		Tick *= Mode As Float
@@ -358,37 +354,6 @@ Function ActorArousalUpdate(Actor Who, Float Mult=1.0, Int Mode=0)
 	EndIf
 
 	Return
-EndFunction
-
-Function ActorArousalInc(Actor Who, Int Exposure, String Reason="DM3 Arousal Mod")
-{update an actors arousal.}
-
-	If(Main.Aroused == None)
-		Return
-	EndIf
-
-	dse_dm_ExternSexlabAroused.ActorArousalUpdate(Main,Who,Exposure,Reason)
-	Return
-EndFunction
-
-Int Function ActorArousalGet(Actor Who)
-{update an actors arousal.}
-
-	If(Main.Aroused == None)
-		Return 0
-	EndIf
-
-	Return dse_dm_ExternSexlabAroused.ActorArousalGet(Main,Who)
-EndFunction
-
-Bool Function ActorArousalExhib(Actor Who)
-{ask sla if the actor is an exhibitionist.}
-
-	If(Main.Aroused == None)
-		Return FALSE
-	EndIf
-
-	Return dse_dm_ExternSexlabAroused.ActorArousalExhib(Main,Who)
 EndFunction
 
 Function ActorToggleFaction(Actor Who, Faction What)
@@ -462,22 +427,8 @@ Function ActorOutfitEquip(Actor Who, Outfit Items)
 	Return
 EndFunction
 
-Bool Function ActorIsValid(Actor Who)
-{check if the actor is valid for use.}
-
-	Int SexLabSays
-
-	If(Main.OptValidateActor)
-		SexLabSays = Main.SexLab.ValidateActor(Who)
-
-		If(SexLabSays < 0)
-			self.PrintDebug(Who.GetDisplayName() + " did not pass sexlab's test: " + SexLabSays)
-			Return FALSE
-		EndIf
-	EndIf
-
-	Return TRUE
-EndFunction
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Bool Function ActorIsMouthControlled(Actor Who)
 {check if an actor is having their mouth controlled for the pose.}
@@ -492,6 +443,7 @@ String Function ActorMouthGet(Actor Who)
 EndFunction
 
 Function ActorMouthApply(Actor Who)
+{apply the mouth value.}
 
 	String Mouth = self.ActorMouthGet(Who)
 
@@ -515,77 +467,82 @@ Function ActorMouthClear(Actor Who, Bool FullClear=TRUE)
 
 	If(FullClear)
 		;; allows game to control actor face.
-		;;Who.ClearExpressionOverride()
-		sslBaseExpression.ClearMFG(Who)
+		Who.ClearExpressionOverride()
 	EndIf
 
 	;; this seems to do nothing...
-	;;Who.ResetExpressionOverrides()
+	Who.ResetExpressionOverrides()
 
 	;; so we shall brute force it.
-	Who.SetExpressionPhoneme(11,0)
+	Who.SetExpressionPhoneme(11,0.0)
 
 	Main.Util.PrintDebug("[ActorMouthClear] Reset Mouth on " + Who.GetDisplayName())
-
 	Return
 EndFunction
 
-sslBaseExpression Function ImmersiveExpression(Actor Who, Bool Enable)
-{play an expression on the actor face.}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	sslBaseExpression E
+;; utility helpers for accessing data that must be communicated via extern
+;; scripts so patches can be used to provide framework choices.
 
-	If(!Who.Is3dLoaded())
-		Return NONE
-	EndIf
+Bool Function ActorIsValid(Actor Who)
+{ExternSexFrameworkInterface: check if the actor is valid for use.}
 
-	If(self.ActorIsMouthControlled(Who))
-		Return NONE
-	EndIf
-
-	If(!Who.GetRace().HasKeywordString("ActorTypeNPC"))
-		Return NONE
-	EndIf
-
-	If(Enable)
-		If(Utility.RandomInt(0,1) == 1)
-			E = Main.SexLab.GetExpressionByName("Shy")
-			;;self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Shy")
-		Else
-			E = Main.SexLab.GetExpressionByName("Pained")
-			;;self.PrintDebug("ImmersiveExpression " + Who.GetDisplayName() + " Pained")
-		EndIf
-
-		E.Apply(Who,50,Who.GetLeveledActorBase().GetSex())
-		Return E
-	Else
-		sslBaseExpression.ClearMFG(Who)
-	EndIf
-
-	Return NONE
+	Return dse_dm_ExternSexFrameworkInterface.ActorIsValid(Main,Who)
 EndFunction
 
-Function ImmersiveSoundMoan(Actor Who, Bool Hard=FALSE)
-{play a moaning sound from the actor.}
-
-	sslBaseVoice Voice
+Function ImmersiveExpression(Actor Who, Bool Enable)
+{ExternSexFrameworkInteraface: play an expression on the actor face.}
 
 	If(!Who.Is3dLoaded())
 		Return
 	EndIf
 
-	Voice = Main.SexLab.PickVoice(Who)
-
-	If(Hard)
-		Voice.GetSound(100).Play(Who)
-		;;self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Hard")
-	Else
-		Voice.GetSound(30).Play(Who)
-		;;self.PrintDebug("ImmersiveSoundMoan " + Who.GetDisplayName() + " Soft")
+	If(self.ActorIsMouthControlled(Who))
+		Return
 	EndIf
 
+	If(!Who.GetRace().HasKeywordString("ActorTypeNPC"))
+		Return
+	EndIf
+
+	dse_dm_ExternSexFrameworkInterface.ImmersiveExpression(Main,Who,Enable)
 	Return
 EndFunction
+
+Function ImmersiveSoundMoan(Actor Who, Bool Hard=FALSE)
+{ExternSexFrameworkInterface: play a moaning sound from the actor.}
+
+	If(!Who.Is3dLoaded())
+		Return
+	EndIf
+
+	dse_dm_ExternSexFrameworkInterface.ImmersiveSoundMoan(Main,Who,Hard)
+	Return
+EndFunction
+
+Function ActorArousalInc(Actor Who, Int Exposure, String Reason="DM3 Arousal Mod")
+{ExternSexlabAroused: update an actors arousal.}
+
+	dse_dm_ExternSexlabAroused.ActorArousalUpdate(Main,Who,Exposure,Reason)
+	Return
+EndFunction
+
+Int Function ActorArousalGet(Actor Who)
+{ExternSexlabAroused: get an actors arousal.}
+
+	Return dse_dm_ExternSexlabAroused.ActorArousalGet(Main,Who)
+EndFunction
+
+Bool Function ActorArousalExhib(Actor Who)
+{ExternSexlabAroused: ask sla if the actor is an exhibitionist.}
+
+	Return dse_dm_ExternSexlabAroused.ActorArousalExhib(Main,Who)
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Function HighHeelsCancel(ObjectReference Who)
 {cancel nio high heels effect if it exists.}
@@ -996,9 +953,10 @@ Bool Function ActorEscapeAttemptPlayer(Actor Who)
 	;; roll a chance.
 
 	StaminaMod = (StaminaMax * (1 - StaminaPercent)) * StaminaFactor
-	If(Main.Aroused != None)
+	If(dse_dm_ExternSexlabAroused.GetPatchStatus())
 		ArousalMod = (StaminaMax * (ArousalPercent - ArousalFactor)) * ArousalFactor
 	EndIf
+
 	ChanceMax += StaminaMod + ArousalMod
 
 	Roll = Utility.RandomFloat(0.0,ChanceMax)

@@ -501,9 +501,7 @@ Function ShowPageInfo()
 	self.AddToggleOption("$DM3_MenuOpt_SKSE",Main.CheckForDeps_SKSE(FALSE))
 	self.AddToggleOption("$DM3_MenuOpt_SkyUI",Main.CheckForDeps_SkyUI(FALSE))
 
-	self.AddToggleOption("$DM3_MenuOpt_SexLab",Main.CheckForDeps_SexLab(FALSE))
-	self.AddToggleOption("$DM3_MenuOpt_SexLabAroused",Main.CheckForDeps_SexLabAroused(FALSE))
-
+	self.AddToggleOption("$DM3_MenuOpt_SexFramework",dse_dm_ExternSexFrameworkInterface.GetFrameworkType())
 	self.AddToggleOption("$DM3_MenuOpt_PapyrusUtil",Main.CheckForDeps_PapyrusUtil(FALSE))
 	self.AddToggleOption("$DM3_MenuOpt_RaceMenu",Main.CheckForDeps_RaceMenu(FALSE))
 

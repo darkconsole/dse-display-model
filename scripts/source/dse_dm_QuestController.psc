@@ -7,8 +7,6 @@ dse_dm_QuestConfig Property Config Auto
 dse_dm_QuestDeviceManager Property Devices Auto
 dse_dm_QuestUtil Property Util Auto
 
-SexLabFramework Property SexLab = None Auto Hidden
-Quest Property Aroused = None Auto Hidden
 Bool Property HasConsoleUtil = TRUE Auto Hidden
 Bool Property OptValidateActor = TRUE Auto Hidden
 
@@ -123,14 +121,6 @@ Bool Function CheckForDeps(Bool Popup)
 		Output = FALSE
 	EndIf
 
-	If(!self.CheckForDeps_SexLab(Popup))
-		Output = FALSE
-	EndIf
-
-	If(!self.CheckForDeps_SexLabAroused(Popup))
-		Output = FALSE
-	EndIf
-
 	If(!self.CheckForDeps_PapyrusUtil(Popup))
 		Output = FALSE
 	EndIf
@@ -185,64 +175,6 @@ Bool Function CheckForDeps_SkyUI(Bool Popup)
 		EndIf
 		Return FALSE
 	EndIf
-
-	Return TRUE
-EndFunction
-
-Bool Function CheckForDeps_SexLab(Bool Popup)
-{make sure we have sexlab installed and minimum version.}
-
-	self.SexLab = Util.GetFormFrom("SexLab.esm",0xd62) As SexLabFramework
-
-	;; check we even have sexlab.
-
-	If(self.SexLab == NONE)
-		If(Popup)
-			Util.PopupError(Util.StringLookup("MsgUpdateSexLab"))
-		EndIf
-
-		Return FALSE
-	EndIf
-
-	;; check that the version of sexlab is good enough.
-
-	If(self.SexLab.GetVersion() < 16202)
-		If(Popup)
-			self.Util.PopupError("Your SexLab needs to be updated. Install 1.63 SE Beta 2 or newer.")
-		EndIf
-
-		self.SexLab = NONE
-		Return FALSE
-	EndIf
-
-	Return TRUE
-EndFunction
-
-Bool Function CheckForDeps_SexLabAroused(Bool Popup)
-{make sure we have sexlab aroused installed.}
-
-	;; aroused is not required for functioning so it is a soft fail.
-
-	Quest ArousedAPI = Util.GetFormFrom("SexLabAroused.esm",0x4290f) as Quest
-
-	;; check we even have aroused.
-
-	If(ArousedAPI == NONE)
-		Return TRUE
-	EndIf
-
-	self.Aroused = ArousedAPI
-
-	;; check that the version of aroused is good enough.
-
-	;;If(self.Aroused.GetVersion() < 20140124)
-	;;	If(Popup)
-	;;		self.Util.PopupError("Your SexLab Aroused needs to be updated. Install V27b newer.")
-	;;	EndIf
-	;;
-	;;	self.Aroused = NONE
-	;;	Return TRUE
-	;;EndIf
 
 	Return TRUE
 EndFunction
@@ -496,7 +428,7 @@ Event OnMenuClose(String Name)
 		Utility.Wait(0.25)
 		Util.FreezeAllActors(FALSE,TRUE)
 
-		If(self.Player.IsInFaction(self.FactionActorUsingDevice) && self.Aroused != None)
+		If(self.Player.IsInFaction(self.FactionActorUsingDevice))
 			Util.PrintDebug("Trigger Arousal Update On Player")
 			dse_dm_ExternSexlabAroused.ActorArousalGet(self,self.Player)
 		EndIf

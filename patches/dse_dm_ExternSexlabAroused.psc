@@ -1,10 +1,23 @@
 ScriptName dse_dm_ExternSexlabAroused extends Quest Conditional
+{version: disabled}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Bool Function GetPatchStatus() Global
 {status of patch.}
 
 	Return FALSE
 EndFunction
+
+Form Function GetArousalAPI(dse_dm_QuestController Main) Global
+{get the arousal api object.}
+
+	Return None
+EndFunction
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Bool Function ActorArousalExhib(dse_dm_QuestController Main, Actor Who) Global
 {ask sla if the actor is an exhibitionist.}

@@ -25,7 +25,7 @@ Bool Function ActorIsValid(dse_dm_QuestController Main, Actor Who) Global
 	OsexIntegrationMain OStim = GetFrameworkAPI(Main) As OsexIntegrationMain
 
 	If(OStim != NONE)
-		Return OStim.IsChild(Who)
+		Return !OStim.IsChild(Who)
 	EndIf
 
 	Return !Who.IsChild()

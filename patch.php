@@ -47,11 +47,14 @@ function CopyTheFiles(array $Input) {
 
 	$Prefix = getcwd();
 
-	foreach($Input as $Src => $Dest)
-	copy(
-		"{$Prefix}\\{$Src}",
-		"{$Prefix}\\{$Dest}"
-	);
+	foreach($Input as $Src => $Dest) {
+		echo PHP_EOL, "{$Src}", PHP_EOL, "=> {$Dest}", PHP_EOL;
+
+		copy(
+			"{$Prefix}\\{$Src}",
+			"{$Prefix}\\{$Dest}"
+		);
+	}
 
 	return;
 }
@@ -73,3 +76,5 @@ switch($Mode) {
 		throw new Exception('invalid mode');
 	break;
 }
+
+echo PHP_EOL;

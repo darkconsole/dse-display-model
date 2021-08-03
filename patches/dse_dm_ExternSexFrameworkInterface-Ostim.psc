@@ -34,6 +34,10 @@ EndFunction
 Function ImmersiveExpression(dse_dm_QuestController Main, Actor Who, Bool Enable) Global
 {set a face expression.}
 
+	If(Main.Util.ActorIsMouthControlled(Who))
+		Return
+	EndIf
+
 	;; todo
 
 	Return

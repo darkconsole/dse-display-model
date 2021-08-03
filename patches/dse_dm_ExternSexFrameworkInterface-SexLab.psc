@@ -45,6 +45,10 @@ Function ImmersiveExpression(dse_dm_QuestController Main, Actor Who, Bool Enable
 	SexLabFramework SexLab = GetFrameworkAPI(Main) As SexLabFramework
 	sslBaseExpression E
 
+	If(Main.Util.ActorIsMouthControlled(Who))
+		Return
+	EndIf
+
 	If(Enable)
 		If(Utility.RandomInt(0,1) == 1)
 			E = SexLab.GetExpressionByName("Shy")

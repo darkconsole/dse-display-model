@@ -28,6 +28,18 @@ $Files = [
 		=> 'patches\dse_dm_ExternSexFrameworkInterface-OStim.psc',
 		'scripts\dse_dm_ExternSexFrameworkInterface.pex'
 		=> 'patches\dse_dm_ExternSexFrameworkInterface-OStim.pex'
+	],
+	'slaon' => [
+		'scripts\source\dse_dm_ExternSexlabAroused.psc'
+		=> 'patches\dse_dm_ExternSexlabAroused-On.psc',
+		'scripts\dse_dm_ExternSexlabAroused.pex'
+		=> 'patches\dse_dm_ExternSexlabAroused-On.pex'
+	],
+	'slaoff' => [
+		'scripts\source\dse_dm_ExternSexlabAroused.psc'
+		=> 'patches\dse_dm_ExternSexlabAroused-Off.psc',
+		'scripts\dse_dm_ExternSexlabAroused.pex'
+		=> 'patches\dse_dm_ExternSexlabAroused-Off.pex'
 	]
 ];
 

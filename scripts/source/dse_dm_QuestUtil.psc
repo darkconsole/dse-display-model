@@ -115,7 +115,7 @@ distance from itself.}
 
 	Data[1] = Data[1] + (Math.Sin(Data[0]) * Dist)
 	Data[2] = Data[2] + (Math.Cos(Data[0]) * Dist)
-	Data[3] = Data[3] - ( (Dist * Math.Cos(What.GetAngleX()) * Math.Cos(What.GetAngleY())) * Math.Sin(What.GetAngleX())) 
+	Data[3] = Data[3] - ( (Dist * Math.Cos(What.GetAngleX()) * Math.Cos(What.GetAngleY())) * Math.Sin(What.GetAngleX()))
 
 	Return Data
 EndFunction
@@ -204,7 +204,7 @@ String Function ReadableTimeDelta(Float Time, Bool RealLife=FALSE)
 	;; trim function.
 	Output = PapyrusUtil.StringJoin(PapyrusUtil.StringSplit(Output,",")," ")
 
-	Return Output	
+	Return Output
 EndFunction
 
 Float Function GetPlayerHeight()
@@ -263,7 +263,7 @@ String Function StringInsert(String Format, String InputList="")
 				Format = StringUtil.Substring(Format,0,Pos) + Inputs[Iter] + StringUtil.Substring(Format,(Pos+2))
 			Else
 				Format = Inputs[Iter] + StringUtil.Substring(Format,(Pos+2))
-			EndIf			
+			EndIf
 		EndIf
 
 		Iter += 1
@@ -346,7 +346,7 @@ Function ActorArousalUpdate(Actor Who, Float Mult=1.0, Int Mode=0)
 
 	If(Main.Config.GetBool(".ArousedTickTimeRate"))
 		;; time rate however always goes down.
-		TimeRate = ((Math.Abs(Tick) / 4) * -1) 
+		TimeRate = ((Math.Abs(Tick) / 4) * -1)
 		StorageUtil.AdjustFloatValue(Who,"SLAroused.TimeRate",TimeRate)
 		If(StorageUtil.GetFloatValue(Who,"SLAroused.TimeRate") < 0)
 			StorageUtil.SetFloatValue(Who,"SLAroused.TimeRate",0.0)
@@ -749,6 +749,9 @@ Function BehaviourSet(Actor Who, Package Task)
 
 	If(OldTask != None)
 		Who.RemoveFromFaction(Main.FactionFollow)
+		Who.RemoveFromFaction(Main.FactionStay)
+		Who.SetDontMove(FALSE)
+		Who.SetRestrained(FALSE)
 		ActorUtil.RemovePackageOverride(Who,OldTask)
 		ActorUtil.ClearPackageOverride(Who)
 		StorageUtil.UnsetFormValue(Who,Main.DataKeyActorOverride)
@@ -765,6 +768,10 @@ Function BehaviourSet(Actor Who, Package Task)
 			If(Task == Main.PackageFollow)
 				Who.AddToFaction(Main.FactionFollow)
 			Else
+				If(Task == Main.PackageStay)
+					Who.AddToFaction(Main.FactionStay)
+				EndIf
+
 				Who.SetDontMove(TRUE)
 				Who.SetRestrained(TRUE)
 			EndIf
@@ -870,8 +877,8 @@ passed if the arg is set true.}
 	If(InSeconds)
 		Return (Now - Then)
 	EndIf
-	
-	Return (Now - Then) / 86400 
+
+	Return (Now - Then) / 86400
 EndFunction
 
 Float Function ActorBondageTimeTotal(Actor Who)
@@ -882,7 +889,7 @@ EndFunction
 
 Function ActorBondageTimeReset(Actor Who)
 {reset the bondage stat to 0}
-	
+
 	StorageUtil.SetFloatValue(Who,Main.DataKeyActorBondageTimer,0.0)
 	StorageUtil.SetFloatValue(Who,Main.DataKeyStatTimeBound,0.0)
 	Return
@@ -898,7 +905,7 @@ Bool Function ActorEscapeAttempt(Actor Who)
 	;; atm npc escape is always false. someone might appreciate the possible
 	;; gamification of it though so this kinda sits here waiting for implementation.
 
-	Return self.ActorEscapeAttemptNPC(Who)	
+	Return self.ActorEscapeAttemptNPC(Who)
 EndFunction
 
 Bool Function ActorEscapeAttemptNPC(Actor Who)

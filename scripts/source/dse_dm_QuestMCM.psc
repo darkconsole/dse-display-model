@@ -501,7 +501,6 @@ Function ShowPageInfo()
 	self.AddToggleOption("$DM3_MenuOpt_SKSE",Main.CheckForDeps_SKSE(FALSE))
 	self.AddToggleOption("$DM3_MenuOpt_SkyUI",Main.CheckForDeps_SkyUI(FALSE))
 
-	self.AddToggleOption("$DM3_MenuOpt_SexFramework",dse_dm_ExternSexFrameworkInterface.GetFrameworkType())
 	self.AddToggleOption("$DM3_MenuOpt_PapyrusUtil",Main.CheckForDeps_PapyrusUtil(FALSE))
 	self.AddToggleOption("$DM3_MenuOpt_RaceMenu",Main.CheckForDeps_RaceMenu(FALSE))
 
@@ -511,6 +510,7 @@ Function ShowPageInfo()
 	self.AddHeaderOption("")
 	self.AddHeaderOption("")
 
+	self.AddTextOption("$DM3_MenuOpt_SexFramework",dse_dm_ExternSexFrameworkInterface.GetFrameworkType())
 	self.AddToggleOption("$DM3_MenuOpt_DMSLAPatch",dse_dm_ExternSexlabAroused.GetPatchStatus())
 
 	Return

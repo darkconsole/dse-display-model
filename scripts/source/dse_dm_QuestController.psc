@@ -3,18 +3,18 @@ ScriptName dse_dm_QuestController extends Quest
 ;/*;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-				________  .__               .__                
+				________  .__               .__
 				\______ \ |__| ____________ |  | _____  ___.__.
 				 |    |  \|  |/  ___/\____ \|  | \__  \<   |  |
 				 |    `   \  |\___ \ |  |_> >  |__/ __ \\___  |
 				/_______  /__/____  >|   __/|____(____  / ____|
-				        \/        \/ |__|             \/\/     
-				   _____             .___     .__    ________  
-				  /     \   ____   __| _/____ |  |   \_____  \ 
-				 /  \ /  \ /  _ \ / __ |/ __ \|  |     _(__  < 
+				        \/        \/ |__|             \/\/
+				   _____             .___     .__    ________
+				  /     \   ____   __| _/____ |  |   \_____  \
+				 /  \ /  \ /  _ \ / __ |/ __ \|  |     _(__  <
 				/    Y    (  <_> ) /_/ \  ___/|  |__  /       \
 				\____|__  /\____/\____ |\___  >____/ /______  /
-				        \/            \/    \/              \/ 
+				        \/            \/    \/              \/
 
                           SPECIAL EDITION EDITION
 
@@ -55,6 +55,7 @@ Faction Property FactionActorToggleHeadTracking Auto
 Faction Property FactionActorRandomSlotOnLoad Auto
 Faction Property FactionActorOutfit Auto
 Faction Property FactionFollow Auto
+Faction Property FactionStay Auto
 MiscObject Property ItemGold Auto
 Furniture Property InvisibleBed Auto
 ImageSpaceModifier Property ImodModeAssign Auto
@@ -62,6 +63,7 @@ ImageSpaceModifier Property ImodModeMove Auto
 Outfit Property OutfitNone Auto
 Package Property PackageDoNothing Auto
 Package Property PackageFollow Auto
+Package Property PackageStay Auto
 FormList Property ListBookVendors Auto
 Book Property BookDialogue Auto
 

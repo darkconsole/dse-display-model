@@ -1,0 +1,22 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Compile Papyrus Script",
+			"type": "shell",
+			"command": "C:\\Games\\MOSSE\\mo-script-compile.bat ${fileBasenameNoExtension} ${workspaceFolder}",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

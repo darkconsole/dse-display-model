@@ -1,5 +1,8 @@
 <?php
 
+// push into the game
+// pull out of the game
+
 if($_SERVER['argc'] !== 3) {
 	echo "php patch.php <mode> <what>";
 	exit(0);

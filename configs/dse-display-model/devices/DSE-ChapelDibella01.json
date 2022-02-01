@@ -1,17 +1,18 @@
 {
 	"Device": {
 		"ID": "DSE-ChapelDibella01",
-		"Activator": "21413|dse-display-model.esp",
-		"Ghost": "29790|dse-display-model.esp",
-		"Inventory": "21418|dse-display-model.esp",
+		"Activator": "0x0053A5|dse-display-model.esp",
+		"Ghost": "0x00745E|dse-display-model.esp",
+		"Inventory": "0x0053AA|dse-display-model.esp",
 		"Actors": [
 			{
 				"Name": "Mounted Slave",
 				"HeadTracking": true,
-				"Package": "21408|dse-display-model.esp",
+				"Package": "0x0053A0|dse-display-model.esp",
 				"Pos": [ 0.0, 0.0, 0.0 ],
-				"Equips": [],
-				"Objects": []
+				"Objects": [
+					{ "Form": "0x01624B|dse-display-model.esp" }
+				]
 			}
 		]
 	}

@@ -8,7 +8,7 @@
 		"Actors": [
 			{
 				"Name": "Doll On Display",
-				"Package": "0x001D93|dse-display-model.esp",
+				"Package": "0x001D93|dse-display-model.esp"
 			}
 		]
 	}

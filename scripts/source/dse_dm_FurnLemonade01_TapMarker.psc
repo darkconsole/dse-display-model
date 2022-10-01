@@ -45,9 +45,11 @@ Bool Function FindTheStorageBox()
 		self.Storage = Game.FindClosestReferenceOfType(self.StorageType,self.X,self.Y,self.Z,69)
 	EndIf
 
-	If(Storage == NONE)
+	If(self.Storage == NONE)
 		Return FALSE
 	EndIf
+
+	self.Storage.SetActorOwner(Game.GetPlayer().GetActorBase())
 
 	Return TRUE
 EndFunction
@@ -123,7 +125,7 @@ Event OnActorReleased(Actor Who, Int SlotNum)
 	String Msg = Who.GetDisplayName()
 
 	Msg += " has produced " + Produced + " bottles"
-	Msg += " and earned " + Earned + "g in their lemonade career." 
+	Msg += " and earned " + Earned + "g in their lemonade career."
 
 	self.Device.Main.Util.Print(Msg)
 	Return

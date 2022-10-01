@@ -46,7 +46,7 @@ Event OnDevicePickup()
 	Form Thing
 	Int ThingCount
 
-	While(ItemTypeIter > 0) 
+	While(ItemTypeIter > 0)
 		ItemTypeIter -= 1
 
 		Thing = self.GetNthForm(ItemTypeIter)
@@ -63,6 +63,7 @@ Event OnActorMounted(Actor Who, Int SlotNum)
 
 	self.Seller = Who
 	self.LastTime = Utility.GetCurrentRealTime()
+	self.SetActorOwner(Game.GetPlayer().GetActorBase())
 	Return
 EndEvent
 
@@ -85,7 +86,7 @@ Event OnDeviceUpdate()
 
 	If(self.FindTimeSinceLastTime(Now) >= self.TimeToAdd)
 		StorageUtil.AdjustIntValue(self.Seller,"DMSE.LemonadeStand.Bottles",HowMany)
-		self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " has produced a bottle of lemonade")
+		self.Device.Main.Util.PrintDebug(self.Seller.GetDisplayName() + " has produced a bottle of " + self.PotionToAdd.GetName())
 		self.AddItem(self.PotionToAdd,HowMany)
 		self.LastTime = Now
 	EndIf

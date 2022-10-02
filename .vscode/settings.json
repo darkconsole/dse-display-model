@@ -1,5 +1,10 @@
 {
 	"files.exclude": {
 		"**/*.pex": true
+	},
+	"workbench.colorCustomizations": {
+		"activityBar.background": "#412438",
+		"titleBar.activeBackground": "#5A324F",
+		"titleBar.activeForeground": "#FCF9FB"
 	}
 }

@@ -1,0 +1,19 @@
+{
+	"Device": {
+		"ID": "DSE-ChapelSouls01",
+		"Activator": "0x016254|dse-display-model.esp",
+		"Ghost": "0x016255|dse-display-model.esp",
+		"Inventory": "0x016257|dse-display-model.esp",
+		"Actors": [
+			{
+				"Name": "Mounted Slave",
+				"HeadTracking": true,
+				"Package": "0x0053A0|dse-display-model.esp",
+				"Pos": [ 0.0, 0.0, 0.0 ],
+				"Objects": [
+					{ "Form": "0x016256|dse-display-model.esp" }
+				]
+			}
+		]
+	}
+}

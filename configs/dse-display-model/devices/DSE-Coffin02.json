@@ -1,0 +1,33 @@
+{
+	"Device": {
+		"ID": "DSE-Coffin02",
+		"Activator": "0x016261|dse-display-model.esp",
+		"Ghost": "0x01625B|dse-display-model.esp",
+		"Inventory": "0x016262|dse-display-model.esp",
+		"GrabOffset": 64.0,
+		"ActorCount": 1,
+		"Actors": [
+			{
+				"Name": "Open Casket",
+				"HeadTracking": false,
+				"Package": "0x016264|dse-display-model.esp",
+				"Equips": [],
+				"Objects": []
+			},
+			{
+				"Name": "Closed Casket",
+				"HeadTracking": false,
+				"Package": "0x016264|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [ { "Form": "0x016265|dse-display-model.esp", "Name": "Door" } ]
+			},
+			{
+				"Name": "Thick Glass Door Casket",
+				"HeadTracking": false,
+				"Package": "0x016264|dse-display-model.esp",
+				"Equips": [],
+				"Objects": [ { "Form": "0x016266|dse-display-model.esp", "Name": "Door" } ]
+			}
+		]
+	}
+}

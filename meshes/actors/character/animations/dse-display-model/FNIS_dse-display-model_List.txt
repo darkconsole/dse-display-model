@@ -200,3 +200,9 @@ b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable dse-dm-Lemonade01-A1 poses\DSE
 '' The Board ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-TheBoard01-A1 poses\DSE-TheBoard01-A1.hkx
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'' Coffin '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Coffin01-A1 poses\DSE-Coffin01-A1.hkx
+b -md,AVIbHeadTrackSpine,AVbHumanoidFootIKDisable,B0.0 dse-dm-Coffin02-A1 poses\DSE-Coffin02-A1.hkx

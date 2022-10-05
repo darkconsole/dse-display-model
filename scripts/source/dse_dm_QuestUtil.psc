@@ -427,6 +427,33 @@ Function ActorOutfitEquip(Actor Who, Outfit Items)
 	Return
 EndFunction
 
+Function ActorDisarm(Actor Who)
+{packages seem to ignore the "weapons equipped" flag. that or it only prevents
+them from equipping if not already equipped, as it clearly is not forcing them
+unequipped.}
+
+	;; this is reverse engineering from my outfit manager where i spent
+	;; forever combatting how the game will equip something else to replace
+	;; the slot you just unequipped, their "previous" item so this kinda
+	;; makes the game forget what the previous item really was.
+
+	If(Who.GetItemCount(Main.WeapNull) < 2)
+		Who.AddItem(Main.WeapNull, 2, TRUE)
+	EndIf
+
+	Who.EquipItemEx(Main.WeapNull, 1, TRUE, FALSE)
+	Who.EquipItemEx(Main.WeapNull, 2, TRUE, FALSE)
+	Who.UnequipItemEx(Main.WeapNull, 1, TRUE)
+	Who.UnequipItemEx(Main.WeapNull, 2, TRUE)
+
+	;; shield
+	Who.UnequipItemSlot(39)
+
+	self.PrintDebug("Actor Disarmed")
+
+	Return
+EndFunction
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

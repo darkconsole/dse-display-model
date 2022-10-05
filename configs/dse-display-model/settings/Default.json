@@ -25,5 +25,6 @@
 	"BondageEscapeSuccessArousal": -15,
 	"BondageEscapeTimeMinimum": 120.0,
 	"BondagePrintPlayerArousal": true,
-	"BondagePrintPlayerTimer": true
+	"BondagePrintPlayerTimer": true,
+	"BondageDisarm": true
 }

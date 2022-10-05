@@ -104,7 +104,7 @@ Function Reload()
 
 		Slot += 1
 	EndWhile
-	
+
 	;; unregister ourself.
 
 	Main.Devices.ReloadFile(self.File)
@@ -260,7 +260,7 @@ Bool Function AreActorsLoaded()
 	Int Iter = 0
 
 	While(Iter < self.Actors.Length)
-		If(self.Actors[Iter] != None && !self.Actors[Iter].Is3dLoaded())			
+		If(self.Actors[Iter] != None && !self.Actors[Iter].Is3dLoaded())
 			Return FALSE
 		EndIf
 
@@ -438,7 +438,7 @@ Function PickUp()
 	Main.Devices.Unregister(self)
 	self.Disable()
 	self.Delete()
-	
+
 	Return
 EndFunction
 
@@ -754,7 +754,7 @@ Function ReleaseActorSlot(Int Slot)
 			Main.Util.BehaviourSet(self.Actors[Slot],Main.PackageFollow)
 		EndIf
 	EndIf
-	
+
 	Main.Util.HighHeelsResume(self.Actors[Slot])
 	Main.Util.ScaleResume(self.Actors[Slot])
 	Main.Util.ScaleOverride(self.Actors[Slot],1.0)
@@ -993,7 +993,7 @@ Function ClearActorObjects(Actor Who, Int Slot=-1)
 
 	;; find the devices we want to delete.
 
-	DeviceKey = "DM3.DeviceObjects." + self.DeviceID 
+	DeviceKey = "DM3.DeviceObjects." + self.DeviceID
 	ItemCount = StorageUtil.FormListCount(Who,DeviceKey)
 	Main.Util.PrintDebug("ClearActorObjects: " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " objects")
 
@@ -1150,7 +1150,7 @@ EndFunction
 Function NotifyConnectedObjectsActorMounted(Actor Who, Int Slot)
 {notify any connected objects that an actor was mounted.}
 
-	String DeviceKey = self.GetDeviceStorageKey() 
+	String DeviceKey = self.GetDeviceStorageKey()
 	dse_dm_ActiConnectedObject Item
 	Int ItemCount = 0
 	Int ActorCount = 0
@@ -1196,7 +1196,7 @@ EndFunction
 Function NotifyConnectedObjectsActorReleased(Actor Who, Int Slot)
 {notify any connected objects that an actor was mounted.}
 
-	String DeviceKey = self.GetDeviceStorageKey() 
+	String DeviceKey = self.GetDeviceStorageKey()
 	dse_dm_ActiConnectedObject Item
 	Int ItemCount = 0
 	Int ActorCount = 0
@@ -1242,7 +1242,7 @@ EndFunction
 Function NotifyConnectedObjectsDeviceUpdate()
 {notify any connected objects that a periodic update has happened.}
 
-	String DeviceKey = self.GetDeviceStorageKey() 
+	String DeviceKey = self.GetDeviceStorageKey()
 	dse_dm_ActiConnectedObject Item
 	Int ItemCount = 0
 	Int ActorCount = 0
@@ -1288,7 +1288,7 @@ EndFunction
 Function NotifyConnectedObjectsDevicePickup()
 {notify any connected objects that a device has been picked up.}
 
-	String DeviceKey = self.GetDeviceStorageKey() 
+	String DeviceKey = self.GetDeviceStorageKey()
 	dse_dm_ActiConnectedObject Item
 	Int ItemCount = 0
 	Int ActorCount = 0
@@ -1431,7 +1431,7 @@ Function RemoveActorEquips(Actor Who, Int Slot=-1)
 
 	;; find the devices we want to delete.
 
-	DeviceKey = "DM3.DeviceEquips." + self.DeviceID 
+	DeviceKey = "DM3.DeviceEquips." + self.DeviceID
 	ItemCount = StorageUtil.FormListCount(Who,DeviceKey)
 	Main.Util.PrintDebug("RemoveActorEquips: " + Who.GetDisplayName() + " " + DeviceKey + " has " + ItemCount + " equips")
 
@@ -1483,7 +1483,7 @@ Function HandlePeriodicUpdates()
 
 	If(ActorCount == 0)
 		Main.Util.PrintDebug("HandlePeriodicUpdates: " + self.GetName() + " skipped - no actors mounted.")
-		Return 
+		Return
 	EndIf
 
 	;;;;;;;;
@@ -1580,10 +1580,10 @@ EndFunction
 Function Leak(Int LeakType=-1)
 {do a leaking effect from one of the actors on the device.}
 
-	;; this version of the func chooses a random actor for each 
+	;; this version of the func chooses a random actor for each
 	;; of the randomly chosen leaks.
 
-	Actor Who 
+	Actor Who
 	Int ChosenType
 
 	If(LeakType == -1)
@@ -1696,7 +1696,7 @@ Function AssignNPC(Bool IsPlayer=FALSE)
 	EndIf
 
 	;; if this device only has one slot then auto select that slot as the slot
-	;; to use. else pop up the menu that will list them for selection.	
+	;; to use. else pop up the menu that will list them for selection.
 
 	If(DeviceActorMax == 1 && Main.Devices.GetDeviceActorSlotCount(self.File) == 1)
 		Selected = 0
@@ -1759,7 +1759,7 @@ EndFunction
 
 Function AssignPlayer()
 {begin the player mounting process.}
-	
+
 	self.AssignNPC(TRUE)
 
 	Return
@@ -1837,7 +1837,7 @@ Auto State Initial
 		{handle the device being spawned in the world.}
 
 		self.Main = dse_dm_QuestController.GetAPI()
-		
+
 		If(self.DeviceID == "")
 			Debug.MessageBox("OnLoad: DeviceID was not set.")
 			Return
@@ -1869,13 +1869,13 @@ State Idle
 
 	Event OnLoad()
 	{handle the device being re-loaded.}
-		
+
 		Int Stalling
 
 		;; handle making sure our 3d is loaded.
 
 		Stalling = 0
-		
+
 		While(!self.Is3dLoaded() && Stalling < 30)
 			Utility.Wait(0.1)
 			Stalling += 1
@@ -1925,7 +1925,7 @@ State Idle
 		If(self.IsUsed())
 			UpdateFreq = self.UpdateFreqUsed
 
-			self.HandlePeriodicUpdates()			
+			self.HandlePeriodicUpdates()
 			self.RegisterForSingleUpdate(UpdateFreq)
 		EndIf
 
@@ -1955,6 +1955,10 @@ State Idle
 				;; re-enable actor ai while looking at them.
 				;;Main.Util.PrintDebug("OnGainLOS: " + What.GetDisplayName() + " Enabled By LOS")
 				;;Main.Util.FreezeActor(What As Actor,FALSE)
+			EndIf
+
+			If(Main.Config.GetBool(".BondageDisarm"))
+				Main.Util.ActorDisarm(What as Actor)
 			EndIf
 		ElseIf((What As dse_dm_ActiPlaceableBase) != None)
 			;; idea, check its actors are aligned.

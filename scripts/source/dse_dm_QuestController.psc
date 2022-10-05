@@ -66,6 +66,7 @@ Package Property PackageFollow Auto
 Package Property PackageStay Auto
 FormList Property ListBookVendors Auto
 Book Property BookDialogue Auto
+Weapon Property WeapNull Auto
 
 GlobalVariable Property Timescale Auto
 Faction Property GameCurrentFollowerFaction Auto

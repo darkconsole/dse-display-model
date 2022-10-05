@@ -34,7 +34,7 @@ Event OnConfigInit()
 {things to do when the menu initalises (is opening)}
 
 	self.Pages = new String[4]
-	
+
 	self.Pages[0] = "$DM3_Menu_General"
 	self.Pages[1] = "$DM3_Menu_Stats"
 	self.Pages[2] = "$DM3_Menu_Info"
@@ -120,6 +120,9 @@ Event OnOptionSelect(Int Item)
 	ElseIf(Item == BondagePrintPlayerArousal)
 		Val = !GetBool(".BondagePrintPlayerArousal")
 		Main.Config.SetBool(".BondagePrintPlayerArousal",Val)
+	ElseIf(Item == BondageDisarm)
+		Val = !GetBool(".BondageDisarm")
+		Main.Config.SetBool(".BondageDisarm",Val)
 	ElseIf(Item == DeviceActorMoan)
 		Val = !GetBool(".DeviceActorMoan")
 		Main.Config.SetBool(".DeviceActorMoan",Val)
@@ -261,7 +264,7 @@ EndEvent
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Event OnOptionHighlight(Int Item)
-	
+
 	String Txt = "$DM3_Mod_TitleFull"
 
 	If(Item == DeviceActorAroused)
@@ -371,6 +374,7 @@ Int BondageEscapeArousalNPC
 Int BondageEscapeTimeMinimum
 Int BondagePrintPlayerTimer
 Int BondagePrintPlayerArousal
+Int BondageDisarm
 
 Function ShowPageGeneral()
 
@@ -387,6 +391,7 @@ Function ShowPageGeneral()
 	DeviceActorLeakJuice = self.AddToggleOption("$DM3_MenuOpt_DeviceActorLeakJuice",Main.Util.AndAll(GetInt(".DeviceActorLeak"),Main.KeyActorLeakJuice))
 	DeviceMoveTint = self.AddToggleOption("$DM3_MenuOpt_DeviceMoveTint",GetBool(".DeviceMoveTint"))
 	DeviceActorAssignTint = self.AddToggleOption("$DM3_MenuOpt_DeviceActorAssignTint",GetBool(".DeviceActorAssignTint"))
+	BondageDisarm = self.AddToggleOption("$DM3_MenuOpt_BondageDisarm", GetBool(".BondageDisarm"))
 
 	self.AddHeaderOption("$DM3_MenuOpt_HeaderAroused")
 	DeviceActorAroused = self.AddToggleOption("$DM3_MenuOpt_DeviceActorAroused",GetBool(".DeviceActorAroused"))

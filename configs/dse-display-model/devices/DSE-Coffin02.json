@@ -2,7 +2,7 @@
 	"Device": {
 		"ID": "DSE-Coffin02",
 		"Activator": "0x016261|dse-display-model.esp",
-		"Ghost": "0x01625B|dse-display-model.esp",
+		"Ghost": "0x01626A|dse-display-model.esp",
 		"Inventory": "0x016262|dse-display-model.esp",
 		"GrabOffset": 64.0,
 		"ActorCount": 1,

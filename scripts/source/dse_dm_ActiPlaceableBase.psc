@@ -279,7 +279,7 @@ Bool Function ForceActorsCell()
 		If(self.Actors[Iter] != None)
 			If(self.Actors[Iter].GetParentCell() != self.GetParentCell())
 				self.Actors[Iter].MoveTo(self)
-				Main.Util.Print(self.Actors[Iter].GetDisplayName() + " had to be corrected via ForceActorsCell")
+				Main.Util.PrintDebug(self.Actors[Iter].GetDisplayName() + " had to be corrected via ForceActorsCell")
 			EndIf
 		EndIf
 

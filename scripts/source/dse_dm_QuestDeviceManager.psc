@@ -129,6 +129,13 @@ Function RegisterActor(Actor Who, dse_dm_ActiPlaceableBase Device, Int Slot)
 	Device.RegisterForLOS(Main.Player,Who)
 
 	Main.Util.PrintDebug(Who.GetDisplayName() + " registered to " + Device.DeviceID + " slot " + Slot)
+
+	int EventHandle = ModEvent.Create("DSE_DeviceEvent")
+	ModEvent.PushForm(EventHandle,Who)
+	ModEvent.PushForm(EventHandle,Device)
+	ModEvent.PushInt(EventHandle, Slot)
+	ModEvent.PushBool(EventHandle,true)
+	ModEvent.Send(EventHandle)
 	Return
 EndFunction
 
@@ -166,6 +173,12 @@ Function UnregisterActor(Actor Who, dse_dm_ActiPlaceableBase Device=None, Int Sl
 		Iter += 1
 	EndWhile
 
+	int EventHandle = ModEvent.Create("DSE_DeviceEvent")
+	ModEvent.PushForm(EventHandle,Who)
+	ModEvent.PushForm(EventHandle,Device)
+	ModEvent.PushInt(EventHandle, Slot)
+	ModEvent.PushBool(EventHandle,false)
+	ModEvent.Send(EventHandle)
 	Return
 EndFunction
 
